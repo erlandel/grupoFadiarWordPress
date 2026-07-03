@@ -30,7 +30,7 @@ function is_menu_active($href, $current_url, $home_url) {
         <a href="<?php echo esc_url($link['href']); ?>"
            class="transition-colors px-4 py-2 rounded-md flex items-center justify-center <?php echo isset($link['class']) ? esc_attr($link['class']) : ''; ?> <?php echo is_menu_active($link['href'], $current_url, $home_url) ? 'bg-dark text-secondary' : 'text-dark hover:text-secondary'; ?>">
              <?php if (isset($link['icon'])): ?>
-               <?php echo get_icon($link['icon'], $link['icon'] === 'phone' ? 'w-7 h-7' : 'w-7.5 h-7.5'); ?>
+               <?php echo get_icon($link['icon'], $link['icon'] === 'phone' ? 'w-7.5 h-7.5' : 'w-7.5 h-7.5'); ?>
              <?php else: ?>
 
              <?php echo esc_html($link['label']); ?>

@@ -28,7 +28,7 @@ $links = array(
             <a href="<?php echo esc_url($link['href']); ?>"
                class="flex items-center gap-4 text-xl transition-colors px-4 py-2 rounded-md text-dark hover:text-secondary">
                 <?php if (isset($link['icon'])): ?>
-                  <?php echo get_icon($link['icon'], $link['icon'] === 'phone' ? 'w-8 h-8' : 'w-6 h-6'); ?>
+                  <?php echo get_icon($link['icon'], $link['icon'] === 'phone' ? 'w-7.5 h-7.5' : 'w-6 h-6'); ?>
                 <?php endif; ?>
 
                <?php echo isset($link['icon']) ? '' : esc_html($link['label']); ?>

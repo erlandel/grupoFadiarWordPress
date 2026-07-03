@@ -26,6 +26,10 @@
   --font-vital: "Satisfy", cursive;
 }
 
+.promo-btn {
+  transition: all 0.2s ease;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
