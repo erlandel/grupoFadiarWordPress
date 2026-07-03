@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Flatlion Personal Use Only";
+  src: url("/wp-content/themes/grupofadiar-theme/assets/fonts/Flatlion Personal Use Only.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 340%;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --secondary: #D69F03;
+}
+
+@theme inline {
+  --color-background: #ffffff;
+  --color-foreground: var(--foreground);
+  --color-secondary: #D69F03;
+  --color-dark:#010A2D;
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-open: "Open Sans", sans-serif;
+  --font-signature: "Dancing Script", cursive;
+  --font-vital: "Satisfy", cursive;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}

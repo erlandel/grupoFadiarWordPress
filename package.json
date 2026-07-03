@@ -1,0 +1,30 @@
+{
+  "name": "grupofadiar-theme",
+  "version": "1.0.0",
+  "description": "Tema personalizado con Tailwind CSS v4 para Grupo Fadiar",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tailwindcss -i ./src/input.css -o ./style.css --watch",
+    "build": "tailwindcss -i ./src/input.css -o ./style.css --minify && node postbuild.js"
+  },
+  "keywords": [],
+  "author": "Erlan",
+  "license": "ISC",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.1.2",
+      "onFail": "download"
+    }
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.2",
+    "tailwindcss": "^4.3.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher"
+    ]
+  }
+}

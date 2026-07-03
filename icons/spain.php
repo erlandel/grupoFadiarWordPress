@@ -1,0 +1,1 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><defs><clipPath id="es-clip"><circle cx="12" cy="12" r="12"/></clipPath></defs><g clip-path="url(#es-clip)"><rect width="24" height="6" fill="#C60B1E"/><rect y="6" width="24" height="12" fill="#FFC400"/><rect y="18" width="24" height="6" fill="#C60B1E"/></g></svg>
