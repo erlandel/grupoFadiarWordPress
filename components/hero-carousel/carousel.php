@@ -8,7 +8,7 @@ $slides = array(
     'subtitle' => 'Somos un grupo empresarial que mejora la experiencia en el hogar y la industria con soluciones definidas por su calidad e innovación.',
     'titleFont' => 'font-bold',
     'buttons' => array(
-      array('text' => 'Conócenos', 'class' => 'bg-white text-[#010A2D] font-bold px-8 py-1.5 rounded-full text-2xl transition-transform hover:scale-105 cursor-pointer')
+      array('text' => 'Conócenos', 'class' => 'bg-white text-[#010A2D] font-bold px-8 py-2 rounded-full text-2xl transition-transform hover:scale-105 cursor-pointer')
     )
   ),
   array(
@@ -54,7 +54,7 @@ $slides = array(
     'subtitle' => 'Novedades, lanzamientos y nuestra participación en eventos.',
     'titleFont' => 'font-bold',
     'buttons' => array(
-      array('text' => 'Leer más', 'class' => 'bg-white text-[#010A2D] font-bold px-8 py-1.5 rounded-full text-2xl transition-transform hover:scale-105 cursor-pointer')
+      array('text' => 'Leer más', 'class' => 'bg-white text-[#010A2D] font-bold px-8 py-2 rounded-full text-2xl transition-transform hover:scale-105 cursor-pointer')
     )
   ),
 );
@@ -81,12 +81,12 @@ $slides = array(
       <div class="flex flex-col w-full">
         <?php foreach ($slides as $index => $slide): ?>
           <div class="carousel-content <?php echo $index === 0 ? '' : 'hidden'; ?>" data-index="<?php echo $index; ?>">
-            <div class="flex gap-4 <?php echo !empty($slide['buttons']) ? 'mb-1' : 'mb-5'; ?>">
+            <div class="flex gap-4 <?php echo !empty($slide['buttons']) ? 'mb-5' : 'mb-5'; ?>">
               <div class="flex-1 flex flex-col justify-end items-start">
                 <?php if ($slide['layout'] === 'simple'): ?>
                   <!-- DISEÑO SIMPLE (Diapositivas 1 y 5) -->
                   <div class="mb-2">
-                    <h2 class="text-5xl md:text-[60px] font-montserrat <?php echo esc_attr($slide['titleFont']); ?>">
+                    <h2 class="text-5xl md:text-[50px] font-montserrat <?php echo esc_attr($slide['titleFont']); ?>">
                       <?php echo esc_html($slide['title']); ?>
                     </h2>
                   </div>
@@ -98,7 +98,7 @@ $slides = array(
                   <?php endif; ?>
 
                   <?php if (!empty($slide['buttons'])): ?>
-                    <div class="flex gap-4 mt-4">
+                    <div class="flex gap-4 mt-4 ">
                       <?php foreach ($slide['buttons'] as $button): ?>
                         <button class="<?php echo esc_attr($button['class']); ?>"><?php echo esc_html($button['text']); ?></button>
                       <?php endforeach; ?>
@@ -125,7 +125,7 @@ $slides = array(
                   <?php endif; ?>
 
                   <?php if (!empty($slide['buttons'])): ?>
-                    <div class="flex gap-4 mt-6">
+                    <div class="flex gap-4 mt-6 ">
                       <?php foreach ($slide['buttons'] as $button): ?>
                         <button class="<?php echo esc_attr($button['class']); ?>"><?php echo esc_html($button['text']); ?></button>
                       <?php endforeach; ?>
