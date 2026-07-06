@@ -1,4 +1,9 @@
 <?php
+
+// Incluir registros de Custom Post Types y Campos ACF
+require_once get_template_directory() . '/inc/custom-post-types.php';
+require_once get_template_directory() . '/inc/custom-fields-carousel.php';
+
 function grupofadiar_setup() {
     add_theme_support('title-tag');
     add_theme_support('post-thumbnails');

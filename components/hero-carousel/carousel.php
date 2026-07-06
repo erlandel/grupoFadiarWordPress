@@ -1,63 +1,90 @@
 <?php
 $asset_uri = get_template_directory_uri() . '/assets';
-$slides = array(
-  array(
-    'layout' => 'simple',
-    'url' => $asset_uri . '/images/carousel/1.png',
-    'title' => 'BIENVENIDO',
-    'subtitle' => 'Somos un grupo empresarial que mejora la experiencia en el hogar y la industria con soluciones definidas por su calidad e innovación.',
-    'titleFont' => 'font-bold',
-    'buttons' => array(
-      array('text' => 'Conócenos', 'class' => 'bg-white text-[#010A2D] font-bold px-8 py-2 rounded-full text-2xl transition-transform hover:scale-105 cursor-pointer')
-    )
-  ),
-  array(
-    'layout' => 'brand',
-    'url' => $asset_uri . '/images/carousel/2.png',
-    'title' => $asset_uri . '/images/brands/eon.png',
-    'description' => 'Siéntete familiar',
-    'subtitle' => 'Tecnología funcional para una vida más cómoda',
-    'descriptionFont' => 'Flatlion Personal Use Only',
-    'buttons' => array(
-      array('text' => 'Productos', 'class' => 'border-2 border-white px-6 py-2 rounded-full text-xl cursor-pointer hover:scale-105'),
-      array('text' => 'Compra', 'class' => 'bg-white text-[#010A2D] font-bold px-8 py-2 rounded-full text-xl transition-transform hover:scale-105 cursor-pointer')
-    )
-  ),
-  array(
-    'layout' => 'brand',
-    'url' => $asset_uri . '/images/carousel/3.png',
-    'title' => $asset_uri . '/images/brands/lammina.png',
-    'description' => 'Para diseñar espacios que cuenten tu historia',
-    'subtitle' => 'Mobiliario modular con diseño funcional y tecnología importada',
-    'descriptionFont' => 'Flatlion Personal Use Only',
-    'buttons' => array(
-      array('text' => 'Productos', 'class' => 'border-2 border-white px-6 py-2 rounded-full text-xl cursor-pointer hover:scale-105'),
-      array('text' => 'Compra', 'class' => 'bg-white text-[#010A2D] font-bold px-8 py-2 rounded-full text-xl transition-transform hover:scale-105 cursor-pointer')
-    )
-  ),
-  array(
-    'layout' => 'brand',
-    'url' => $asset_uri . '/images/carousel/4.png',
-    'title' => $asset_uri . '/images/brands/vital.png',
-    'description' => 'Placer para todos',
-    'subtitle' => 'Fuerte con el uso, suave con tu piel',
-    'descriptionFont' => 'Flatlion Personal Use Only',
-    'buttons' => array(
-      array('text' => 'Productos', 'class' => 'border-2 border-white px-6 py-2 rounded-full text-xl cursor-pointer hover:scale-105'),
-      array('text' => 'Compra', 'class' => 'bg-white text-[#010A2D] font-bold px-8 py-2 rounded-full text-xl transition-transform hover:scale-105 cursor-pointer')
-    )
-  ),
-  array(
-    'layout' => 'simple',
-    'url' => $asset_uri . '/images/carousel/5.png',
-    'title' => 'Feria Internacional 2026',
-    'subtitle' => 'Novedades, lanzamientos y nuestra participación en eventos.',
-    'titleFont' => 'font-bold',
-    'buttons' => array(
-      array('text' => 'Leer más', 'class' => 'bg-white text-[#010A2D] font-bold px-8 py-2 rounded-full text-2xl transition-transform hover:scale-105 cursor-pointer')
-    )
-  ),
-);
+$slides = array();
+
+$slide_query = new WP_Query(array(
+    'post_type'              => 'carousel_slide',
+    'posts_per_page'         => -1,
+    'orderby'                => 'menu_order',
+    'order'                  => 'ASC',
+    'post_status'            => 'publish',
+    'no_found_rows'          => true,
+    'update_post_term_cache' => false,
+));
+
+if ($slide_query->have_posts()) :
+    while ($slide_query->have_posts()) : $slide_query->the_post();
+        $slide_id = get_the_ID();
+        $slide_layout = get_field('slide_layout', $slide_id);
+
+        $current_slide = array(
+            'layout'    => $slide_layout,
+            'url'       => get_the_post_thumbnail_url($slide_id, 'full'),
+            'subtitle'  => get_field('slide_subtitle', $slide_id),
+            'buttons'   => array(),
+        );
+
+        // Procesar la fuente seleccionada para compatibilidad con estilos
+        $font_value = get_field('slide_title_font_class', $slide_id);
+        if ($font_value == 'font-satisfy') {
+            $current_slide['title_font_class'] = '';
+            $current_slide['title_font_style'] = 'font-family: \'Satisfy\', cursive;';
+        } elseif ($font_value == 'font-dancing-script') {
+            $current_slide['title_font_class'] = '';
+            $current_slide['title_font_style'] = 'font-family: \'Dancing Script\', cursive;';
+        } elseif ($font_value == 'font-flatlion') {
+            $current_slide['title_font_class'] = '';
+            $current_slide['title_font_style'] = 'font-family: \'Flatlion Personal Use Only\', sans-serif;';
+        } else {
+            $current_slide['title_font_class'] = esc_attr($font_value);
+            $current_slide['title_font_style'] = '';
+        }
+
+        if ($slide_layout === 'simple') {
+            $current_slide['title'] = get_field('slide_title_text', $slide_id);
+        } else { // 'brand'
+            $current_slide['title'] = get_field('slide_title_image', $slide_id);
+            $current_slide['description'] = get_field('slide_description', $slide_id);
+            if ($font_value == 'font-flatlion') {
+                $current_slide['description_font_class'] = '';
+                $current_slide['description_font_style'] = 'font-family: \'Flatlion Personal Use Only\', sans-serif;';
+            } else {
+                $current_slide['description_font_class'] = $current_slide['title_font_class'];
+                $current_slide['description_font_style'] = $current_slide['title_font_style'];
+            }
+        }
+
+        foreach (array(1, 2) as $button_number) {
+            $button_text = get_field("button_{$button_number}_text", $slide_id);
+            $button_url = get_field("button_{$button_number}_url", $slide_id);
+            $button_style_type = get_field("button_{$button_number}_style", $slide_id);
+
+            if (empty($button_text)) {
+                continue;
+            }
+
+            $button_class = '';
+            if ($button_style_type === 'primary') {
+                $button_class = 'bg-white text-[#010A2D] font-bold px-8 py-2 rounded-full text-3xl transition-transform hover:scale-105 cursor-pointer';
+            } elseif ($button_style_type === 'secondary') {
+                $button_class = 'border-2 border-white px-10 py-2 rounded-full text-3xl cursor-pointer hover:scale-105';
+            }
+            // Si el primer botón de la primera diapositiva es "Conócenos" y es primario, se le da un tamaño mayor
+            if ($slide_layout === 'simple' && count($slides) === 0 && count($current_slide['buttons']) === 0 && $button_text === 'Conócenos' && $button_style_type === 'primary') {
+                $button_class = 'bg-white text-[#010A2D] font-bold px-10 py-2 rounded-full text-3xl transition-transform hover:scale-105 cursor-pointer';
+            }
+
+            $current_slide['buttons'][] = array(
+                'text'  => $button_text,
+                'url'   => $button_url,
+                'class' => $button_class,
+            );
+        }
+
+        $slides[] = $current_slide;
+    endwhile;
+    wp_reset_postdata();
+endif;
 ?>
 <section class="hero-carousel h-screen w-full flex flex-col overflow-hidden">
   <div class="relative flex-1">
@@ -68,7 +95,7 @@ $slides = array(
         </div>
       </div>
     <?php endforeach; ?>
-    <div class="relative h-full flex items-end text-white mx-20 pb-8 gap-5">
+    <div class="relative h-full flex items-end text-white mx-20 pb-8 gap-5 ">
       <div class="flex flex-col gap-y-4 justify-end pb-2">
           <a href="#" aria-label="Instagram" class="p-2 rounded-full hover:scale-110 transition-colors">
             <?php echo get_icon('instagram', 'w-10 h-10 text-white'); ?>
@@ -84,9 +111,9 @@ $slides = array(
             <div class="flex gap-4 <?php echo !empty($slide['buttons']) ? 'mb-5' : 'mb-5'; ?>">
               <div class="flex-1 flex flex-col justify-end items-start">
                 <?php if ($slide['layout'] === 'simple'): ?>
-                  <!-- DISEÑO SIMPLE (Diapositivas 1 y 5) -->
+                  <!-- DISEÑO SIMPLE -->
                   <div class="mb-2">
-                    <h2 class="text-5xl md:text-[50px] font-montserrat <?php echo esc_attr($slide['titleFont']); ?>">
+                    <h2 class="text-5xl md:text-[60px]   <?php echo esc_attr($slide['title_font_class']); ?>" style="<?php echo $slide['title_font_style']; ?>">
                       <?php echo esc_html($slide['title']); ?>
                     </h2>
                   </div>
@@ -100,26 +127,25 @@ $slides = array(
                   <?php if (!empty($slide['buttons'])): ?>
                     <div class="flex gap-4 mt-4 ">
                       <?php foreach ($slide['buttons'] as $button): ?>
-                        <button class="<?php echo esc_attr($button['class']); ?>"><?php echo esc_html($button['text']); ?></button>
+                        <a href="<?php echo esc_url($button['url']); ?>" class="<?php echo esc_attr($button['class']); ?>"><?php echo esc_html($button['text']); ?></a>
                       <?php endforeach; ?>
                     </div>
                   <?php endif; ?>
 
                 <?php else: ?>
-                  <!-- DISEÑO DE MARCA (Diapositivas 2, 3 y 4) -->
+                  <!-- DISEÑO DE MARCA -->
                   <div class="mb-6">
                     <img src="<?php echo esc_url($slide['title']); ?>" alt="<?php echo esc_attr($slide['subtitle']); ?>" class="object-contain h-auto w-auto" style="max-height:100px;" />
                   </div>
                   
                   <?php if (!empty($slide['description'])): ?>
-                    <p class="text-5xl pb-4 mt-3 <?php echo str_starts_with($slide['descriptionFont'], 'font-') ? esc_attr($slide['descriptionFont']) : ''; ?>"
-                       style="<?php echo !str_starts_with($slide['descriptionFont'], 'font-') ? 'font-family: \'' . esc_attr($slide['descriptionFont']) . '\';' : ''; ?>">
+                    <p class="text-5xl pb-4 mt-3 <?php echo esc_attr($slide['description_font_class']); ?>" style="<?php echo $slide['description_font_style']; ?>">
                       <?php echo esc_html($slide['description']); ?>
                     </p>
                   <?php endif; ?>
 
                   <?php if (!empty($slide['subtitle'])): ?>
-                    <p class="text-3xl font-open mt-8 mb-2 ">
+                    <p class="text-3xl font-open mt-8 mb-2 font-bold">
                       <?php echo esc_html($slide['subtitle']); ?>
                     </p>
                   <?php endif; ?>
@@ -127,7 +153,7 @@ $slides = array(
                   <?php if (!empty($slide['buttons'])): ?>
                     <div class="flex gap-4 mt-6 ">
                       <?php foreach ($slide['buttons'] as $button): ?>
-                        <button class="<?php echo esc_attr($button['class']); ?>"><?php echo esc_html($button['text']); ?></button>
+                        <a href="<?php echo esc_url($button['url']); ?>" class="<?php echo esc_attr($button['class']); ?>"><?php echo esc_html($button['text']); ?></a>
                       <?php endforeach; ?>
                     </div>
                   <?php endif; ?>

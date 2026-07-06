@@ -205,6 +205,9 @@
   }
 }
 @layer utilities {
+  .visible {
+    visibility: visible;
+  }
   .absolute {
     position: absolute;
   }
@@ -298,9 +301,6 @@
   .mr-10 {
     margin-right: calc(var(--spacing) * 10);
   }
-  .mb-1 {
-    margin-bottom: var(--spacing);
-  }
   .mb-2 {
     margin-bottom: calc(var(--spacing) * 2);
   }
@@ -324,9 +324,6 @@
   }
   .mb-16 {
     margin-bottom: calc(var(--spacing) * 16);
-  }
-  .mb-20 {
-    margin-bottom: calc(var(--spacing) * 20);
   }
   .ml-6 {
     margin-left: calc(var(--spacing) * 6);
@@ -818,6 +815,9 @@
   .px-10 {
     padding-inline: calc(var(--spacing) * 10);
   }
+  .px-12 {
+    padding-inline: calc(var(--spacing) * 12);
+  }
   .px-15 {
     padding-inline: calc(var(--spacing) * 15);
   }
@@ -827,14 +827,8 @@
   .py-1 {
     padding-block: var(--spacing);
   }
-  .py-1\.5 {
-    padding-block: calc(var(--spacing) * 1.5);
-  }
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
-  }
-  .py-2\.5 {
-    padding-block: calc(var(--spacing) * 2.5);
   }
   .py-3 {
     padding-block: calc(var(--spacing) * 3);
@@ -1203,16 +1197,6 @@
     @media (width >= 48rem) {
       font-size: var(--text-5xl);
       line-height: var(--tw-leading, var(--text-5xl--line-height));
-    }
-  }
-  .md\:text-\[5px\] {
-    @media (width >= 48rem) {
-      font-size: 5px;
-    }
-  }
-  .md\:text-\[10px\] {
-    @media (width >= 48rem) {
-      font-size: 10px;
     }
   }
   .md\:text-\[50px\] {
