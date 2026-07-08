@@ -196,7 +196,7 @@ function grupofadiar_register_home_product_cpt() {
         'hierarchical'       => false,
         'menu_position'      => 8,
         'menu_icon'          => 'dashicons-cart',
-        'supports'           => array('title', 'thumbnail'),
+        'supports'           => array('title'),
     );
 
     register_post_type('home_product', $args);

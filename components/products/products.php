@@ -1,10 +1,10 @@
 <?php
 // Configuración de layout para cada producto (fijo)
 $layout_config = array(
-  array('wrapper' => 'rounded-r-2xl aspect-16/6.5 w-full', 'self' => ''),
-  array('wrapper' => 'rounded-2xl aspect-16/8 w-full md:w-[90%] md:mr-auto', 'self' => ''),
-  array('wrapper' => 'rounded-2xl aspect-video w-full md:w-[90%] md:ml-auto', 'self' => ''),
-  array('wrapper' => 'rounded-l-2xl aspect-16/7.5 w-full', 'self' => 'self-end when-desk'),
+  array('wrapper' => 'rounded-r-2xl aspect-11/6 w-full', 'self' => ''),
+  array('wrapper' => 'rounded-2xl aspect-14/7.5 w-full md:w-[90%] md:mr-auto', 'self' => ''),
+  array('wrapper' => 'rounded-2xl aspect-14/7.5  w-full md:w-[90%] md:ml-auto mt-12', 'self' => ''),
+  array('wrapper' => 'rounded-l-2xl aspect-11/6 w-full', 'self' => 'self-end when-desk'),
 );
 
 // Obtener productos del CPT (máximo 4)

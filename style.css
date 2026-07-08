@@ -291,6 +291,9 @@
   .mt-10 {
     margin-top: calc(var(--spacing) * 10);
   }
+  .mt-12 {
+    margin-top: calc(var(--spacing) * 12);
+  }
   .mt-15 {
     margin-top: calc(var(--spacing) * 15);
   }
@@ -354,14 +357,77 @@
   .table {
     display: table;
   }
+  .aspect-10\/6\.5 {
+    aspect-ratio: 10/6.5;
+  }
+  .aspect-11\/5 {
+    aspect-ratio: 11/5;
+  }
+  .aspect-11\/5\.5 {
+    aspect-ratio: 11/5.5;
+  }
+  .aspect-11\/6 {
+    aspect-ratio: 11/6;
+  }
+  .aspect-12\/5 {
+    aspect-ratio: 12/5;
+  }
+  .aspect-12\/6 {
+    aspect-ratio: 12/6;
+  }
+  .aspect-12\/6\.5 {
+    aspect-ratio: 12/6.5;
+  }
+  .aspect-12\/7 {
+    aspect-ratio: 12/7;
+  }
+  .aspect-12\/8 {
+    aspect-ratio: 12/8;
+  }
+  .aspect-13\/7 {
+    aspect-ratio: 13/7;
+  }
+  .aspect-14\/6 {
+    aspect-ratio: 14/6;
+  }
+  .aspect-14\/6\.5 {
+    aspect-ratio: 14/6.5;
+  }
+  .aspect-14\/7 {
+    aspect-ratio: 14/7;
+  }
+  .aspect-14\/7\.5 {
+    aspect-ratio: 14/7.5;
+  }
+  .aspect-14\/8 {
+    aspect-ratio: 14/8;
+  }
+  .aspect-14\/8\.5 {
+    aspect-ratio: 14/8.5;
+  }
+  .aspect-15\/8 {
+    aspect-ratio: 15/8;
+  }
+  .aspect-16\/6 {
+    aspect-ratio: 16/6;
+  }
   .aspect-16\/6\.5 {
     aspect-ratio: 16/6.5;
+  }
+  .aspect-16\/7 {
+    aspect-ratio: 16/7;
   }
   .aspect-16\/7\.5 {
     aspect-ratio: 16/7.5;
   }
   .aspect-16\/8 {
     aspect-ratio: 16/8;
+  }
+  .aspect-18\/7 {
+    aspect-ratio: 18/7;
+  }
+  .aspect-116\/6\.5 {
+    aspect-ratio: 116/6.5;
   }
   .aspect-video {
     aspect-ratio: var(--aspect-video);
@@ -1193,6 +1259,11 @@
   .md\:ml-auto {
     @media (width >= 48rem) {
       margin-left: auto;
+    }
+  }
+  .md\:w-\[80\%\] {
+    @media (width >= 48rem) {
+      width: 80%;
     }
   }
   .md\:w-\[90\%\] {

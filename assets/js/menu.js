@@ -49,6 +49,16 @@ document.addEventListener('DOMContentLoaded', function () {
       if (activeSectionId !== 'home') {
         setActiveLink('home');
       }
+      return;
+    }
+    
+    // Si el scroll está por debajo de "products", marcar "Inicio"
+    const productsSection = document.getElementById('products');
+    if (productsSection) {
+      const rect = productsSection.getBoundingClientRect();
+      if (rect.bottom < 0 && activeSectionId !== 'home') {
+        setActiveLink('home');
+      }
     }
   });
 
