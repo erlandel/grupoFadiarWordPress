@@ -4,7 +4,7 @@ $links = array(
   array('href' => $home_url, 'label' => 'Inicio', 'icon' => 'home'),
   array('href' => home_url('/about-us/'), 'label' => 'Grupo Fadiar'),
   array('href' => $home_url . '#ourBrands', 'label' => 'Nuestras marcas'),
-  array('href' => $home_url . '#promotions', 'label' => 'Productos'),
+  array('href' => $home_url . '#products', 'label' => 'Productos'),
   array('href' => home_url('/support-warranty/'), 'label' => 'Soporte y Garantía'),
   array('href' => home_url('/contacts/'), 'label' => 'Contactos', 'icon' => 'phone'),
 );

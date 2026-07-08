@@ -30,6 +30,30 @@
   transition: all 0.2s ease;
 }
 
+/* Scrollbar personalizado para las cards de marcas */
+.scrollbar-custom {
+  scrollbar-width: thin;
+  scrollbar-color: #D69F03 #ffffff10;
+}
+
+.scrollbar-custom::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: #ffffff10;
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: #D69F03;
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: #b8860b;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

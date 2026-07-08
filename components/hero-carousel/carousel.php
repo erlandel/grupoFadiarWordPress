@@ -56,7 +56,7 @@ if ($slide_query->have_posts()) :
 
         foreach (array(1, 2) as $button_number) {
             $button_text = get_field("button_{$button_number}_text", $slide_id);
-            $button_url = get_field("button_{$button_number}_url", $slide_id);
+            $button_url = process_url(get_field("button_{$button_number}_url", $slide_id));
             $button_style_type = get_field("button_{$button_number}_style", $slide_id);
 
             if (empty($button_text)) {
@@ -112,8 +112,8 @@ endif;
               <div class="flex-1 flex flex-col justify-end items-start">
                 <?php if ($slide['layout'] === 'simple'): ?>
                   <!-- DISEÑO SIMPLE -->
-                  <div class="mb-2">
-                    <h2 class="text-5xl md:text-[60px]   <?php echo esc_attr($slide['title_font_class']); ?>" style="<?php echo $slide['title_font_style']; ?>">
+                  <div >
+                    <h2 class="text-5xl md:text-[70px]   <?php echo esc_attr($slide['title_font_class']); ?>" style="<?php echo $slide['title_font_style']; ?>">
                       <?php echo esc_html($slide['title']); ?>
                     </h2>
                   </div>

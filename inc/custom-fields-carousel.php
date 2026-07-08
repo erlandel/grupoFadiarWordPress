@@ -125,8 +125,8 @@ function grupofadiar_register_carousel_acf_fields() {
                     'key' => 'field_button_1_url',
                     'label' => 'URL del Botón 1',
                     'name' => 'button_1_url',
-                    'type' => 'url',
-                    'instructions' => 'La dirección web a la que apunta el primer botón.',
+                    'type' => 'text',
+                    'instructions' => 'La dirección web a la que apunta el primer botón. Escribe la URL completa para enlaces externos (ej: https://www.google.com) o solo la ruta para páginas internas (ej: /about-us/ o about-us).',
                     'conditional_logic' => array(
                         array(
                             array(
@@ -171,8 +171,8 @@ function grupofadiar_register_carousel_acf_fields() {
                     'key' => 'field_button_2_url',
                     'label' => 'URL del Botón 2',
                     'name' => 'button_2_url',
-                    'type' => 'url',
-                    'instructions' => 'La dirección web a la que apunta el segundo botón.',
+                    'type' => 'text',
+                    'instructions' => 'La dirección web a la que apunta el segundo botón. Escribe la URL completa para enlaces externos (ej: https://www.google.com) o solo la ruta para páginas internas (ej: /about-us/ o about-us).',
                     'conditional_logic' => array(
                         array(
                             array(

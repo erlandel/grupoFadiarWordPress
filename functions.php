@@ -3,6 +3,12 @@
 // Incluir registros de Custom Post Types y Campos ACF
 require_once get_template_directory() . '/inc/custom-post-types.php';
 require_once get_template_directory() . '/inc/custom-fields-carousel.php';
+require_once get_template_directory() . '/inc/custom-fields-discover-group.php';
+require_once get_template_directory() . '/inc/custom-fields-brands.php';
+require_once get_template_directory() . '/inc/custom-fields-products.php';
+require_once get_template_directory() . '/inc/admin-page-products.php';
+require_once get_template_directory() . '/inc/helpers.php';
+require_once get_template_directory() . '/inc/admin-page-brands.php';
 
 function grupofadiar_setup() {
     add_theme_support('title-tag');
@@ -20,7 +26,7 @@ function grupofadiar_assets() {
     wp_enqueue_script('grupofadiar-header-scroll', get_template_directory_uri() . '/assets/js/header-scroll.js', array(), '1.0.0', true);
     wp_enqueue_script('grupofadiar-menu-mobile', get_template_directory_uri() . '/assets/js/menu-mobile.js', array(), '1.0.0', true);
     wp_enqueue_script('grupofadiar-accordion', get_template_directory_uri() . '/assets/js/accordion.js', array(), '1.0.0', true);
-    wp_enqueue_script('grupofadiar-promotions', get_template_directory_uri() . '/assets/js/promotions.js', array(), '1.0.0', true);
+    wp_enqueue_script('grupofadiar-products', get_template_directory_uri() . '/assets/js/products.js', array(), '1.0.0', true);
     wp_enqueue_script('grupofadiar-faq', get_template_directory_uri() . '/assets/js/faq.js', array(), '1.0.0', true);
     wp_enqueue_script('grupofadiar-menu', get_template_directory_uri() . '/assets/js/menu.js', array(), '1.0.0', true);
     wp_enqueue_script('grupofadiar-lang-toggle', get_template_directory_uri() . '/assets/js/lang-toggle.js', array(), '1.0.0', true);

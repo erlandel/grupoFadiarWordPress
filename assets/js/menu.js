@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const menuLinks = document.querySelectorAll('.font-bold.text-lg .flex li a');
-  const anchorSections = ['ourBrands', 'promotions'];
+  const anchorSections = ['ourBrands', 'products'];
   const homeUrl = window.location.origin + '/';
   
   if (window.location.pathname !== '/' && window.location.pathname !== '/index.php') return;
