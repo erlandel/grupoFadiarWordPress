@@ -204,6 +204,55 @@ function grupofadiar_register_home_product_cpt() {
 
 add_action('init', 'grupofadiar_register_home_product_cpt', 0);
 
+function grupofadiar_register_support_home_item_cpt() {
+    $labels = array(
+        'name'                  => _x('Soporte y Garantía (Inicio)', 'Post type general name', 'grupofadiar'),
+        'singular_name'         => _x('Item', 'Post type singular name', 'grupofadiar'),
+        'menu_name'             => _x('Soporte y Garantía (Inicio)', 'Admin Menu text', 'grupofadiar'),
+        'name_admin_bar'        => _x('Item', 'Add New on Toolbar', 'grupofadiar'),
+        'add_new'               => __('Añadir Nuevo', 'grupofadiar'),
+        'add_new_item'          => __('Añadir Nuevo Item', 'grupofadiar'),
+        'new_item'              => __('Nuevo Item', 'grupofadiar'),
+        'edit_item'             => __('Editar Item', 'grupofadiar'),
+        'view_item'             => __('Ver Item', 'grupofadiar'),
+        'all_items'             => __('Todos los Items', 'grupofadiar'),
+        'search_items'          => __('Buscar Items', 'grupofadiar'),
+        'parent_item_colon'     => __('Item Padre:', 'grupofadiar'),
+        'not_found'             => __('No se encontraron items.', 'grupofadiar'),
+        'not_found_in_trash'    => __('No se encontraron items en la papelera.', 'grupofadiar'),
+        'featured_image'        => _x('Imagen del Icono', 'Overrides the "Featured Image" phrase for this post type.', 'grupofadiar'),
+        'set_featured_image'    => _x('Establecer Imagen del Icono', 'grupofadiar'),
+        'remove_featured_image' => _x('Eliminar Imagen del Icono', 'grupofadiar'),
+        'use_featured_image'    => _x('Usar como Imagen del Icono', 'grupofadiar'),
+        'archives'              => _x('Archivo de Items', 'The post type archive label used in nav menus.', 'grupofadiar'),
+        'insert_into_item'      => _x('Insertar en el Item', 'grupofadiar'),
+        'uploaded_to_this_item' => _x('Subido a este Item', 'grupofadiar'),
+        'filter_items_list'     => _x('Filtrar lista de Items', 'grupofadiar'),
+        'items_list_navigation' => _x('Navegación de Items', 'grupofadiar'),
+        'items_list'            => _x('Lista de Items', 'grupofadiar'),
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => false,
+        'publicly_queryable' => false,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => false,
+        'rewrite'            => false,
+        'capability_type'    => 'post',
+        'has_archive'        => false,
+        'hierarchical'       => false,
+        'menu_position'      => 9,
+        'menu_icon'          => 'dashicons-shield',
+        'supports'           => array('title', 'page-attributes'),
+    );
+
+    register_post_type('support_home_item', $args);
+}
+
+add_action('init', 'grupofadiar_register_support_home_item_cpt', 0);
+
 function grupofadiar_limit_home_products($new_status, $old_status, $post) {
     if ($post->post_type !== 'home_product') return;
     if ($new_status !== 'publish') return;

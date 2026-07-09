@@ -9,6 +9,8 @@ require_once get_template_directory() . '/inc/custom-fields-products.php';
 require_once get_template_directory() . '/inc/admin-page-products.php';
 require_once get_template_directory() . '/inc/helpers.php';
 require_once get_template_directory() . '/inc/admin-page-brands.php';
+require_once get_template_directory() . '/inc/custom-fields-support-home.php';
+require_once get_template_directory() . '/inc/admin-page-support-home.php';
 
 function grupofadiar_setup() {
     add_theme_support('title-tag');
