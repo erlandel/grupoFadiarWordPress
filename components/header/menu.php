@@ -39,4 +39,21 @@ function is_menu_active($href, $current_url, $home_url) {
       </li>
     <?php endforeach; ?>
   </ul>
+  <?php if (is_front_page() || is_home()) : ?>
+  <script>
+  (function () {
+    var hash = window.location.hash.slice(1);
+    var sections = ['ourBrands', 'products'];
+    if (sections.indexOf(hash) === -1) return;
+
+    document.currentScript.parentElement.querySelectorAll('li a').forEach(function (link) {
+      var href = link.getAttribute('href') || '';
+      var isActive = href.endsWith('#' + hash);
+      link.classList.toggle('bg-dark', isActive);
+      link.classList.toggle('text-secondary', isActive);
+      link.classList.toggle('text-dark', !isActive);
+    });
+  })();
+  </script>
+  <?php endif; ?>
 </div>
