@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../**/*.{php,html,js,ts,jsx,tsx}";
 
 @font-face {
   font-family: "Flatlion Personal Use Only";
