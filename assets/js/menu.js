@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (window.location.pathname !== '/' && window.location.pathname !== '/index.php') return;
 
   let activeSectionId = null;
+  const intersectingSections = new Set();
 
   function setActiveLink(id) {
     menuLinks.forEach((link) => {
@@ -25,18 +26,35 @@ document.addEventListener('DOMContentLoaded', function () {
     activeSectionId = id;
   }
 
+  function updateActiveLink() {
+    if (window.scrollY < 100) {
+      setActiveLink('home');
+      return;
+    }
+
+    if (intersectingSections.size > 0) {
+      const activeId = [...anchorSections].reverse().find(id => intersectingSections.has(id));
+      setActiveLink(activeId);
+    } else {
+      setActiveLink('home');
+    }
+  }
+
   const observerOptions = {
     root: null,
-    rootMargin: '-20% 0px -70% 0px', 
+    rootMargin: '-20% 0px -70% 0px',
     threshold: 0
   };
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        setActiveLink(entry.target.id);
+        intersectingSections.add(entry.target.id);
+      } else {
+        intersectingSections.delete(entry.target.id);
       }
     });
+    updateActiveLink();
   }, observerOptions);
 
   anchorSections.forEach((id) => {
@@ -44,24 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (el) observer.observe(el);
   });
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY < 100) {
-      if (activeSectionId !== 'home') {
-        setActiveLink('home');
-      }
-      return;
-    }
-    
-    // Si el scroll está por debajo de "products", marcar "Inicio"
-    const productsSection = document.getElementById('products');
-    if (productsSection) {
-      const rect = productsSection.getBoundingClientRect();
-      if (rect.bottom < 0 && activeSectionId !== 'home') {
-        setActiveLink('home');
-      }
-    }
-  });
+  window.addEventListener('scroll', updateActiveLink);
 
-  // Initial state
-  setActiveLink('home');
+  updateActiveLink();
 });
