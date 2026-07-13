@@ -3,7 +3,7 @@
  * Página de configuración de la sección Productos (Inicio)
  * 
  * Se usa la Settings API de WordPress para guardar el título de la sección.
- * Se accede desde: Productos (Inicio) → Opciones de Productos
+ * Se accede desde: Productos (Inicio) → Título de la sección Productos
  */
 
 if (!defined('ABSPATH')) {
@@ -16,8 +16,8 @@ function grupofadiar_add_products_settings_page() {
 
     add_submenu_page(
         $parent_slug,
-        'Opciones de Productos',
-        'Opciones de Productos',
+        'Título de la sección Productos',
+        'Título de la sección Productos',
         'manage_options',
         'products-section-settings',
         'grupofadiar_render_products_settings_page'
@@ -25,7 +25,7 @@ function grupofadiar_add_products_settings_page() {
 }
 add_action('admin_menu', 'grupofadiar_add_products_settings_page', 0);
 
-// Reorganizar el submenú para poner "Opciones de Productos" primero
+// Reorganizar el submenú para poner "Título de la sección Productos" primero
 function grupofadiar_reorder_products_submenu() {
     global $submenu;
     $parent_slug = 'edit.php?post_type=home_product';
@@ -71,7 +71,7 @@ function grupofadiar_render_products_settings_page() {
     $title = get_option('products_section_title', 'Productos');
     ?>
     <div class="wrap">
-        <h1>Opciones de Productos</h1>
+        <h1>Título de la sección Productos</h1>
         <p>Aquí puedes editar el título que aparece en la sección de productos de la página de inicio.</p>
         
         <form method="post" action="">

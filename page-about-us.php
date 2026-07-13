@@ -9,7 +9,7 @@ get_header(); ?>
     <p>Grupo Fadiar</p>
   </div>
   <div class="mt-10">
-    <h1 class="text-5xl font-bold text-dark">Grupo Fadiar</h1>
+    <h1 class="text-5xl font-bold text-dark">Grupo Fadiar – Innovación y compromiso social</h1>
   </div>
 </div>
 

@@ -6,7 +6,7 @@ $items = is_array($content) ? $content : array($content);
 ?>
 <div class="accordion-item w-full rounded-lg shadow-xl cursor-pointer transition-all duration-300 bg-white text-dark">
   <div class="accordion-header flex justify-between items-center p-6">
-    <h3 class="text-4xl font-bold text-dark"><?php echo esc_html($title); ?></h3>
+    <h3 class="text-4xl font-bold"><?php echo esc_html($title); ?></h3>
     <div class="accordion-icon-down bg-dark p-1.5 rounded-full">
       <svg class="h-7 w-7 text-white" stroke-width="3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
     </div>
@@ -14,7 +14,10 @@ $items = is_array($content) ? $content : array($content);
       <svg class="h-7 w-7 text-dark" stroke-width="3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
     </div>
   </div>
-  <div class="accordion-content hidden p-6 pt-0 text-white text-xl text-justify">
+  <div class="accordion-content hidden p-6 pt-0 text-white text-xl ">
+    <?php if (!empty($content) && !is_array($content)): ?>
+      <p class="mb-6"><?php echo esc_html($content); ?></p>
+    <?php endif; ?>
     <?php if ($leaders): ?>
       <ul class="flex flex-col divide-y-2 divide-white/20">
         <?php foreach ($leaders as $leader): ?>
@@ -26,11 +29,11 @@ $items = is_array($content) ? $content : array($content);
                 <p class="text-xl text-white/80"><?php echo esc_html($leader['shortDescription']); ?></p>
               </div>
             </div>
-            <p class="text-xl text-white/80"><?php echo esc_html($leader['fullDescription']); ?></p>
+            <p class="mt-4 text-xl text-white/80"><?php echo esc_html($leader['fullDescription']); ?></p>
           </li>
         <?php endforeach; ?>
       </ul>
-    <?php else: ?>
+    <?php elseif (!empty($items)): ?>
       <ul class="flex flex-col gap-2">
         <?php foreach ($items as $item): ?>
           <li><?php echo esc_html($item); ?></li>
