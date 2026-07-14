@@ -1,10 +1,10 @@
-<section class="mt-30 w-full bg-[#F4F4F4]">
+<section class="mt-10 w-full bg-[#F4F4F4]">
   <div class="w-full p-20">
     <div class="flex justify-around items-start gap-20">
       <div class="w-1/2 text-xl">
         <h2 class="text-5xl font-black">Nuestra historia</h2>
-        <p class="mt-6">Grupo Fadiar nació en 2023 con la visión de transformar la industria nacional. Partiendo  de un pequeño taller, hemos crecido hasta convertirnos en un grupo empresarial que  integra tres marcas referentes.</p>
-        <p class="mt-4">Nuestros hitos incluyen la apertura de nuestras  instalaciones en Ciudad Libertad, el lanzamiento de nuestras primeras líneas de  productos y las alianzas con distribuidores en todo el país e internacionales. Hoy,  seguimos construyendo el futuro con pasión y responsabilidad.</p>
+        <p class="mt-6 text-justify">Grupo Fadiar nació en 2023 con la visión de transformar la industria nacional. Partiendo  de un pequeño taller, hemos crecido hasta convertirnos en un grupo empresarial que  integra tres marcas referentes.</p>
+        <p class="mt-4 text-justify">Nuestros hitos incluyen la apertura de nuestras  instalaciones en Ciudad Libertad, el lanzamiento de nuestras primeras líneas de  productos y las alianzas con distribuidores en todo el país e internacionales. Hoy,  seguimos construyendo el futuro con pasión y responsabilidad.</p>
       </div>
       <div class="flex flex-col items-center gap-4 w-1/2">
         <?php
