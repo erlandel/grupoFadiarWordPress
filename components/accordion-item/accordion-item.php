@@ -1,8 +1,9 @@
 <?php
-$title = isset($args['title']) ? $args['title'] : '';
-$content = isset($args['content']) ? $args['content'] : '';
-$leaders = isset($args['leaders']) ? $args['leaders'] : null;
-$items = is_array($content) ? $content : array($content);
+$title           = isset($args['title']) ? (string) $args['title'] : '';
+$content         = isset($args['content']) ? (string) $args['content'] : '';
+$leaders         = isset($args['leaders']) ? $args['leaders'] : null;
+$bullets         = isset($args['bullets']) ? $args['bullets'] : null;
+$content_items   = is_array($content) ? $content : array($content);
 ?>
 <div class="accordion-item w-full rounded-lg shadow-xl cursor-pointer transition-all duration-300 bg-white text-dark">
   <div class="accordion-header flex justify-between items-center p-6">
@@ -15,10 +16,7 @@ $items = is_array($content) ? $content : array($content);
     </div>
   </div>
   <div class="accordion-content hidden p-6 pt-0 text-white text-xl ">
-    <?php if (!empty($content) && !is_array($content)): ?>
-      <p class="mb-6"><?php echo esc_html($content); ?></p>
-    <?php endif; ?>
-    <?php if ($leaders): ?>
+    <?php if (!empty($leaders)): ?>
       <ul class="flex flex-col divide-y-2 divide-white/20">
         <?php foreach ($leaders as $leader): ?>
           <li class="flex flex-col py-4 first:pt-0">
@@ -33,9 +31,15 @@ $items = is_array($content) ? $content : array($content);
           </li>
         <?php endforeach; ?>
       </ul>
-    <?php elseif (!empty($items)): ?>
+    <?php elseif (!empty($bullets) && is_array($bullets)): ?>
       <ul class="flex flex-col gap-2">
-        <?php foreach ($items as $item): ?>
+        <?php foreach ($bullets as $bullet): ?>
+          <li><?php echo esc_html($bullet); ?></li>
+        <?php endforeach; ?>
+      </ul>
+    <?php elseif (!empty($content_items)): ?>
+      <ul class="flex flex-col gap-2">
+        <?php foreach ($content_items as $item): ?>
           <li><?php echo esc_html($item); ?></li>
         <?php endforeach; ?>
       </ul>

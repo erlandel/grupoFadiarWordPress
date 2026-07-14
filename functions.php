@@ -12,6 +12,11 @@ require_once get_template_directory() . '/inc/admin-page-brands.php';
 require_once get_template_directory() . '/inc/custom-fields-support-home.php';
 require_once get_template_directory() . '/inc/admin-page-support-home.php';
 require_once get_template_directory() . '/inc/custom-fields-noticias.php';
+require_once get_template_directory() . '/inc/custom-fields-about-us.php';
+require_once get_template_directory() . '/inc/seed-about-us.php';
+require_once get_template_directory() . '/inc/custom-fields-our-story.php';
+require_once get_template_directory() . '/inc/admin-page-our-story.php';
+require_once get_template_directory() . '/inc/admin-page-home.php';
 
 function grupofadiar_setup() {
     add_theme_support('title-tag');

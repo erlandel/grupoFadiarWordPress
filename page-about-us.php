@@ -1,6 +1,25 @@
 <?php
 /* Template Name: Sobre Nosotros */
-get_header(); ?>
+get_header();
+
+$about_id = 0;
+$about_posts = get_posts(array(
+    'post_type'      => 'about_us',
+    'posts_per_page' => 1,
+    'post_status'    => 'publish',
+    'fields'         => 'ids',
+    'orderby'        => 'date',
+    'order'          => 'ASC',
+));
+if (!empty($about_posts)) {
+    $about_id = (int) $about_posts[0];
+}
+
+$page_title = $about_id ? (string) get_field('about_page_title', $about_id) : '';
+if ($page_title === '') {
+    $page_title = 'Grupo Fadiar – Innovación y compromiso social';
+}
+?>
 
 <div class="mx-20 mt-10">
   <div class="flex text-xl">
@@ -9,11 +28,11 @@ get_header(); ?>
     <p>Grupo Fadiar</p>
   </div>
   <div class="mt-10">
-    <h1 class="text-5xl font-bold text-dark">Grupo Fadiar – Innovación y compromiso social</h1>
+    <h1 class="text-5xl font-bold text-dark"><?php echo esc_html($page_title); ?></h1>
   </div>
 </div>
 
-<div><?php get_template_part('components/metrics/metrics'); ?></div>
+<div><?php get_template_part('components/metrics/metrics', null, array('post_id' => $about_id)); ?></div>
 <div><?php get_template_part('components/our-story/our-story'); ?></div>
 <div><?php get_template_part('components/corporate-pillars/corporate-pillars'); ?></div>
 
