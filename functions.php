@@ -17,6 +17,8 @@ require_once get_template_directory() . '/inc/seed-about-us.php';
 require_once get_template_directory() . '/inc/custom-fields-our-story.php';
 require_once get_template_directory() . '/inc/admin-page-our-story.php';
 require_once get_template_directory() . '/inc/admin-page-home.php';
+require_once get_template_directory() . '/inc/custom-fields-corporate-pillars.php';
+require_once get_template_directory() . '/inc/seed-corporate-pillars.php';
 
 function grupofadiar_setup() {
     add_theme_support('title-tag');

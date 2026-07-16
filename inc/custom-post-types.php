@@ -406,6 +406,59 @@ function grupofadiar_register_our_story_item_cpt() {
 }
 add_action('init', 'grupofadiar_register_our_story_item_cpt', 0);
 
+function grupofadiar_register_pilar_corporativo_cpt() {
+    $labels = array(
+        'name'                  => _x('Valores corporativos', 'Post type general name', 'grupofadiar'),
+        'singular_name'         => _x('Pilar corporativo', 'Post type singular name', 'grupofadiar'),
+        'menu_name'             => _x('Valores corporativos', 'Admin Menu text', 'grupofadiar'),
+        'name_admin_bar'        => _x('Pilar corporativo', 'Add New on Toolbar', 'grupofadiar'),
+        'add_new'               => __('Añadir Nuevo', 'grupofadiar'),
+        'add_new_item'          => __('Añadir Nuevo Pilar', 'grupofadiar'),
+        'new_item'              => __('Nuevo Pilar', 'grupofadiar'),
+        'edit_item'             => __('Editar Pilar', 'grupofadiar'),
+        'view_item'             => __('Ver Pilar', 'grupofadiar'),
+        'all_items'             => __('Todos los Pilares', 'grupofadiar'),
+        'search_items'          => __('Buscar Pilares', 'grupofadiar'),
+        'parent_item_colon'     => __('Pilar Padre:', 'grupofadiar'),
+        'not_found'             => __('No se encontraron pilares.', 'grupofadiar'),
+        'not_found_in_trash'    => __('No se encontraron pilares en la papelera.', 'grupofadiar'),
+        'archives'              => _x('Archivo de Pilares', 'The post type archive label used in nav menus.', 'grupofadiar'),
+        'insert_into_item'      => _x('Insertar en el Pilar', 'grupofadiar'),
+        'uploaded_to_this_item' => _x('Subido a este Pilar', 'grupofadiar'),
+        'filter_items_list'     => _x('Filtrar lista de Pilares', 'grupofadiar'),
+        'items_list_navigation' => _x('Navegación de Pilares', 'grupofadiar'),
+        'items_list'            => _x('Lista de Pilares', 'grupofadiar'),
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => false,
+        'publicly_queryable' => false,
+        'show_ui'            => true,
+        'show_in_menu'       => false,
+        'query_var'          => false,
+        'rewrite'            => false,
+        'capability_type'    => 'post',
+        'has_archive'        => false,
+        'hierarchical'       => false,
+        'menu_icon'          => 'dashicons-building',
+        'supports'           => array('title', 'page-attributes'),
+    );
+
+    register_post_type('pilar_corporativo', $args);
+}
+add_action('init', 'grupofadiar_register_pilar_corporativo_cpt', 0);
+
+function grupofadiar_get_pilares_corporativos() {
+    return get_posts(array(
+        'post_type'      => 'pilar_corporativo',
+        'posts_per_page' => -1,
+        'orderby'        => 'menu_order',
+        'order'          => 'ASC',
+        'post_status'    => 'publish',
+    ));
+}
+
 function grupofadiar_get_about_us_post_id() {
     $posts = get_posts(array(
         'post_type'      => 'about_us',
@@ -463,6 +516,12 @@ function grupofadiar_render_grupo_fadiar_landing() {
                 <p style="flex:1;color:#50575e;">Administra el texto introductorio (título y 2 párrafos) y los items del acordeón (Misión, Visión, Valores, Liderazgo y más).</p>
                 <a href="<?php echo esc_url(admin_url('admin.php?page=our_story_settings')); ?>" class="button" style="align-self:flex-start;margin-top:6px;">Editar texto introductorio</a>
                 <a href="<?php echo esc_url(admin_url('edit.php?post_type=our_story_item')); ?>" class="button button-primary" style="align-self:flex-start;margin-top:6px;">Administrar items</a>
+            </div>
+
+            <div style="background:#fff;border:1px solid #c3c4c7;border-radius:4px;padding:24px;display:flex;flex-direction:column;">
+                <h2 style="margin-top:0;font-size:18px;">Valores corporativos</h2>
+                <p style="flex:1;color:#50575e;">Administra los 3 pilares —Responsabilidad Social, Estrategia Empresarial, I+D+i—: título, subtítulo, descripción enriquecida y selección de 1, 2 o 3 imágenes con layout automático.</p>
+                <a href="<?php echo esc_url(admin_url('edit.php?post_type=pilar_corporativo')); ?>" class="button button-primary" style="align-self:flex-start;margin-top:6px;">Administrar pilares</a>
             </div>
 
         </div>

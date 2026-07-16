@@ -310,6 +310,9 @@
   .mt-6 {
     margin-top: calc(var(--spacing) * 6);
   }
+  .mt-7 {
+    margin-top: calc(var(--spacing) * 7);
+  }
   .mt-8 {
     margin-top: calc(var(--spacing) * 8);
   }
@@ -333,9 +336,6 @@
   }
   .mr-10 {
     margin-right: calc(var(--spacing) * 10);
-  }
-  .mb-0 {
-    margin-bottom: 0;
   }
   .mb-2 {
     margin-bottom: calc(var(--spacing) * 2);
@@ -366,6 +366,9 @@
   }
   .mb-20 {
     margin-bottom: calc(var(--spacing) * 20);
+  }
+  .mb-40 {
+    margin-bottom: calc(var(--spacing) * 40);
   }
   .ml-6 {
     margin-left: calc(var(--spacing) * 6);
@@ -1499,6 +1502,26 @@
       line-height: var(--tw-leading, var(--text-xl--line-height));
     }
   }
+  .\[\&_p\]\:mb-4 {
+    & p {
+      margin-bottom: calc(var(--spacing) * 4);
+    }
+  }
+  .\[\&_p\]\:mb-5 {
+    & p {
+      margin-bottom: calc(var(--spacing) * 5);
+    }
+  }
+  .\[\&_p\]\:mb-40 {
+    & p {
+      margin-bottom: calc(var(--spacing) * 40);
+    }
+  }
+  .\[\&_p\:last-child\]\:mb-0 {
+    & p:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 @font-face {
   font-family: "Flatlion Personal Use Only";
@@ -1525,6 +1548,17 @@
   padding-left: 1.25rem;
 }
 .accordion-content ul li, .accordion-content ol li {
+  margin-bottom: 0.5rem;
+}
+.pillar-description ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.pillar-description ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+}
+.pillar-description ul li, .pillar-description ol li {
   margin-bottom: 0.5rem;
 }
 .scrollbar-custom {
