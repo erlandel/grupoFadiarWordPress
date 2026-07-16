@@ -16,31 +16,33 @@ $content_items   = is_array($content) ? $content : array($content);
     </div>
   </div>
   <div class="accordion-content hidden p-6 pt-0 text-white text-xl ">
+    <?php if (!empty($content_items)): ?>
+      <div class="flex flex-col gap-2">
+        <?php foreach ($content_items as $item): ?>
+          <div><?php echo wp_kses_post($item); ?></div>
+        <?php endforeach; ?>
+      </div>
+    <?php endif; ?>
+
     <?php if (!empty($leaders)): ?>
-      <ul class="flex flex-col divide-y-2 divide-white/20">
+      <ul class="flex flex-col <?php echo !empty($content_items) ? 'mt-4 divide-y-2 divide-white/20' : 'divide-y-2 divide-white/20'; ?>">
         <?php foreach ($leaders as $leader): ?>
           <li class="flex flex-col py-4 first:pt-0">
             <div class="flex items-start gap-4">
               <img src="<?php echo esc_url($leader['image']); ?>" alt="<?php echo esc_attr($leader['name']); ?>" width="180" height="180" class="rounded-md object-cover shrink-0" />
               <div class="flex flex-col gap-2">
                 <span class="font-bold text-2xl"><?php echo esc_html($leader['name']); ?></span>
-                <p class="text-xl text-white/80"><?php echo esc_html($leader['shortDescription']); ?></p>
+                <div class="text-xl text-white/80"><?php echo wp_kses_post($leader['shortDescription']); ?></div>
               </div>
             </div>
-            <p class="mt-4 text-xl text-white/80"><?php echo esc_html($leader['fullDescription']); ?></p>
+            <div class="mt-4 text-xl text-white/80"><?php echo wp_kses_post($leader['fullDescription']); ?></div>
           </li>
         <?php endforeach; ?>
       </ul>
     <?php elseif (!empty($bullets) && is_array($bullets)): ?>
       <ul class="flex flex-col gap-2">
         <?php foreach ($bullets as $bullet): ?>
-          <li><?php echo esc_html($bullet); ?></li>
-        <?php endforeach; ?>
-      </ul>
-    <?php elseif (!empty($content_items)): ?>
-      <ul class="flex flex-col gap-2">
-        <?php foreach ($content_items as $item): ?>
-          <li><?php echo esc_html($item); ?></li>
+          <li><?php echo wp_kses_post($bullet); ?></li>
         <?php endforeach; ?>
       </ul>
     <?php endif; ?>

@@ -31,6 +31,20 @@
   transition: all 0.2s ease;
 }
 
+/* Listas dentro de items del acordeón de Nuestra Historia */
+.accordion-content ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.accordion-content ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+}
+.accordion-content ul li,
+.accordion-content ol li {
+  margin-bottom: 0.5rem;
+}
+
 /* Scrollbar personalizado para las cards de marcas */
 .scrollbar-custom {
   scrollbar-width: thin;

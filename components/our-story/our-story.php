@@ -29,13 +29,22 @@ function grupofadiar_render_our_story_item($post) {
         'title' => $post->post_title,
     );
 
-    $leaders = get_field('osi_leaders', $post->ID);
-    if (is_array($leaders) && count($leaders) > 0) {
-        $mapped = array();
-        foreach ($leaders as $leader) {
+    $tipo = get_field('tipo_contenido', $post->ID);
+
+    if ($tipo === 'lider') {
+        $intro = get_field('osi_intro_text', $post->ID);
+        if (!empty($intro)) {
+            $args['content'] = wp_kses_post($intro);
+        }
+
+        $name              = (string) get_field('osi_leader_name', $post->ID);
+        $image             = get_field('osi_leader_image', $post->ID);
+        $short_description = (string) get_field('osi_leader_short_description', $post->ID);
+        $full_description  = (string) get_field('osi_leader_full_description', $post->ID);
+
+        if ($name !== '' || !empty($image) || $short_description !== '' || $full_description !== '') {
             $image_url = '';
-            if (!empty($leader['image'])) {
-                $image = $leader['image'];
+            if (!empty($image)) {
                 if (is_array($image) && !empty($image['url'])) {
                     $image_url = $image['url'];
                 } elseif (is_numeric($image)) {
@@ -44,31 +53,20 @@ function grupofadiar_render_our_story_item($post) {
                     $image_url = $image;
                 }
             }
-            $mapped[] = array(
-                'name'              => isset($leader['name']) ? (string) $leader['name'] : '',
+
+            $args['leaders'] = array(array(
+                'name'              => $name,
                 'image'             => (string) $image_url,
-                'shortDescription'  => isset($leader['short_description']) ? (string) $leader['short_description'] : '',
-                'fullDescription'   => isset($leader['full_description']) ? (string) $leader['full_description'] : '',
-            );
+                'shortDescription'  => wp_kses_post($short_description),
+                'fullDescription'   => wp_kses_post($full_description),
+            ));
         }
-        $args['leaders'] = $mapped;
     } else {
-        $bullets = get_field('osi_bullets', $post->ID);
-        if (is_array($bullets) && count($bullets) > 0) {
-            $mapped = array();
-            foreach ($bullets as $row) {
-                if (isset($row['bullet'])) {
-                    $mapped[] = '• ' . (string) $row['bullet'];
-                }
-            }
-            $args['bullets'] = $mapped;
-        } else {
-            $text = (string) get_field('osi_text', $post->ID);
-            if ($text === '') {
-                $text = '·';
-            }
-            $args['content'] = $text;
+        $text = get_field('osi_text', $post->ID);
+        if (empty($text)) {
+            $text = '';
         }
+        $args['content'] = wp_kses_post($text);
     }
 
     get_template_part('components/accordion-item/accordion-item', null, $args);
@@ -80,10 +78,10 @@ function grupofadiar_render_our_story_item($post) {
       <div class="w-1/2 text-xl">
         <h2 class="text-5xl font-black"><?php echo esc_html($title); ?></h2>
         <?php if ($paragraph_1 !== ''): ?>
-          <p class="mt-6 text-justify"><?php echo esc_html($paragraph_1); ?></p>
+          <div class="mt-6 text-justify"><?php echo wpautop(wp_kses_post($paragraph_1)); ?></div>
         <?php endif; ?>
         <?php if ($paragraph_2 !== ''): ?>
-          <p class="mt-4 text-justify"><?php echo esc_html($paragraph_2); ?></p>
+          <div class="mt-4 text-justify"><?php echo wpautop(wp_kses_post($paragraph_2)); ?></div>
         <?php endif; ?>
       </div>
       <div class="flex flex-col items-center gap-4 w-1/2">

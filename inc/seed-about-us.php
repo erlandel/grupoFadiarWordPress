@@ -201,43 +201,36 @@ function grupofadiar_seed_our_story_items() {
             'title'    => 'Nuestra Misión',
             'menu_order' => 1,
             'data'     => array(
-                'osi_text' => 'Proporcionar soluciones innovadoras que mejoren la calidad de vida de las familias cubanas, con productos duraderos, eficientes y accesibles.',
+                'tipo_contenido' => 'parrafo',
+                'osi_text' => '<p>Proporcionar soluciones innovadoras que mejoren la calidad de vida de las familias cubanas, con productos duraderos, eficientes y accesibles.</p>',
             ),
         ),
         array(
             'title'    => 'Nuestra Visión',
             'menu_order' => 2,
             'data'     => array(
-                'osi_text' => 'Ser el grupo empresarial líder en Cuba en soluciones para el hogar y la industria, reconocido por nuestra calidad, innovación y compromiso social.',
+                'tipo_contenido' => 'parrafo',
+                'osi_text' => '<p>Ser el grupo empresarial líder en Cuba en soluciones para el hogar y la industria, reconocido por nuestra calidad, innovación y compromiso social.</p>',
             ),
         ),
         array(
             'title'    => 'Nuestros valores',
             'menu_order' => 3,
             'data'     => array(
-                'osi_text' => '',
-                'osi_bullets' => array(
-                    array('bullet' => 'Compromiso: con nuestros clientes, trabajadores y el país.'),
-                    array('bullet' => 'Innovación: mejora continua en productos y procesos.'),
-                    array('bullet' => 'Calidad: excelencia en cada detalle.'),
-                    array('bullet' => 'Responsabilidad: social y medioambiental.'),
-                    array('bullet' => 'Trabajo en equipo: colaboración para crecer juntos.'),
-                ),
+                'tipo_contenido' => 'parrafo',
+                'osi_text' => '<ul><li><strong>Compromiso:</strong> con nuestros clientes, trabajadores y el país.</li><li><strong>Innovación:</strong> mejora continua en productos y procesos.</li><li><strong>Calidad:</strong> excelencia en cada detalle.</li><li><strong>Responsabilidad:</strong> social y medioambiental.</li><li><strong>Trabajo en equipo:</strong> colaboración para crecer juntos.</li></ul>',
             ),
         ),
         array(
             'title'    => 'Liderazgo',
             'menu_order' => 4,
             'data'     => array(
-                'osi_text' => 'En Grupo Fadiar, la gobernanza se ejerce con transparencia, visión  estratégica y un firme compromiso con la ética. Nuestro equipo directivo, liderado por el  Director General, trabaja para alinear la innovación con los valores corporativos,  asegurando que cada decisión contribuya al desarrollo sostenible y al bienestar de  nuestros trabajadores y clientes.',
-                'osi_leaders' => array(
-                    array(
-                        'name'              => 'Idián Chávez Fernández',
-                        'image'             => $lider_image_id,
-                        'short_description' => 'Director General de Grupo Fadiar / Socio  Visionario cubano que impulsa la innovación, la eficiencia y la comunicación estratégica  en sectores clave. ',
-                        'full_description'  => 'Defiende el liderazgo con propósito y compromiso social. A sus 32 años, encarna el espíritu de una nueva generación de líderes empresariales en Cuba: audaces, estratégicos y profundamente comprometidos con la transformación. Es fundador de Light Vision Agencia Creativa, donde fue CEO durante 6 años.',
-                    ),
-                ),
+                'tipo_contenido' => 'lider',
+                'osi_intro_text' => '<p>En Grupo Fadiar, la gobernanza se ejerce con transparencia, visión estratégica y un firme compromiso con la ética. Nuestro equipo directivo, liderado por el Director General, trabaja para alinear la innovación con los valores corporativos, asegurando que cada decisión contribuya al desarrollo sostenible y al bienestar de nuestros trabajadores y clientes.</p>',
+                'osi_leader_name' => 'Idián Chávez Fernández',
+                'osi_leader_image' => $lider_image_id,
+                'osi_leader_short_description' => 'Director General de Grupo Fadiar / Socio Visionario cubano que impulsa la innovación, la eficiencia y la comunicación estratégica en sectores clave.',
+                'osi_leader_full_description' => 'Defiende del liderazgo con propósito y compromiso social. A sus 32 años, encarna el espíritu de una nueva generación de líderes empresariales en Cuba: audaces, estratégicos y profundamente comprometidos con la transformación. Es fundador de Light Vision Agencia Creativa, donde fue CEO durante 6 años.',
             ),
         ),
     );
