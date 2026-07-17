@@ -291,7 +291,7 @@ function grupofadiar_register_noticia_cpt() {
         'public'             => true,
         'publicly_queryable' => true,
         'show_ui'            => true,
-        'show_in_menu'       => true,
+        'show_in_menu'       => false,
         'query_var'          => true,
         'rewrite'            => array('slug' => 'noticias'),
         'capability_type'    => 'post',
@@ -299,7 +299,7 @@ function grupofadiar_register_noticia_cpt() {
         'hierarchical'       => false,
         'menu_position'      => 10,
         'menu_icon'          => 'dashicons-admin-post',
-        'supports'           => array('title', 'editor', 'thumbnail', 'excerpt', 'author', 'comments'),
+        'supports'           => array('title', 'thumbnail', 'excerpt', 'author'),
         'taxonomies'         => array('categoria_noticia'),
         'show_in_rest'       => true,
     );

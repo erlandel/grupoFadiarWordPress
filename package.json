@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.2",
+    "prettier": "^3.9.5",
     "tailwindcss": "^4.3.2"
   },
   "pnpm": {

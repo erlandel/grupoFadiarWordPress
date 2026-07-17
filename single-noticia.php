@@ -3,29 +3,10 @@ get_header();
 
 $post_id = get_the_ID();
 $title = get_the_title();
-$content = apply_filters('the_content', get_the_content());
-$date = get_the_date('d/m/Y');
-$author_name = get_the_author();
+$fecha = get_field('fecha_noticia');
 $categories = wp_get_post_terms($post_id, 'categoria_noticia');
 
 $thumbnail_url = get_the_post_thumbnail_url($post_id, 'full');
-$gallery_images = array();
-if ($thumbnail_url) {
-  $gallery_images[] = array(
-    'url' => $thumbnail_url,
-    'alt' => get_the_title(),
-  );
-}
-
-while (have_rows('galeria_noticia')): the_row();
-  $image = get_sub_field('imagen');
-  if ($image) {
-    $gallery_images[] = array(
-      'url' => $image['url'],
-      'alt' => $image['alt'] ?? '',
-    );
-  }
-endwhile;
 
 if (!empty($categories) && !is_wp_error($categories)) {
   $related_args = array(
@@ -55,8 +36,10 @@ if (!empty($categories) && !is_wp_error($categories)) {
 
 <div class="mx-15 mt-10 grid grid-cols-1 lg:grid-cols-3 gap-10">
   <div class="lg:col-span-2">
-    <?php if (!empty($gallery_images)): ?>
-      <?php get_template_part('components/noticias/gallery', null, array('images' => $gallery_images)); ?>
+    <?php if ($thumbnail_url): ?>
+      <div class="relative w-full overflow-hidden rounded-xl aspect-[16/9] bg-gray-100">
+        <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($title); ?>" class="w-full h-full object-cover" />
+      </div>
     <?php endif; ?>
 
     <div class="mt-6">
@@ -64,19 +47,19 @@ if (!empty($categories) && !is_wp_error($categories)) {
         <span class="inline-block bg-primary text-dark text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4"><?php echo esc_html($categories[0]->name); ?></span>
       <?php endif; ?>
       <h1 class="text-4xl font-bold text-dark leading-tight"><?php echo esc_html($title); ?></h1>
+      <?php $intro = get_field('intro_noticia'); if ($intro): ?>
+        <p class="text-lg text-gray-600 mt-3"><?php echo esc_html($intro); ?></p>
+      <?php endif; ?>
       <div class="flex items-center gap-4 mt-3 text-sm text-gray-500">
-        <span><?php echo esc_html($date); ?></span>
-        <?php if ($author_name): ?>
-          <span class="flex items-center gap-1">
-            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            Por <?php echo esc_html($author_name); ?>
-          </span>
-        <?php endif; ?>
+        <span><?php echo esc_html($fecha ?: get_the_date('d/m/Y')); ?></span>
       </div>
+      <?php $autor = get_field('autor'); if ($autor): ?>
+        <p class="italic text-gray-500 mt-1"><?php echo esc_html($autor); ?></p>
+      <?php endif; ?>
     </div>
 
     <div class="mt-8 text-dark text-lg leading-relaxed space-y-4">
-      <?php echo $content; ?>
+      <?php the_field('descripcion'); ?>
     </div>
   </div>
 

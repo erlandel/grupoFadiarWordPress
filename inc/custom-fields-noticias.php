@@ -7,21 +7,50 @@ function grupofadiar_register_noticias_acf_fields() {
     if (function_exists('acf_add_local_field_group')):
 
         acf_add_local_field_group(array(
-            'key' => 'group_noticia_gallery',
-            'title' => 'Galería de Imágenes',
+            'key' => 'group_noticia_fields',
+            'title' => 'Información de la Noticia',
             'fields' => array(
                 array(
-                    'key' => 'field_noticia_gallery',
-                    'label' => 'Galería de la Noticia',
-                    'name' => 'galeria_noticia',
-                    'type' => 'gallery',
-                    'instructions' => 'Añade imágenes adicionales para la galería. La imagen destacada se usará como primera imagen.',
+                    'key' => 'field_noticia_intro',
+                    'label' => 'Introducción',
+                    'name' => 'intro_noticia',
+                    'type' => 'textarea',
+                    'instructions' => 'Texto que aparece entre el título y la fecha en la página de la noticia.',
+                    'default_value' => '',
+                    'placeholder' => '',
                     'required' => 0,
-                    'return_format' => 'array',
-                    'library' => 'all',
-                    'min' => 0,
-                    'max' => 10,
-                    'preview_size' => 'medium',
+                    'rows' => 3,
+                ),
+                array(
+                    'key' => 'field_noticia_fecha',
+                    'label' => 'Fecha de la noticia',
+                    'name' => 'fecha_noticia',
+                    'type' => 'text',
+                    'instructions' => 'Escribe la fecha como quieres que aparezca. Ej: 15 de mayo de 2026',
+                    'default_value' => '',
+                    'placeholder' => '15 de mayo de 2026',
+                    'required' => 0,
+                ),
+                array(
+                    'key' => 'field_noticia_autor',
+                    'label' => 'Autor',
+                    'name' => 'autor',
+                    'type' => 'text',
+                    'instructions' => 'Nombre del autor o fuente de la noticia. Aparecerá debajo de la fecha.',
+                    'default_value' => '',
+                    'placeholder' => 'Grupo Fadiar',
+                    'required' => 0,
+                ),
+                array(
+                    'key' => 'field_noticia_descripcion',
+                    'label' => 'Descripción',
+                    'name' => 'descripcion',
+                    'type' => 'wysiwyg',
+                    'instructions' => 'Contenido principal de la noticia. Puedes usar negritas, viñetas, párrafos, etc.',
+                    'toolbar' => 'basic',
+                    'media_buttons' => 0,
+                    'teeny' => true,
+                    'required' => 0,
                 ),
             ),
             'location' => array(
@@ -38,10 +67,25 @@ function grupofadiar_register_noticias_acf_fields() {
             'style' => 'default',
             'label_placement' => 'top',
             'instruction_placement' => 'label',
-            'hide_on_screen' => '',
+            'hide_on_screen' => array('the_content', 'excerpt', 'discussion', 'comments', 'revisions', 'author', 'formats'),
+            'active' => true,
+            'description' => 'Campos personalizados para noticias.',
         ));
 
     endif;
 }
 
 add_action('acf/init', 'grupofadiar_register_noticias_acf_fields');
+
+function grupofadiar_hide_wysiwyg_media_buttons_noticias() {
+    $screen = get_current_screen();
+    if ($screen && $screen->post_type === 'noticia') {
+        ?>
+        <style>
+          .post-type-noticia .acf-field .wp-media-buttons,
+          .post-type-noticia .acf-field .mce-button.mce-wp-media { display: none !important; }
+        </style>
+        <?php
+    }
+}
+add_action('acf/input/admin_head', 'grupofadiar_hide_wysiwyg_media_buttons_noticias');
