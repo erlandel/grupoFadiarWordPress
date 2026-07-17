@@ -8,7 +8,41 @@ $categories = wp_get_post_terms($post_id, 'categoria_noticia');
 
 $thumbnail_url = get_the_post_thumbnail_url($post_id, 'full');
 
+$cat_term_id = 0;
+$category_name = '';
+$prev_id = null;
+$next_id = null;
+$current_pos = 1;
+$total_in_cat = 1;
+
 if (!empty($categories) && !is_wp_error($categories)) {
+  $cat_term_id = $categories[0]->term_id;
+  $category_name = $categories[0]->name;
+
+  $all_ids = get_posts(array(
+    'post_type'      => 'noticia',
+    'posts_per_page' => -1,
+    'tax_query'      => array(array(
+      'taxonomy' => 'categoria_noticia',
+      'field'    => 'term_id',
+      'terms'    => $cat_term_id,
+    )),
+    'orderby'        => 'date',
+    'order'          => 'DESC',
+    'fields'         => 'ids',
+  ));
+
+  $total_in_cat = count($all_ids);
+  $current_index = array_search($post_id, $all_ids);
+
+  if ($current_index !== false && $total_in_cat > 1) {
+    $prev_index = ($current_index - 1 + $total_in_cat) % $total_in_cat;
+    $next_index = ($current_index + 1) % $total_in_cat;
+    $prev_id = $all_ids[$prev_index];
+    $next_id = $all_ids[$next_index];
+    $current_pos = $current_index + 1;
+  }
+
   $related_args = array(
     'post_type'      => 'noticia',
     'posts_per_page' => 3,
@@ -24,43 +58,64 @@ if (!empty($categories) && !is_wp_error($categories)) {
   $related_query = new WP_Query($related_args);
 }
 ?>
-<div class="mx-15 mt-10">
+<div class="mx-20 mt-10">
   <div class="flex text-xl">
     <p><a href="<?php echo home_url('/'); ?>">Inicio</a></p>
     <svg class="h-6 w-6 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
     <p><a href="<?php echo home_url('/noticias/'); ?>">Noticias</a></p>
-    <svg class="h-6 w-6 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-    <p class="text-gray-500 truncate max-w-xs"><?php echo esc_html($title); ?></p>
   </div>
 </div>
 
-<div class="mx-15 mt-10 grid grid-cols-1 lg:grid-cols-3 gap-10">
+<div class="mx-20 mt-10 grid grid-cols-1 lg:grid-cols-3 gap-10">
   <div class="lg:col-span-2">
     <?php if ($thumbnail_url): ?>
-      <div class="relative w-full overflow-hidden rounded-xl aspect-[16/9] bg-gray-100">
+      <div class="relative w-full overflow-hidden rounded-xl aspect-video bg-gray-100">
         <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($title); ?>" class="w-full h-full object-cover" />
       </div>
     <?php endif; ?>
 
     <div class="mt-6">
       <?php if ($categories): ?>
-        <span class="inline-block bg-primary text-dark text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4"><?php echo esc_html($categories[0]->name); ?></span>
+        <!-- <span class="inline-block bg-primary text-dark text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4"><?php echo esc_html($categories[0]->name); ?></span> -->
       <?php endif; ?>
-      <h1 class="text-4xl font-bold text-dark leading-tight"><?php echo esc_html($title); ?></h1>
-      <?php $intro = get_field('intro_noticia'); if ($intro): ?>
-        <p class="text-lg text-gray-600 mt-3"><?php echo esc_html($intro); ?></p>
-      <?php endif; ?>
-      <div class="flex items-center gap-4 mt-3 text-sm text-gray-500">
+      <h1 class="text-3xl font-bold text-dark leading-tight"><?php echo esc_html($title); ?></h1>
+    
+      <div class="flex items-center gap-4 mt-3 text-xl text-dark">
         <span><?php echo esc_html($fecha ?: get_the_date('d/m/Y')); ?></span>
       </div>
       <?php $autor = get_field('autor'); if ($autor): ?>
-        <p class="italic text-gray-500 mt-1"><?php echo esc_html($autor); ?></p>
+        <p class="italic font-semibold text-dark text-xl mt-1"><?php echo esc_html($autor); ?></p>
       <?php endif; ?>
     </div>
 
-    <div class="mt-8 text-dark text-lg leading-relaxed space-y-4">
+    <div class="mt-8 text-dark text-xl leading-relaxed space-y-4">
       <?php the_field('descripcion'); ?>
     </div>
+
+    <?php if ($category_name): ?>
+      <div class="flex items-center justify-between mt-10">
+        <span class="inline-block w-fit bg-[#F4F4F4] text-[#8C8C8C] text-2xl tracking-wider px-4 py-3 rounded-full">
+          <?php echo esc_html($category_name); ?>
+        </span>
+
+        <div class="flex items-center gap-6">
+          <?php if ($prev_id): ?>
+            <a href="<?php echo get_permalink($prev_id); ?>" aria-label="Noticia anterior"
+               class="flex items-center justify-center w-12 h-12 text-dark hover:opacity-70 transition-opacity">
+              <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M5 12L12 5M5 12L12 19"/></svg>
+            </a>
+          <?php endif; ?>
+          <span class="text-2xl font-medium text-dark"><?php echo $current_pos; ?>/<?php echo $total_in_cat; ?></span>
+          <?php if ($next_id): ?>
+            <a href="<?php echo get_permalink($next_id); ?>" aria-label="Noticia siguiente"
+               class="flex items-center justify-center w-12 h-12 bg-gray-100 text-dark hover:bg-gray-200 rounded-full transition-colors">
+              <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M19 12l-7-7M19 12l-7 7"/></svg>
+            </a>
+          <?php endif; ?>
+        </div>
+      </div>
+    <?php endif; ?>
+
   </div>
 
   <aside class="lg:col-span-1">
