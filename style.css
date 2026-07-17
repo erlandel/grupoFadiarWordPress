@@ -66,6 +66,7 @@
     --blur-sm: 8px;
     --blur-md: 12px;
     --blur-2xl: 40px;
+    --aspect-video: 16 / 9;
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
@@ -440,11 +441,23 @@
   .aspect-14\/7\.5 {
     aspect-ratio: 14/7.5;
   }
+  .aspect-16\/9 {
+    aspect-ratio: 16/9;
+  }
+  .aspect-16\/10 {
+    aspect-ratio: 16/10;
+  }
   .aspect-\[4\/3\] {
     aspect-ratio: 4/3;
   }
   .aspect-\[16\/9\] {
     aspect-ratio: 16/9;
+  }
+  .aspect-\[16\/10\] {
+    aspect-ratio: 16/10;
+  }
+  .aspect-video {
+    aspect-ratio: var(--aspect-video);
   }
   .h-1 {
     height: var(--spacing);

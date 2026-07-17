@@ -9,12 +9,12 @@ $intro = get_field('intro_noticia', $post_id);
 ?>
 <a href="<?php echo esc_url($permalink); ?>" class="flex flex-col h-full group">
   <!-- Imagen -->
-  <div class="relative  overflow-hidden rounded-xl ">
+  <div class="relative overflow-hidden rounded-xl aspect-video ">
     <?php if ($thumbnail): ?>
       <img
         src="<?php echo esc_url($thumbnail); ?>"
         alt="<?php echo esc_attr($title); ?>"
-        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
       />
     <?php else: ?>
       <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400 text-sm">
@@ -23,8 +23,8 @@ $intro = get_field('intro_noticia', $post_id);
     <?php endif; ?>
   </div>
 
-  <!-- Categoría --></span>
-  <span class="inline-block w-fit bg-[#F4F4F4] text-[#8C8C8C] text-2xl  tracking-wider px-4 py-2.5 rounded-full mt-4">
+  <!-- Categoría -->
+  <span class="inline-block w-fit bg-[#F4F4F4] text-[#8C8C8C] text-2xl tracking-wider px-4 py-2.5 rounded-full mt-4">
     <?php echo $category_label ? esc_html($category_label) : 'Categoría'; ?>
   </span>
 
@@ -39,5 +39,5 @@ $intro = get_field('intro_noticia', $post_id);
       </p>
     <?php endif; ?>
   </div>
-  <div class="w-full border-t-4 border-[#F4F4F4] mt-5 "></div>
+  <div class="w-full border-t-4 border-[#F4F4F4] mt-5"></div>
 </a>
