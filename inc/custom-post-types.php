@@ -293,7 +293,7 @@ function grupofadiar_register_noticia_cpt() {
         'show_ui'            => true,
         'show_in_menu'       => false,
         'query_var'          => true,
-        'rewrite'            => array('slug' => 'noticias'),
+        'rewrite'            => array('slug' => 'noticias-blog'),
         'capability_type'    => 'post',
         'has_archive'        => true,
         'hierarchical'       => false,

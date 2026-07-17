@@ -48,27 +48,95 @@ $base_url = get_permalink();
     </p>
 
     <?php if (!empty($categories) && !is_wp_error($categories)): ?>
-      <div class="relative flex items-center gap-2 shrink-0 cursor-pointer group" tabindex="0">
+      <button type="button" data-filter-open class="relative flex items-center gap-2 shrink-0 cursor-pointer group">
         <span class="text-2xl font-medium text-dark whitespace-nowrap">Filtrar por:</span>
-        <svg class="pointer-events-none h-8 w-8 text-dark group-focus-within:rotate-180 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-        
-        <div class="absolute top-full right-0 mt-2 min-w-[280px] bg-[#F8F8F8] rounded-xl opacity-0 invisible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 z-50 overflow-hidden flex flex-col shadow-lg border border-gray-100">
-          <div class="py-4">
-            <a href="<?php echo esc_url($base_url); ?>" class="block px-6 text-2xl font-bold text-dark mb-2 hover:text-opacity-80 transition-colors">Categorías</a>
+        <svg class="pointer-events-none h-8 w-8 text-dark transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+
+      <div data-filter-modal class="fixed inset-0 z-100 hidden items-center justify-center bg-black/40">
+        <div class="bg-[#F8F8F8] rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="filter-modal-title">
+          <div class="flex items-center justify-between px-6 pt-6 pb-4">
+            <h2 id="filter-modal-title" class="text-3xl font-bold text-dark">Categorías</h2>
+            <button type="button" data-filter-close class="text-dark hover:opacity-70 transition-opacity cursor-pointer" aria-label="Cerrar">
+              <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <form method="get" action="<?php echo esc_url($base_url); ?>" class="px-6 pb-6" data-filter-form>
             <div class="flex flex-col">
+              <label class="flex items-center gap-4 py-4 px-2 -mx-2 border-b-3 border-[#EDEDED] cursor-pointer text-2xl text-dark hover:bg-gray-200 rounded transition-colors">
+                <input type="radio" name="categoria" value="" <?php checked($current_category, 0); ?> class="h-5 w-5 accent-dark cursor-pointer shrink-0">
+                <span class="<?php echo $current_category == 0 ? 'font-bold' : 'font-normal'; ?>">Todas las categorías</span>
+              </label>
               <?php foreach ($categories as $cat): ?>
-                <div class="border-b border-gray-200 last:border-0 mx-6">
-                  <a href="<?php echo esc_url(add_query_arg('categoria', $cat->term_id, $base_url)); ?>" class="block py-3 px-2 -mx-2 text-lg text-dark hover:bg-gray-200 rounded transition-colors <?php echo $current_category == $cat->term_id ? 'font-bold' : 'font-normal'; ?>">
-                    <?php echo esc_html($cat->name); ?>
-                  </a>
-                </div>
+                <label class="flex items-center gap-4 py-4 px-2 -mx-2 border-b-3 border-[#EDEDED] last:border-0 cursor-pointer text-2xl text-dark hover:bg-gray-200 rounded transition-colors">
+                  <input type="radio" name="categoria" value="<?php echo esc_attr($cat->term_id); ?>" <?php checked($current_category, $cat->term_id); ?> class="h-5 w-5 accent-dark cursor-pointer shrink-0">
+                  <span class="<?php echo $current_category == $cat->term_id ? 'font-bold' : 'font-normal'; ?>"><?php echo esc_html($cat->name); ?></span>
+                </label>
               <?php endforeach; ?>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     <?php endif; ?>
   </div>
+
+  <script>
+    (function () {
+      const modal = document.querySelector('[data-filter-modal]');
+      const opener = document.querySelector('[data-filter-open]');
+      if (!modal || !opener) return;
+
+      const arrowIcon = opener.querySelector('svg');
+      const closers = modal.querySelectorAll('[data-filter-close]');
+
+      const open = () => {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+        if (arrowIcon) arrowIcon.classList.add('rotate-180');
+      };
+
+      const close = () => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+        if (arrowIcon) arrowIcon.classList.remove('rotate-180');
+      };
+
+      opener.addEventListener('click', open);
+      closers.forEach((btn) => btn.addEventListener('click', close));
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) close();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) close();
+      });
+
+      const form = document.querySelector('[data-filter-form]');
+      const radios = form.querySelectorAll('input[type="radio"]');
+
+      radios.forEach((radio) => {
+        radio.addEventListener('click', function () {
+          if (this.dataset.wasChecked === 'true') {
+            this.checked = false;
+            this.dataset.wasChecked = 'false';
+            form.submit();
+          }
+        });
+
+        radio.addEventListener('change', function () {
+          radios.forEach((r) => { r.dataset.wasChecked = 'false'; });
+          if (this.checked) {
+            this.dataset.wasChecked = 'true';
+            form.submit();
+          }
+        });
+      });
+    })();
+  </script>
 
   <!-- Grid de noticias -->
   <?php if ($query->have_posts()): ?>
