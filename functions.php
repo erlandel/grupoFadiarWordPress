@@ -21,6 +21,10 @@ require_once get_template_directory() . '/inc/custom-fields-corporate-pillars.ph
 require_once get_template_directory() . '/inc/seed-corporate-pillars.php';
 require_once get_template_directory() . '/inc/admin-page-noticias.php';
 require_once get_template_directory() . '/inc/seed-noticias-categories.php';
+require_once get_template_directory() . '/inc/custom-fields-warranty-contacts.php';
+require_once get_template_directory() . '/inc/custom-fields-warranty-steps.php';
+require_once get_template_directory() . '/inc/seed-warranty-contacts.php';
+require_once get_template_directory() . '/inc/seed-warranty-steps.php';
 
 function grupofadiar_setup() {
     add_theme_support('title-tag');
@@ -43,6 +47,7 @@ function grupofadiar_assets() {
     wp_enqueue_script('grupofadiar-menu', get_template_directory_uri() . '/assets/js/menu.js', array(), '1.0.3', true);
     wp_enqueue_script('grupofadiar-lang-toggle', get_template_directory_uri() . '/assets/js/lang-toggle.js', array(), '1.0.0', true);
     wp_enqueue_script('grupofadiar-share', get_template_directory_uri() . '/assets/js/share.js', array(), '1.0.0', true);
+wp_enqueue_script('grupofadiar-support-carousel', get_template_directory_uri() . '/assets/js/support-carousel.js', array(), '2.0.0', true);
 }
 add_action('wp_enqueue_scripts', 'grupofadiar_assets');
 

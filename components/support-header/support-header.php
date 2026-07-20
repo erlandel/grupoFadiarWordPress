@@ -26,7 +26,7 @@ function render_support_icon($icon) {
 }
 ?>
 <div class="w-1/2 flex items-center justify-center">
-  <div class="flex divide-x-3 divide-dark">
+  <div class="flex">
     <?php foreach ($support_items as $item): ?>
       <div class="px-4 text-center">
         <div class="flex justify-center">

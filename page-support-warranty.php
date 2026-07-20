@@ -9,14 +9,25 @@ get_header(); ?>
     <p>Soporte y Garantía</p>
   </div>
   <section class="mt-10">
-    <h1 class="text-5xl font-bold text-dark">Soporte y Garantía</h1>
     <div class="flex justify-between items-end mt-2">
-      <div class="w-1/2 text-xl">
-        <p>En Grupo Fadiar, comprendemos la importancia de cada inversión y nos presentamos como la opción estratégica por estas razones fundamentales</p>
+      <div class="w-1/2 text-3xl text-dark font-bold">
+        <div class="flex flex-col  gap-4">
+          <h1 class="text-5xl font-bold text-dark">Soporte y Garantía</h1>
+         <h2>Atención técnica y reclamaciones</h2>
+        </div>
       </div>
       <?php get_template_part('components/support-header/support-header'); ?>
     </div>
+    <div class="mt-15 text-dark text-xl">
+      <p>Todos nuestros productos cuentan con garantía contra defectos de fabricación.  Para cada producto existe una garantía específica que puedes consultar y solicitar  cuando recibas tu producto. La garantía y el soporte son valores que nos distinguen.  Cuando compras un producto del Grupo Fadiar, compras tranquilidad y calidad. Nuestro  servicio técnico está listo para atenderte.</p>
+    </div>
   </section>
+</div>
+
+<?php get_template_part('components/warranty-info/warranty-info'); ?>
+
+<div class="my-40 overflow-hidden">
+  <?php get_template_part('components/support-carousel/support-carousel'); ?>
 </div>
 
 <div class="my-20">
