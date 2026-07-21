@@ -647,6 +647,89 @@ function grupofadiar_register_warranty_step_cpt() {
 }
 add_action('init', 'grupofadiar_register_warranty_step_cpt', 0);
 
+function grupofadiar_register_support_header_item_cpt() {
+    $labels = array(
+        'name'                  => _x('Items del Encabezado', 'Post type general name', 'grupofadiar'),
+        'singular_name'         => _x('Item del Encabezado', 'Post type singular name', 'grupofadiar'),
+        'menu_name'             => _x('Items del Encabezado', 'Admin Menu text', 'grupofadiar'),
+        'name_admin_bar'        => _x('Item del Encabezado', 'Add New on Toolbar', 'grupofadiar'),
+        'add_new'               => __('Añadir Nuevo', 'grupofadiar'),
+        'add_new_item'          => __('Añadir Nuevo Item del Encabezado', 'grupofadiar'),
+        'new_item'              => __('Nuevo Item del Encabezado', 'grupofadiar'),
+        'edit_item'             => __('Editar Item del Encabezado', 'grupofadiar'),
+        'view_item'             => __('Ver Item del Encabezado', 'grupofadiar'),
+        'all_items'             => __('Todos los Items del Encabezado', 'grupofadiar'),
+        'search_items'          => __('Buscar Items del Encabezado', 'grupofadiar'),
+        'parent_item_colon'     => __('Item Padre:', 'grupofadiar'),
+        'not_found'             => __('No se encontraron items del encabezado.', 'grupofadiar'),
+        'not_found_in_trash'    => __('No se encontraron items del encabezado en la papelera.', 'grupofadiar'),
+        'featured_image'        => _x('Imagen del Item del Encabezado', 'Overrides the "Featured Image" phrase for this post type.', 'grupofadiar'),
+        'set_featured_image'    => _x('Establecer Imagen del Item del Encabezado', 'grupofadiar'),
+        'remove_featured_image' => _x('Eliminar Imagen del Item del Encabezado', 'grupofadiar'),
+        'use_featured_image'    => _x('Usar como Imagen del Item del Encabezado', 'grupofadiar'),
+        'archives'              => _x('Archivo de Items del Encabezado', 'The post type archive label used in nav menus.', 'grupofadiar'),
+        'insert_into_item'      => _x('Insertar en el Item del Encabezado', 'grupofadiar'),
+        'uploaded_to_this_item' => _x('Subido a este Item del Encabezado', 'grupofadiar'),
+        'filter_items_list'     => _x('Filtrar lista de Items del Encabezado', 'grupofadiar'),
+        'items_list_navigation' => _x('Navegación de Items del Encabezado', 'grupofadiar'),
+        'items_list'            => _x('Lista de Items del Encabezado', 'grupofadiar'),
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => false,
+        'publicly_queryable' => false,
+        'show_ui'            => true,
+        'show_in_menu'       => false,
+        'query_var'          => false,
+        'rewrite'            => false,
+        'capability_type'    => 'post',
+        'has_archive'        => false,
+        'hierarchical'       => false,
+        'menu_icon'          => 'dashicons-images-alt2',
+        'supports'           => array('title', 'thumbnail', 'page-attributes'),
+    );
+
+    register_post_type('support_header_item', $args);
+}
+add_action('init', 'grupofadiar_register_support_header_item_cpt', 0);
+
+function grupofadiar_limit_support_header_items($new_status, $old_status, $post) {
+    if ($post->post_type !== 'support_header_item') return;
+    if ($new_status !== 'publish') return;
+
+    // Obtener todos los items publicados (excluyendo el actual si se está editando)
+    $published = get_posts(array(
+        'post_type'      => 'support_header_item',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+        'fields'         => 'ids',
+        'post__not_in'   => array($post->ID),
+    ));
+
+    // Si ya hay 4 o más publicados, despublicar este post
+    if (count($published) >= 4) {
+        wp_update_post(array(
+            'ID'          => $post->ID,
+            'post_status' => 'draft',
+        ));
+        add_filter('redirect_post_location', function($location) {
+            return add_query_arg('support_header_limit_error', '1', $location);
+        });
+    }
+}
+add_action('transition_post_status', 'grupofadiar_limit_support_header_items', 10, 3);
+
+function grupofadiar_support_header_limit_notice() {
+    if (!isset($_GET['support_header_limit_error'])) return;
+    ?>
+    <div class="notice notice-error">
+        <p><?php _e('Solo se permiten 4 items del encabezado publicados en esta sección. El item fue guardado como borrador. Elimina un item existente antes de publicar otro.', 'grupofadiar'); ?></p>
+    </div>
+    <?php
+}
+add_action('admin_notices', 'grupofadiar_support_header_limit_notice');
+
 function grupofadiar_register_faq_item_cpt() {
     $labels = array(
         'name'                  => _x('Preguntas Frecuentes', 'Post type general name', 'grupofadiar'),
@@ -763,6 +846,15 @@ function grupofadiar_render_warranty_section_landing() {
         <h1>Soporte y Garantía — Vista general</h1>
         <p>Selecciona una sección para administrar sus contenidos. Los títulos de cada tarjeta se editan directamente desde cada sección.</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;margin-top:30px;">
+
+            <div style="background:#fff;border:1px solid #c3c4c7;border-radius:4px;padding:24px;display:flex;flex-direction:column;">
+                <h2 style="margin-top:0;font-size:18px;">Encabezado y descripción</h2>
+                <p style="flex:1;color:#50575e;">Administra los 2 primeros títulos y la descripción de la página Soporte y Garantía.</p>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:6px;">
+                    <a href="<?php echo esc_url(admin_url('admin.php?page=support-warranty-settings')); ?>" class="button button-primary" style="align-self:flex-start;">Administrar encabezado y descripción</a>
+                    <a href="<?php echo esc_url(admin_url('edit.php?post_type=support_header_item')); ?>" class="button" style="align-self:flex-start;">Administrar items del encabezado (max 4)</a>
+                </div>
+            </div>
 
             <div style="background:#fff;border:1px solid #c3c4c7;border-radius:4px;padding:24px;display:flex;flex-direction:column;">
                 <h2 style="margin-top:0;font-size:18px;">Tarjetas de contenido</h2>
