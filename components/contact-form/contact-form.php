@@ -1,8 +1,17 @@
 <?php
 
-$contact_subjects_raw = get_option('contact_subjects', "Consulta general\nSoporte técnico\nGarantía\nVentas");
-$contact_subjects = array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', (string) $contact_subjects_raw)));
-$intro_text = get_option('contact_intro_text', 'Escríbenos, llama o visítanos. Estamos para ayudarte.');
+$contact_subject_posts = get_posts(array(
+    'post_type'      => 'contact_subject',
+    'posts_per_page' => -1,
+    'post_status'    => 'publish',
+    'orderby'        => 'menu_order',
+    'order'          => 'ASC',
+));
+$contact_subjects = array();
+foreach ($contact_subject_posts as $post) {
+    $contact_subjects[] = $post->post_title;
+}
+unset($post);
 ?>
 <form action="#" method="post" novalidate class="w-full">
   <div class="grid md:grid-cols-2 gap-x-6 gap-y-5 ">

@@ -10,9 +10,9 @@ get_header();
     <p>Contacto</p>
   </div>
   <div class="mt-10">
-    <h1 class="text-5xl font-bold text-dark">Contáctanos</h1>
+    <h1 class="text-5xl font-bold text-dark"><?php echo esc_html(get_option('contact_page_title', 'Contáctanos')); ?></h1>
     <p class="mt-4 text-3xl text-dark">
-      <strong>Escríbenos, llama o visítanos. Estamos para ayudarte.</strong>
+      <strong><?php echo esc_html(get_option('contact_page_subtitle', 'Escríbenos, llama o visítanos. Estamos para ayudarte.')); ?></strong>
     </p>
   </div>
 </div>

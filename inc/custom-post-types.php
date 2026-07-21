@@ -647,6 +647,50 @@ function grupofadiar_register_warranty_step_cpt() {
 }
 add_action('init', 'grupofadiar_register_warranty_step_cpt', 0);
 
+function grupofadiar_register_contact_subject_cpt() {
+    $labels = array(
+        'name'                  => _x('Asuntos del formulario', 'Post type general name', 'grupofadiar'),
+        'singular_name'         => _x('Asunto', 'Post type singular name', 'grupofadiar'),
+        'menu_name'             => _x('Asuntos del formulario', 'Admin Menu text', 'grupofadiar'),
+        'name_admin_bar'        => _x('Asunto', 'Add New on Toolbar', 'grupofadiar'),
+        'add_new'               => __('Añadir Nuevo', 'grupofadiar'),
+        'add_new_item'          => __('Añadir Nuevo Asunto', 'grupofadiar'),
+        'new_item'              => __('Nuevo Asunto', 'grupofadiar'),
+        'edit_item'             => __('Editar Asunto', 'grupofadiar'),
+        'view_item'             => __('Ver Asunto', 'grupofadiar'),
+        'all_items'             => __('Todos los Asuntos', 'grupofadiar'),
+        'search_items'          => __('Buscar Asuntos', 'grupofadiar'),
+        'parent_item_colon'     => __('Asunto Padre:', 'grupofadiar'),
+        'not_found'             => __('No se encontraron asuntos.', 'grupofadiar'),
+        'not_found_in_trash'    => __('No se encontraron asuntos en la papelera.', 'grupofadiar'),
+        'archives'              => _x('Archivo de Asuntos', 'The post type archive label used in nav menus.', 'grupofadiar'),
+        'insert_into_item'      => _x('Insertar en el Asunto', 'grupofadiar'),
+        'uploaded_to_this_item' => _x('Subido a este Asunto', 'grupofadiar'),
+        'filter_items_list'     => _x('Filtrar lista de Asuntos', 'grupofadiar'),
+        'items_list_navigation' => _x('Navegación de Asuntos', 'grupofadiar'),
+        'items_list'            => _x('Lista de Asuntos', 'grupofadiar'),
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => false,
+        'publicly_queryable' => false,
+        'show_ui'            => true,
+        'show_in_menu'       => false,
+        'query_var'          => false,
+        'rewrite'            => false,
+        'capability_type'    => 'post',
+        'has_archive'        => false,
+        'hierarchical'       => false,
+        'menu_position'      => 13,
+        'menu_icon'          => 'dashicons-editor-ul',
+        'supports'           => array('title', 'page-attributes'),
+    );
+
+    register_post_type('contact_subject', $args);
+}
+add_action('init', 'grupofadiar_register_contact_subject_cpt', 0);
+
 function grupofadiar_register_support_header_item_cpt() {
     $labels = array(
         'name'                  => _x('Items del Encabezado', 'Post type general name', 'grupofadiar'),

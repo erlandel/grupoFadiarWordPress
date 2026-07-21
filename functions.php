@@ -28,6 +28,7 @@ require_once get_template_directory() . '/inc/custom-fields-faq.php';
 require_once get_template_directory() . '/inc/seed-warranty-contacts.php';
 require_once get_template_directory() . '/inc/seed-warranty-steps.php';
 require_once get_template_directory() . '/inc/admin-page-contacts.php';
+require_once get_template_directory() . '/inc/seed-contact-subjects.php';
 
 function grupofadiar_setup() {
     add_theme_support('title-tag');
