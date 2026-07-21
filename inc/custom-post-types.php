@@ -647,6 +647,49 @@ function grupofadiar_register_warranty_step_cpt() {
 }
 add_action('init', 'grupofadiar_register_warranty_step_cpt', 0);
 
+function grupofadiar_register_faq_item_cpt() {
+    $labels = array(
+        'name'                  => _x('Preguntas Frecuentes', 'Post type general name', 'grupofadiar'),
+        'singular_name'         => _x('FAQ', 'Post type singular name', 'grupofadiar'),
+        'menu_name'             => _x('Preguntas Frecuentes', 'Admin Menu text', 'grupofadiar'),
+        'name_admin_bar'        => _x('FAQ', 'Add New on Toolbar', 'grupofadiar'),
+        'add_new'               => __('Añadir Nueva', 'grupofadiar'),
+        'add_new_item'          => __('Añadir Nueva FAQ', 'grupofadiar'),
+        'new_item'              => __('Nueva FAQ', 'grupofadiar'),
+        'edit_item'             => __('Editar FAQ', 'grupofadiar'),
+        'view_item'             => __('Ver FAQ', 'grupofadiar'),
+        'all_items'             => __('Todas las FAQs', 'grupofadiar'),
+        'search_items'          => __('Buscar FAQs', 'grupofadiar'),
+        'parent_item_colon'     => __('FAQ Padre:', 'grupofadiar'),
+        'not_found'             => __('No se encontraron FAQs.', 'grupofadiar'),
+        'not_found_in_trash'    => __('No se encontraron FAQs en la papelera.', 'grupofadiar'),
+        'archives'              => _x('Archivo de FAQs', 'The post type archive label used in nav menus.', 'grupofadiar'),
+        'insert_into_item'      => _x('Insertar en la FAQ', 'grupofadiar'),
+        'uploaded_to_this_item' => _x('Subido a esta FAQ', 'grupofadiar'),
+        'filter_items_list'     => _x('Filtrar lista de FAQs', 'grupofadiar'),
+        'items_list_navigation' => _x('Navegación de FAQs', 'grupofadiar'),
+        'items_list'            => _x('Lista de FAQs', 'grupofadiar'),
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => false,
+        'publicly_queryable' => false,
+        'show_ui'            => true,
+        'show_in_menu'       => false,
+        'query_var'          => false,
+        'rewrite'            => false,
+        'capability_type'    => 'post',
+        'has_archive'        => false,
+        'hierarchical'       => false,
+        'menu_icon'          => 'dashicons-editor-help',
+        'supports'           => array('title', 'page-attributes'),
+    );
+
+    register_post_type('faq_item', $args);
+}
+add_action('init', 'grupofadiar_register_faq_item_cpt', 0);
+
 function grupofadiar_limit_home_products($new_status, $old_status, $post) {
     if ($post->post_type !== 'home_product') return;
     if ($new_status !== 'publish') return;
@@ -709,7 +752,7 @@ function grupofadiar_register_warranty_section_menu() {
         'warranty_section',
         'grupofadiar_render_warranty_section_landing',
         'dashicons-shield',
-        14
+        9
     );
 }
 add_action('admin_menu', 'grupofadiar_register_warranty_section_menu', 20);
@@ -734,6 +777,14 @@ function grupofadiar_render_warranty_section_landing() {
                 <h2 style="margin-top:0;font-size:18px;">Carrusel de imágenes</h2>
                 <p style="flex:1;color:#50575e;">Administra las imágenes del carrusel que aparece entre la sección de garantía y las preguntas frecuentes. Las tarjetas alternan posición vertical automáticamente y se desplazan horizontalmente de forma continua.</p>
                 <a href="<?php echo esc_url(admin_url('edit.php?post_type=support_carousel')); ?>" class="button button-primary" style="align-self:flex-start;margin-top:6px;">Administrar carrusel</a>
+            </div>
+
+            <div style="background:#fff;border:1px solid #c3c4c7;border-radius:4px;padding:24px;display:flex;flex-direction:column;">
+                <h2 style="margin-top:0;font-size:18px;">Preguntas Frecuentes</h2>
+                <p style="flex:1;color:#50575e;">Añade, edita o elimina las preguntas frecuentes que se muestran al final de la página Soporte y Garantía. La pregunta es el título y la respuesta se edita con el editor de texto enriquecido.</p>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:6px;">
+                    <a href="<?php echo esc_url(admin_url('edit.php?post_type=faq_item')); ?>" class="button button-primary" style="align-self:flex-start;">Administrar FAQs</a>
+                </div>
             </div>
 
         </div>
@@ -844,12 +895,49 @@ function grupofadiar_register_support_carousel_cpt() {
 }
 add_action('init', 'grupofadiar_register_support_carousel_cpt', 0);
 
+function grupofadiar_save_faq_section_title() {
+    if (isset($_POST['grupofadiar_faq_section_nonce']) &&
+        wp_verify_nonce($_POST['grupofadiar_faq_section_nonce'], 'grupofadiar_save_faq_section')) {
+
+        update_option('faq_section_title', sanitize_text_field($_POST['faq_section_title'] ?? 'Preguntas frecuentes'));
+    }
+}
+add_action('admin_init', 'grupofadiar_save_faq_section_title', 9);
+
+function grupofadiar_faq_section_title_form() {
+    $screen = get_current_screen();
+    if (!$screen || $screen->base !== 'edit' || $screen->post_type !== 'faq_item') {
+        return;
+    }
+
+    if (isset($_POST['grupofadiar_faq_section_nonce']) &&
+        wp_verify_nonce($_POST['grupofadiar_faq_section_nonce'], 'grupofadiar_save_faq_section')) {
+        echo '<div class="notice notice-success is-dismissible"><p>Título de la sección actualizado.</p></div>';
+    }
+
+    $title = get_option('faq_section_title', 'Preguntas frecuentes');
+    ?>
+    <div class="wrap" style="margin-top:10px;">
+        <form method="post" action="" style="display:flex;align-items:center;gap:10px;background:#f0f6fc;padding:10px 12px;border:1px solid #c3c4c7;border-radius:4px;">
+            <?php wp_nonce_field('grupofadiar_save_faq_section', 'grupofadiar_faq_section_nonce'); ?>
+            <strong style="white-space:nowrap;">Título de la sección:</strong>
+            <input type="text" name="faq_section_title" value="<?php echo esc_attr($title); ?>" class="regular-text" style="flex:1;" />
+            <?php submit_button('Guardar', 'primary', '', false, array('style' => 'margin:0;')); ?>
+        </form>
+    </div>
+    <?php
+}
+add_action('all_admin_notices', 'grupofadiar_faq_section_title_form');
+
 function grupofadiar_initialize_warranty_options() {
     if (get_option('warranty_section_left_title') === false) {
         update_option('warranty_section_left_title', 'Proceso de reclamación');
     }
     if (get_option('warranty_section_right_title') === false) {
         update_option('warranty_section_right_title', 'Contactos');
+    }
+    if (get_option('faq_section_title') === false) {
+        update_option('faq_section_title', 'Preguntas frecuentes');
     }
 }
 add_action('after_switch_theme', 'grupofadiar_initialize_warranty_options');

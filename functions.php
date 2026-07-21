@@ -23,6 +23,7 @@ require_once get_template_directory() . '/inc/admin-page-noticias.php';
 require_once get_template_directory() . '/inc/seed-noticias-categories.php';
 require_once get_template_directory() . '/inc/custom-fields-warranty-contacts.php';
 require_once get_template_directory() . '/inc/custom-fields-warranty-steps.php';
+require_once get_template_directory() . '/inc/custom-fields-faq.php';
 require_once get_template_directory() . '/inc/seed-warranty-contacts.php';
 require_once get_template_directory() . '/inc/seed-warranty-steps.php';
 

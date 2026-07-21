@@ -14,39 +14,8 @@ function grupofadiar_register_noticias_landing() {
         'dashicons-admin-post',
         7
     );
-
-    add_submenu_page(
-        'grupofadiar_noticias',
-        'Títulos de la página de Noticias',
-        'Títulos de la página',
-        'manage_options',
-        'grupofadiar_noticias_titles',
-        'grupofadiar_render_noticias_titles_page'
-    );
-
-    add_submenu_page(
-        'grupofadiar_noticias',
-        'Categorías de Noticias',
-        'Categorías de Noticias',
-        'manage_options',
-        'grupofadiar_noticias_categories',
-        'grupofadiar_render_noticias_categories_page'
-    );
-
 }
 add_action('admin_menu', 'grupofadiar_register_noticias_landing', 9);
-
-function grupofadiar_hide_noticias_submenus() {
-    ?>
-    <script>
-    jQuery(function($) {
-        $('a[href="admin.php?page=grupofadiar_noticias_titles"]').closest('li').hide();
-        $('a[href="admin.php?page=grupofadiar_noticias_categories"]').closest('li').hide();
-    });
-    </script>
-    <?php
-}
-add_action('admin_head', 'grupofadiar_hide_noticias_submenus');
 
 function grupofadiar_render_noticias_landing() {
     ?>
