@@ -1,5 +1,11 @@
 <?php
 
+// Autoload de Composer (si existe vendor/)
+$vendor_autoload = get_template_directory() . '/vendor/autoload.php';
+if (file_exists($vendor_autoload)) {
+    require_once $vendor_autoload;
+}
+
 // Incluir registros de Custom Post Types y Campos ACF
 require_once get_template_directory() . '/inc/custom-post-types.php';
 require_once get_template_directory() . '/inc/custom-fields-carousel.php';
@@ -65,4 +71,90 @@ function get_icon($name, $class = '') {
         return $svg;
     }
     return '';
+}
+
+add_action('admin_post_nopriv_grupofadiar_contact', 'grupofadiar_handle_contact');
+add_action('admin_post_grupofadiar_contact', 'grupofadiar_handle_contact');
+
+function grupofadiar_handle_contact() {
+    $redirect_url = isset($_POST['redirect_to'])
+        ? esc_url_raw($_POST['redirect_to'])
+        : wp_get_referer();
+    if (!$redirect_url) {
+        $redirect_url = home_url('/contacto');
+    }
+
+    if (!empty($_POST['website'])) {
+        wp_safe_redirect(add_query_arg('contact', 'ok', $redirect_url));
+        exit;
+    }
+
+    $nombre    = isset($_POST['nombre'])    ? sanitize_text_field($_POST['nombre'])    : '';
+    $correo    = isset($_POST['correo'])    ? sanitize_email($_POST['correo'])          : '';
+    $telefono  = isset($_POST['telefono'])  ? sanitize_text_field($_POST['telefono'])  : '';
+    $asunto    = isset($_POST['asunto'])    ? sanitize_text_field($_POST['asunto'])    : '';
+    $mensaje   = isset($_POST['mensaje'])   ? sanitize_textarea_field($_POST['mensaje']) : '';
+    $privacidad = isset($_POST['privacidad']) ? $_POST['privacidad']                    : '';
+
+    $error = false;
+
+    if (!preg_match('/^\S+(?:\s+\S+){2,}$/', trim($nombre))) {
+        $error = true;
+    }
+    if (!is_email($correo)) {
+        $error = true;
+    }
+    // Validar formato telegrama: "+XX 12345678"
+    if (!preg_match('/^\+\d{1,4}\s\d{6,15}$/', trim($telefono))) {
+        $error = true;
+    } elseif (class_exists('\libphonenumber\PhoneNumberUtil')) {
+        try {
+            $util = \libphonenumber\PhoneNumberUtil::getInstance();
+            $proto = $util->parse($telefono, null);
+            if (!$util->isValidNumber($proto)) {
+                $error = true;
+            }
+        } catch (\libphonenumber\NumberParseException $e) {
+            $error = true;
+        }
+    }
+    if ($asunto === '') {
+        $error = true;
+    }
+    if (trim($mensaje) === '') {
+        $error = true;
+    }
+    if ($privacidad !== 'on') {
+        $error = true;
+    }
+
+    if ($error) {
+        wp_safe_redirect(add_query_arg('contact', 'error', $redirect_url));
+        exit;
+    }
+
+    $to      = 'delfinoerlan@gmail.com';
+    $subject = 'Contacto: ' . $asunto;
+
+    $body  = "Nombre: $nombre\n";
+    $body .= "Correo: $correo\n";
+    if (!empty($telefono)) {
+        $body .= "Teléfono: $telefono\n";
+    }
+    $body .= "Asunto: $asunto\n\n";
+    $body .= "Mensaje:\n$mensaje\n";
+
+    $site_name   = get_bloginfo('name');
+    $admin_email = get_bloginfo('admin_email');
+    $headers = array(
+        'From: ' . $site_name . ' <' . $admin_email . '>',
+        'Reply-To: ' . $nombre . ' <' . $correo . '>',
+        'Content-Type: text/plain; charset=UTF-8',
+    );
+
+    $mail_sent = wp_mail($to, $subject, $body, $headers);
+
+    $status = $mail_sent ? 'ok' : 'error';
+    wp_safe_redirect(add_query_arg('contact', $status, $redirect_url));
+    exit;
 }
