@@ -41,7 +41,7 @@ $button_text   = !empty($discover_item['button_text']) ? $discover_item['button_
 $button_url    = !empty($discover_item['button_url']) ? process_url($discover_item['button_url']) : $default_button_url;
 $image         = !empty($discover_item['image']) ? $discover_item['image'] : $default_image;
 ?>
-<section class="flex justify-center mx-20 py-10 gap-25">
+<section id="discoverGroup" class="scroll-mt-20 flex justify-center mx-20 py-10 gap-25">
 
   <div class="flex justify-center  w-3/5 ">
     <div>

@@ -72,7 +72,7 @@ function grupofadiar_render_our_story_item($post) {
     get_template_part('components/accordion-item/accordion-item', null, $args);
 }
 ?>
-<section class="mt-10 w-full bg-[#F4F4F4]">
+<section id="ourStory" class="scroll-mt-20 mt-10 w-full bg-[#F4F4F4]">
   <div class="w-full p-20">
     <div class="flex justify-around items-start gap-20">
       <div class="w-1/2 text-xl">

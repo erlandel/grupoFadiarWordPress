@@ -7,14 +7,14 @@ $faq_items = get_posts(array(
   'post_status'    => 'publish',
 ));
 ?>
-<div class="px-15">
+<div id="faq" class="scroll-mt-20 px-15">
   <h2 class="text-5xl font-bold mb-6 text-dark"><?php echo esc_html(get_option('faq_section_title', 'Preguntas frecuentes')); ?></h2>
   <?php if ($faq_items): ?>
   <div class="flex flex-col gap-4 mt-15">
     <?php foreach ($faq_items as $item):
       $answer = get_field('faq_answer', $item->ID);
     ?>
-      <div class="faq-item bg-[#F4F4F4] border-l-8 border-l-dark text-dark">
+      <div id="faq-<?php echo esc_attr($item->post_name); ?>" class="scroll-mt-20 faq-item bg-[#F4F4F4] border-l-8 border-l-dark text-dark">
         <div class="faq-question p-10 cursor-pointer">
           <div class="w-full text-4xl flex justify-between items-center text-left font-normal">
             <span><?php echo esc_html($item->post_title); ?></span>

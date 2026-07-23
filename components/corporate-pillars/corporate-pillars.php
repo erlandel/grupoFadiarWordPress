@@ -100,7 +100,7 @@ function render_pillar_image($post_id) {
         $image_position = 'right';
     }
   ?>
-    <div class="grid grid-cols-2 gap-10 items-stretch   <?php echo $image_position === 'left' ? 'direction-rtl' : ''; ?>">
+      <div id="pillar-<?php echo esc_attr($pillar->post_name); ?>" class="scroll-mt-20 grid grid-cols-2 gap-10 items-stretch   <?php echo $image_position === 'left' ? 'direction-rtl' : ''; ?>">
       <?php if ($image_position === 'left'): ?>
         <?php render_pillar_image($post_id); ?>
         <div class="flex flex-col justify-between" dir="ltr">

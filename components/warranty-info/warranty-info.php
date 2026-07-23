@@ -22,7 +22,7 @@ if (post_type_exists('warranty_step')) {
 }
 
 ?>
-<section class="mx-auto my-20 grid grid-cols-1 md:grid-cols-2 gap-10 max-w-350 ">
+<section id="warrantyInfo" class="scroll-mt-20 mx-auto my-20 grid grid-cols-1 md:grid-cols-2 gap-10 max-w-350 ">
 
   <div class="bg-[#F4F4F4] p-10 rounded-2xl">
     <h2 class="text-4xl font-bold text-dark mb-6"><?php echo esc_html(get_option('warranty_section_left_title', 'Proceso de reclamación')); ?></h2>
@@ -35,7 +35,7 @@ if (post_type_exists('warranty_step')) {
           }
           $step_desc = get_field('ws_step_description', $step->ID);
         ?>
-          <li>
+          <li id="warranty-step-<?php echo esc_attr($step->post_name); ?>" class="scroll-mt-24">
             <?php if (!empty($step_number)): ?>
               <strong><?php echo esc_html($step_number); ?>.</strong>
             <?php endif; ?>
@@ -55,7 +55,7 @@ if (post_type_exists('warranty_step')) {
           $phone    = get_field('wc_phone', $contact->ID);
           $schedule = get_field('wc_schedule', $contact->ID);
         ?>
-          <li>
+          <li id="warranty-contact-<?php echo esc_attr($contact->post_name); ?>" class="scroll-mt-24">
             <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
               <span class="font-bold inline-block w-72"><span class="mr-2">•</span><?php echo esc_html($label); ?></span>
               <span class="flex items-center gap-2">

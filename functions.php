@@ -35,6 +35,7 @@ require_once get_template_directory() . '/inc/seed-warranty-contacts.php';
 require_once get_template_directory() . '/inc/seed-warranty-steps.php';
 require_once get_template_directory() . '/inc/admin-page-contacts.php';
 require_once get_template_directory() . '/inc/seed-contact-subjects.php';
+require_once get_template_directory() . '/inc/search-endpoint.php';
 
 function grupofadiar_setup() {
     add_theme_support('title-tag');
@@ -58,6 +59,11 @@ function grupofadiar_assets() {
     wp_enqueue_script('grupofadiar-lang-toggle', get_template_directory_uri() . '/assets/js/lang-toggle.js', array(), '1.0.0', true);
     wp_enqueue_script('grupofadiar-share', get_template_directory_uri() . '/assets/js/share.js', array(), '1.0.0', true);
 wp_enqueue_script('grupofadiar-support-carousel', get_template_directory_uri() . '/assets/js/support-carousel.js', array(), '2.0.0', true);
+
+    wp_enqueue_script('grupofadiar-search', get_template_directory_uri() . '/assets/js/search.js', array(), '1.0.0', true);
+    wp_localize_script('grupofadiar-search', 'grupofadiarSearchData', array(
+        'restUrl' => rest_url('grupofadiar/v1/search'),
+    ));
 }
 add_action('wp_enqueue_scripts', 'grupofadiar_assets');
 
@@ -81,7 +87,7 @@ function grupofadiar_handle_contact() {
         ? esc_url_raw($_POST['redirect_to'])
         : wp_get_referer();
     if (!$redirect_url) {
-        $redirect_url = home_url('/contacto');
+        $redirect_url = home_url('/contacts/');
     }
 
     if (!empty($_POST['website'])) {

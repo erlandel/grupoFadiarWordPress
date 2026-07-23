@@ -11,7 +11,7 @@ $support_items = get_posts(array(
     'post_status'    => 'publish',
 ));
 ?>
-<section class="w-full py-16 px-4 bg-white">
+<section id="supportHome" class="scroll-mt-24 w-full py-16 px-4 bg-white">
   <div class="mx-20">
     <div class="text-center mb-16">
       <h3 class="text-secondary font-semibold text-3xl mb-4"><?php echo esc_html($section_title); ?></h3>

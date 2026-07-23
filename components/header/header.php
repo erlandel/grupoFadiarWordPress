@@ -17,7 +17,7 @@ $header_classes .= $is_home_page
           <div class="cursor-pointer menu-mobile-open">
             <?php echo get_icon('menu', 'w-7 h-7 text-dark'); ?>
           </div>
-          <div class="cursor-pointer">
+          <div class="cursor-pointer search-open">
             <?php echo get_icon('search', 'w-7 h-7 text-dark'); ?>
           </div>
 
@@ -28,7 +28,7 @@ $header_classes .= $is_home_page
           <a href="<?php echo home_url('/contacts/'); ?>" class="cursor-pointer">
             <?php echo get_icon('phone', 'w-7.5 h-7.5 text-dark'); ?>
           </a>
-          <div class="cursor-pointer">
+          <div class="cursor-pointer search-open">
 
             <?php echo get_icon('search', 'w-7 h-7 text-dark'); ?>
           </div>
@@ -42,3 +42,4 @@ $header_classes .= $is_home_page
   </nav>
 </header>
 <?php get_template_part('components/header/menu-mobile'); ?>
+<?php get_template_part('components/search/search-overlay'); ?>
