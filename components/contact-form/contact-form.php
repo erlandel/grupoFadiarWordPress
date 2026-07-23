@@ -18,13 +18,13 @@ $redirect_to = esc_url(add_query_arg(null, null));
 ?>
 
 <?php if ($status === 'ok'): ?>
-  <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-800 rounded-xl text-lg flex items-center justify-between">
+  <div data-auto-dismiss class="mb-6 p-4 bg-green-100 border border-green-400 text-green-800 rounded-xl text-lg flex items-center justify-between transition-opacity duration-500">
     <span>Mensaje enviado correctamente. Te contactaremos pronto.</span>
     <a href="<?php echo esc_url(remove_query_arg('contact')); ?>"
        class="text-green-800/60 hover:text-green-800 ml-4 text-2xl leading-none">&times;</a>
   </div>
 <?php elseif ($status === 'error'): ?>
-  <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-800 rounded-xl text-lg flex items-center justify-between">
+  <div data-auto-dismiss class="mb-6 p-4 bg-red-100 border border-red-400 text-red-800 rounded-xl text-lg flex items-center justify-between transition-opacity duration-500">
     <span>Ocurrió un error al enviar el mensaje. Intenta de nuevo.</span>
     <a href="<?php echo esc_url(remove_query_arg('contact')); ?>"
        class="text-red-800/60 hover:text-red-800 ml-4 text-2xl leading-none">&times;</a>
@@ -116,10 +116,16 @@ $redirect_to = esc_url(add_query_arg(null, null));
     <p data-error class="hidden text-sm text-red-500 mt-1">Debes aceptar la política de privacidad</p>
   </div>
 
-  <button type="submit"
-          class="mt-8 w-full bg-dark text-white py-4 rounded-xl text-xl font-medium hover:opacity-90 transition cursor-pointer">
-    Enviar mensaje
+  <button type="submit" data-submit-btn
+          class="mt-8 w-full bg-dark text-white py-4 rounded-xl text-xl font-medium hover:opacity-90 transition cursor-pointer disabled:cursor-not-allowed">
+    <span data-submit-text class="inline-flex items-center gap-2">
+      Enviar mensaje
+    </span>
   </button>
+
+  <template id="submitSpinnerTmpl">
+    <?php echo get_icon('spinner', 'h-5 w-5 animate-spin'); ?>
+  </template>
 </form>
 
 <script>
@@ -371,7 +377,31 @@ $redirect_to = esc_url(add_query_arg(null, null));
         var target = first.closest('.relative') || first.closest('[data-subject-dropdown]');
         if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
+      return;
     }
+    var btn = form.querySelector('[data-submit-btn]');
+    var text = btn.querySelector('[data-submit-text]');
+    var tmpl = document.getElementById('submitSpinnerTmpl');
+    text.textContent = '';
+    if (tmpl) text.appendChild(tmpl.content.firstElementChild.cloneNode(true));
+    text.appendChild(document.createTextNode(' Enviando...'));
+    btn.disabled = true;
   });
+})();
+
+(function () {
+  var el = document.querySelector('[data-auto-dismiss]');
+  if (!el) return;
+  setTimeout(function () {
+    el.classList.add('opacity-0');
+    setTimeout(function () {
+      if (el.parentNode) el.parentNode.removeChild(el);
+      if (window.history.replaceState) {
+        var url = window.location.pathname + window.location.search.replace(/[?&]contact=[^&]*/, '').replace(/^&/, '?');
+        if (window.location.hash) url += window.location.hash;
+        window.history.replaceState({}, '', url);
+      }
+    }, 500);
+  }, 30000);
 })();
 </script>

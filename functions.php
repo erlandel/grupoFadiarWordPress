@@ -133,23 +133,65 @@ function grupofadiar_handle_contact() {
         exit;
     }
 
-    $to      = 'delfinoerlan@gmail.com';
-    $subject = 'Contacto: ' . $asunto;
+    $to      = get_option('contact_recipient_email', 'delfinoerlan@gmail.com');
+    $subject = '[grupofadiar.com] Nuevo contacto — ' . $asunto;
 
-    $body  = "Nombre: $nombre\n";
-    $body .= "Correo: $correo\n";
-    if (!empty($telefono)) {
-        $body .= "Teléfono: $telefono\n";
-    }
-    $body .= "Asunto: $asunto\n\n";
-    $body .= "Mensaje:\n$mensaje\n";
+    $body  = '<table width="100%" cellpadding="0" cellspacing="0" style="background:#010A2D;font-family:Montserrat,Open Sans,Arial,sans-serif;">';
+    $body .= '<tr><td align="center" style="padding:40px 20px;"><table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">';
 
-    $site_name   = get_bloginfo('name');
-    $admin_email = get_bloginfo('admin_email');
+    $body .= '<tr><td align="center" style="padding:0 0 10px;">';
+    $body .= '<span style="font-size:28px;font-weight:900;color:#D69F03;letter-spacing:4px;">GRUPO FADIAR</span>';
+    $body .= '</td></tr>';
+
+    $body .= '<tr><td style="padding:0;"><table width="100%" cellpadding="0" cellspacing="0"><tr><td style="height:2px;background:#D69F03;"></td></tr></table></td></tr>';
+
+    $body .= '<tr><td align="center" style="padding:30px 0 20px;">';
+    $body .= '<h1 style="color:#ffffff;font-size:20px;font-weight:700;margin:0;letter-spacing:2px;text-transform:uppercase;">Nuevo mensaje del cliente</h1>';
+    $body .= '<p style="color:#ffffff;font-size:18px;font-weight:700;margin:6px 0 0;">' . esc_html($nombre) . '</p>';
+    $body .= '</td></tr>';
+
+    $body .= '<tr><td style="padding:20px 0;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;">';
+
+    $body .= '<tr><td style="padding:25px 30px 15px;">';
+    $body .= '<h2 style="color:#D69F03;font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:1.5px;margin:0 0 15px;">Datos del Cliente</h2>';
+    $body .= '<table width="100%" cellpadding="0" cellspacing="0">';
+    $body .= '<tr><td style="color:#010A2D;font-size:15px;padding:5px 0;font-weight:600;width:90px;">Nombre</td><td style="color:#010A2D;font-size:15px;padding:5px 0;">' . esc_html($nombre) . '</td></tr>';
+    $body .= '<tr><td style="color:#010A2D;font-size:15px;padding:5px 0;font-weight:600;width:90px;">Correo</td><td style="color:#010A2D;font-size:15px;padding:5px 0;">' . esc_html($correo) . '</td></tr>';
+    $body .= '<tr><td style="color:#010A2D;font-size:15px;padding:5px 0;font-weight:600;width:90px;">Tel&eacute;fono</td><td style="color:#010A2D;font-size:15px;padding:5px 0;">' . esc_html($telefono) . '</td></tr>';
+    $body .= '</table>';
+    $body .= '</td></tr>';
+
+    $body .= '<tr><td style="padding:0 30px;"><table width="100%" cellpadding="0" cellspacing="0"><tr><td style="height:1px;background:#EDEDED;"></td></tr></table></td></tr>';
+
+    $body .= '<tr><td style="padding:20px 30px 15px;">';
+    $body .= '<h2 style="color:#D69F03;font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:1.5px;margin:0 0 8px;">Asunto</h2>';
+    $body .= '<p style="color:#010A2D;font-size:15px;margin:0;font-weight:600;">' . esc_html($asunto) . '</p>';
+    $body .= '</td></tr>';
+
+    $body .= '<tr><td style="padding:0 30px;"><table width="100%" cellpadding="0" cellspacing="0"><tr><td style="height:1px;background:#EDEDED;"></td></tr></table></td></tr>';
+
+    $body .= '<tr><td style="padding:20px 30px 25px;">';
+    $body .= '<h2 style="color:#D69F03;font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:1.5px;margin:0 0 8px;">Mensaje</h2>';
+    $body .= '<p style="color:#010A2D;font-size:15px;margin:0;line-height:1.6;">' . nl2br(esc_html($mensaje)) . '</p>';
+    $body .= '</td></tr>';
+
+    $body .= '</table></td></tr>';
+
+    $body .= '<tr><td align="center" style="padding:25px 0 10px;">';
+    $body .= '<p style="margin:0;line-height:1.8;font-size:12px;">';
+    $body .= '<span style="color:#F4F4F499;">Este mensaje fue enviado desde el formulario de contacto</span><br>';
+    $body .= '<a href="https://grupofadiar.com" style="color:#D69F03;text-decoration:none;">grupofadiar.com</a>';
+    $body .= ' <span style="color:#ffffff;">|</span> ';
+    $body .= '<a href="mailto:clientegrupofadiar@gmail.com" style="color:#D69F03;text-decoration:none;">clientegrupofadiar@gmail.com</a>';
+    $body .= '</p>';
+    $body .= '</td></tr>';
+
+    $body .= '</table></td></tr></table>';
+
     $headers = array(
-        'From: ' . $site_name . ' <' . $admin_email . '>',
+        'From: Grupo Fadiar <clientegrupofadiar@gmail.com>',
         'Reply-To: ' . $nombre . ' <' . $correo . '>',
-        'Content-Type: text/plain; charset=UTF-8',
+        'Content-Type: text/html; charset=UTF-8',
     );
 
     $mail_sent = wp_mail($to, $subject, $body, $headers);

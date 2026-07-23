@@ -120,6 +120,9 @@ function grupofadiar_initialize_contact_options() {
     if (get_option('contact_schedule_value') === false) {
         update_option('contact_schedule_value', 'Lun-Vie 9:00 – 17:00.');
     }
+    if (get_option('contact_recipient_email') === false) {
+        update_option('contact_recipient_email', 'delfinoerlan@gmail.com');
+    }
 }
 add_action('after_switch_theme', 'grupofadiar_initialize_contact_options');
 add_action('admin_init', 'grupofadiar_initialize_contact_options');
@@ -155,6 +158,24 @@ function grupofadiar_render_contact_section_landing() {
                     <a href="<?php echo esc_url(admin_url('admin.php?page=contact-section-settings')); ?>" class="button button-primary" style="align-self:flex-start;">Administrar títulos, dirección y horario</a>
                     <a href="<?php echo esc_url(admin_url('edit.php?post_type=contact_subject')); ?>" class="button" style="align-self:flex-start;">Administrar asuntos</a>
                 </div>
+            </div>
+
+            <div style="background:#fff;border:1px solid #c3c4c7;border-radius:4px;padding:24px;display:flex;flex-direction:column;">
+                <h2 style="margin-top:0;font-size:18px;">Correo Destinatario</h2>
+                <p style="flex:1;color:#50575e;">Define a qué correo se envían los mensajes del formulario de contacto.</p>
+                <?php
+                if (isset($_POST['contact_recipient_nonce']) && wp_verify_nonce($_POST['contact_recipient_nonce'], 'grupofadiar_save_recipient')) {
+                    update_option('contact_recipient_email', sanitize_email($_POST['contact_recipient_email'] ?? 'delfinoerlan@gmail.com'));
+                    echo '<p style="color:green;margin:8px 0;">Correo guardado.</p>';
+                }
+                $recipient = get_option('contact_recipient_email', 'delfinoerlan@gmail.com');
+                ?>
+                <form method="post" action="" style="margin-top:8px;">
+                    <?php wp_nonce_field('grupofadiar_save_recipient', 'contact_recipient_nonce'); ?>
+                    <input type="email" name="contact_recipient_email" value="<?php echo esc_attr($recipient); ?>"
+                           class="regular-text" style="width:100%;margin-bottom:8px;" />
+                    <input type="submit" class="button button-primary" value="Guardar" />
+                </form>
             </div>
 
         </div>
