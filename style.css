@@ -253,6 +253,9 @@
   .relative {
     position: relative;
   }
+  .static {
+    position: static;
+  }
   .sticky {
     position: sticky;
   }
@@ -315,15 +318,6 @@
   }
   .z-150 {
     z-index: 150;
-  }
-  .z-\[60\] {
-    z-index: 60;
-  }
-  .z-\[70\] {
-    z-index: 70;
-  }
-  .z-\[100\] {
-    z-index: 100;
   }
   .container {
     width: 100%;
@@ -451,14 +445,23 @@
   .mb-20 {
     margin-bottom: calc(var(--spacing) * 20);
   }
+  .ml-1 {
+    margin-left: var(--spacing);
+  }
   .ml-2 {
     margin-left: calc(var(--spacing) * 2);
   }
   .ml-4 {
     margin-left: calc(var(--spacing) * 4);
   }
+  .ml-5 {
+    margin-left: calc(var(--spacing) * 5);
+  }
   .ml-6 {
     margin-left: calc(var(--spacing) * 6);
+  }
+  .ml-50 {
+    margin-left: calc(var(--spacing) * 50);
   }
   .ml-auto {
     margin-left: auto;
@@ -585,9 +588,6 @@
   }
   .max-h-80 {
     max-height: calc(var(--spacing) * 80);
-  }
-  .max-h-\[45vh\] {
-    max-height: 45vh;
   }
   .max-h-\[50px\] {
     max-height: 50px;
@@ -1022,12 +1022,6 @@
       background-color: color-mix(in oklab, var(--color-black) 20%, transparent);
     }
   }
-  .bg-black\/30 {
-    background-color: color-mix(in srgb, #000 30%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-black) 30%, transparent);
-    }
-  }
   .bg-black\/40 {
     background-color: color-mix(in srgb, #000 40%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -1046,12 +1040,6 @@
   .bg-dark\/15 {
     background-color: color-mix(in oklab, #010A2D 15%, transparent);
   }
-  .bg-dark\/25 {
-    background-color: color-mix(in oklab, #010A2D 25%, transparent);
-  }
-  .bg-dark\/50 {
-    background-color: color-mix(in oklab, #010A2D 50%, transparent);
-  }
   .bg-dark\/75 {
     background-color: color-mix(in oklab, #010A2D 75%, transparent);
   }
@@ -1069,9 +1057,6 @@
   }
   .bg-secondary {
     background-color: #D69F03;
-  }
-  .bg-secondary\/10 {
-    background-color: color-mix(in oklab, #D69F03 10%, transparent);
   }
   .bg-transparent {
     background-color: transparent;
@@ -1143,6 +1128,9 @@
   }
   .p-2 {
     padding: calc(var(--spacing) * 2);
+  }
+  .p-2\.5 {
+    padding: calc(var(--spacing) * 2.5);
   }
   .p-3 {
     padding: calc(var(--spacing) * 3);
@@ -1239,9 +1227,6 @@
   }
   .pt-6 {
     padding-top: calc(var(--spacing) * 6);
-  }
-  .pt-\[10vh\] {
-    padding-top: 10vh;
   }
   .pr-3 {
     padding-right: calc(var(--spacing) * 3);
@@ -1504,6 +1489,9 @@
   .opacity-0 {
     opacity: 0%;
   }
+  .opacity-40 {
+    opacity: 40%;
+  }
   .opacity-100 {
     opacity: 100%;
   }
@@ -1522,18 +1510,6 @@
   .ring {
     --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-  }
-  .shadow-black {
-    --tw-shadow-color: #000;
-    @supports (color: color-mix(in lab, red, red)) {
-      --tw-shadow-color: color-mix(in oklab, var(--color-black) var(--tw-shadow-alpha), transparent);
-    }
-  }
-  .shadow-black\/40 {
-    --tw-shadow-color: color-mix(in srgb, #000 40%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      --tw-shadow-color: color-mix(in oklab, color-mix(in oklab, var(--color-black) 40%, transparent) var(--tw-shadow-alpha), transparent);
-    }
   }
   .outline {
     outline-style: var(--tw-outline-style);
@@ -1627,13 +1603,6 @@
     &:is(:where(.group):hover *) {
       @media (hover: hover) {
         color: var(--color-blue-900);
-      }
-    }
-  }
-  .group-hover\:text-secondary {
-    &:is(:where(.group):hover *) {
-      @media (hover: hover) {
-        color: #D69F03;
       }
     }
   }
@@ -1841,11 +1810,6 @@
       border-color: #010A2D;
     }
   }
-  .focus\:border-secondary {
-    &:focus {
-      border-color: #D69F03;
-    }
-  }
   .focus\:ring-3 {
     &:focus {
       --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
@@ -1860,11 +1824,6 @@
   .disabled\:cursor-not-allowed {
     &:disabled {
       cursor: not-allowed;
-    }
-  }
-  .disabled\:opacity-60 {
-    &:disabled {
-      opacity: 60%;
     }
   }
   .data-\[invalid\=true\]\:ring-3 {

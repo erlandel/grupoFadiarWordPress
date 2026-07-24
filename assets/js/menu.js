@@ -2,7 +2,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const menuLinks = document.querySelectorAll('.font-bold.text-lg .flex li a');
   const anchorSections = ['ourBrands', 'products'];
 
-  if (window.location.pathname !== '/' && window.location.pathname !== '/index.php') return;
+  // TranslatePress usa /en/ (u otro slug): detectar home por body class, no solo por pathname.
+  const isFrontPage =
+    document.body.classList.contains('home') ||
+    document.body.classList.contains('front-page');
+  if (!isFrontPage) return;
 
   const homeLink = menuLinks[0];
   const homeHref = homeLink ? homeLink.getAttribute('href') : null;
@@ -10,13 +14,20 @@ document.addEventListener('DOMContentLoaded', function () {
   let activeSectionId = null;
   const intersectingSections = new Set();
 
+  function normalizePath(pathname) {
+    let path = (pathname || '/').replace(/\/$/, '') || '/';
+    // Quitar prefijo de idioma tipo /en o /es
+    path = path.replace(/^\/[a-z]{2}(?:-[a-z]{2})?(?=\/|$)/i, '') || '/';
+    return path.replace(/\/$/, '') || '/';
+  }
+
   function isHomeHref(href) {
     if (!href || href.includes('#')) return false;
     if (homeHref && (href === homeHref || href === homeHref.replace(/\/$/, '') || href === homeHref + '/')) {
       return true;
     }
     try {
-      const path = new URL(href, window.location.href).pathname.replace(/\/$/, '') || '/';
+      const path = normalizePath(new URL(href, window.location.href).pathname);
       return path === '/' || path === '/index.php';
     } catch {
       return false;

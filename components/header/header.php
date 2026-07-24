@@ -25,17 +25,14 @@ $header_classes .= $is_home_page
       <div class="hidden xl:flex gap-6 items-center">
         <?php get_template_part('components/header/menu'); ?>
         <div class="flex items-center gap-6 ">
-          <a href="<?php echo home_url('/contacts/'); ?>" class="cursor-pointer">
-            <?php echo get_icon('phone', 'w-7.5 h-7.5 text-dark'); ?>
+          <a href="<?php echo home_url('/contacts/'); ?>"
+             class="cursor-pointer p-2 rounded-md flex items-center justify-center transition-colors <?php echo esc_attr(gf_nav_link_classes('contacts')); ?>">
+            <?php echo get_icon('phone', 'w-8 h-8'); ?>
           </a>
           <div class="cursor-pointer search-open">
-
             <?php echo get_icon('search', 'w-7 h-7 text-dark'); ?>
           </div>
-          <div class="flex gap-3 items-center lang-toggle cursor-pointer">
-            <div class="w-6 h-6 rounded-full overflow-hidden lang-flag"><?php echo get_icon('spain'); ?></div>
-            <div class="w-6 h-6 rounded-full overflow-hidden lang-flag hidden "><?php echo get_icon('uk'); ?></div>
-          </div>
+          <?php echo gf_language_switcher('w-7 h-7'); ?>
         </div>
       </div>
     </div>

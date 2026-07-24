@@ -1,13 +1,13 @@
 <?php
 $home_url = home_url('/');
 $links = array(
-  array('href' => $home_url, 'label' => 'Inicio', 'icon' => 'home'),
-  array('href' => home_url('/about-us/'), 'label' => 'Grupo Fadiar'),
-  array('href' => $home_url . '#ourBrands', 'label' => 'Nuestras marcas'),
-  array('href' => $home_url . '#products', 'label' => 'Productos'),
-  array('href' => home_url('/noticias/'), 'label' => 'Noticias'),
-  array('href' => home_url('/support-warranty/'), 'label' => 'Soporte y Garantía'),
-  array('href' => home_url('/contacts/'), 'label' => 'Contactos', 'icon' => 'phone'),
+  array('href' => $home_url, 'label' => 'Inicio', 'icon' => 'home', 'key' => 'home'),
+  array('href' => home_url('/about-us/'), 'label' => 'Grupo Fadiar', 'key' => 'about-us'),
+  array('href' => $home_url . '#ourBrands', 'label' => 'Nuestras marcas', 'key' => ''),
+  array('href' => $home_url . '#products', 'label' => 'Productos', 'key' => ''),
+  array('href' => home_url('/noticias/'), 'label' => 'Noticias', 'key' => 'noticias'),
+  array('href' => home_url('/support-warranty/'), 'label' => 'Soporte y Garantía', 'key' => 'support-warranty'),
+  array('href' => home_url('/contacts/'), 'label' => 'Contactos', 'icon' => 'phone', 'key' => 'contacts'),
 );
 ?>
 <div class="menu-mobile-overlay fixed inset-0 z-40 bg-black/20 hidden" style="display:none;"></div>
@@ -27,7 +27,7 @@ $links = array(
         <?php foreach ($links as $link): ?>
           <li>
             <a href="<?php echo esc_url($link['href']); ?>"
-               class="flex items-center gap-4 text-xl transition-colors px-4 py-2 rounded-md text-dark hover:text-secondary">
+               class="flex items-center gap-4 text-xl transition-colors px-4 py-2 rounded-md <?php echo !empty($link['key']) ? esc_attr(gf_nav_link_classes($link['key'])) : 'text-dark hover:text-secondary'; ?>">
                 <?php if (isset($link['icon'])): ?>
                   <?php echo get_icon($link['icon'], $link['icon'] === 'phone' ? 'w-7.5 h-7.5' : 'w-6 h-6'); ?>
                 <?php endif; ?>
@@ -41,9 +41,6 @@ $links = array(
   </div>
   <div class="h-px bg-black mt-4"></div>
   <div class="mt-4">
-    <div class="flex gap-4 items-center px-4 lang-toggle cursor-pointer">
-      <div class="w-7 h-7 rounded-full overflow-hidden lang-flag"><?php echo get_icon('spain'); ?></div>
-      <div class="w-7 h-7 rounded-full overflow-hidden lang-flag hidden"><?php echo get_icon('uk'); ?></div>
-    </div>
+    <?php echo gf_language_switcher('w-9 h-9'); ?>
   </div>
 </div>
