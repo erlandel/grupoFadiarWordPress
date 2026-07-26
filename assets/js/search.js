@@ -99,7 +99,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     showLoading();
 
-    var url = restUrl + '?search=' + encodeURIComponent(query) + '&filter=' + encodeURIComponent(currentFilter);
+    var lang = document.documentElement.lang || '';
+    if (lang) {
+        lang = lang.replace('-', '_');
+    }
+
+    var url = restUrl + '?search=' + encodeURIComponent(query) + '&filter=' + encodeURIComponent(currentFilter) + '&lang=' + encodeURIComponent(lang);
 
     fetch(url)
       .then(function (response) { return response.json(); })
@@ -203,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
           '</div>' +
           '<h4 class="text-base md:text-lg font-bold text-dark transition-colors truncate">' + escapeHtml(item.title) + '</h4>' +
           (item.excerpt ? '<p class="text-sm text-dark/60 mt-1 line-clamp-2">' + escapeHtml(item.excerpt) + '</p>' : '') +
-          (item.external_url ? '<span class="inline-block mt-2 text-xs font-bold text-dark">Abrir en tienda →</span>' : '') +
+          (item.external_url ? '<span class="inline-block mt-2 text-xs font-bold text-dark">' + escapeHtml(item.external_text || 'Abrir tienda') + ' →</span>' : '') +
         '</div>';
 
       resultsList.appendChild(card);
