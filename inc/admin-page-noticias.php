@@ -14,8 +14,44 @@ function grupofadiar_register_noticias_landing() {
         'dashicons-admin-post',
         7
     );
+
+    // Submenú duplicado "Vista general" -> lo removemos para dejar solo "Noticias".
+    add_submenu_page(
+        'grupofadiar_noticias',
+        'Vista general',
+        'Vista general',
+        'manage_options',
+        'grupofadiar_noticias',
+        'grupofadiar_render_noticias_landing'
+    );
+
+    // Páginas registradas con parent ficticio (options.php) => no aparecen en la
+    // barra lateral pero son accesibles vía admin.php?page=... desde las tarjetas.
+    add_submenu_page(
+        'options.php',
+        'Títulos de la página de Noticias',
+        'Títulos de la página',
+        'manage_options',
+        'grupofadiar_noticias_titles',
+        'grupofadiar_render_noticias_titles_page'
+    );
+
+    add_submenu_page(
+        'options.php',
+        'Categorías de Noticias',
+        'Categorías de Noticias',
+        'manage_options',
+        'grupofadiar_noticias_categories',
+        'grupofadiar_render_noticias_categories_page'
+    );
 }
 add_action('admin_menu', 'grupofadiar_register_noticias_landing', 9);
+
+// Limpieza del submenú duplicado "Vista general" (queda solo la entrada "Noticias").
+function grupofadiar_remove_noticias_duplicate_submenu() {
+    remove_submenu_page('grupofadiar_noticias', 'grupofadiar_noticias');
+}
+add_action('admin_menu', 'grupofadiar_remove_noticias_duplicate_submenu', 99);
 
 function grupofadiar_render_noticias_landing() {
     ?>
