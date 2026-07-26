@@ -62,6 +62,7 @@ function grupofadiar_render_products_settings_page() {
         wp_verify_nonce($_POST['grupofadiar_products_settings_nonce'], 'grupofadiar_save_products_settings')) {
         
         update_option('products_section_title', sanitize_text_field($_POST['products_section_title'] ?? 'Productos'));
+        update_option('products_section_title_en', sanitize_text_field($_POST['products_section_title_en'] ?? 'Products'));
         
         // Mostrar mensaje de éxito
         echo '<div class="updated"><p>Configuración guardada exitosamente.</p></div>';
@@ -69,6 +70,7 @@ function grupofadiar_render_products_settings_page() {
 
     // Obtener valores actuales
     $title = get_option('products_section_title', 'Productos');
+    $title_en = get_option('products_section_title_en', 'Products');
     ?>
     <div class="wrap">
         <h1>Título de la sección Productos</h1>
@@ -79,11 +81,19 @@ function grupofadiar_render_products_settings_page() {
             
             <table class="form-table">
                 <tr>
-                    <th scope="row"><label for="products_section_title">Título de la Sección (H3)</label></th>
+                    <th scope="row"><label for="products_section_title">Título de la Sección (H3) – Español</label></th>
                     <td>
                         <input type="text" name="products_section_title" id="products_section_title" 
                             value="<?php echo esc_attr($title); ?>" class="regular-text" />
                         <p class="description">Texto del encabezado de la sección de productos.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="products_section_title_en">Section Title (H3) – English</label></th>
+                    <td>
+                        <input type="text" name="products_section_title_en" id="products_section_title_en"
+                            value="<?php echo esc_attr($title_en); ?>" class="regular-text" />
+                        <p class="description">Title of the Products section (English version).</p>
                     </td>
                 </tr>
             </table>
@@ -98,6 +108,9 @@ function grupofadiar_render_products_settings_page() {
 function grupofadiar_initialize_products_options() {
     if (get_option('products_section_title') === false) {
         update_option('products_section_title', 'Productos');
+    }
+    if (get_option('products_section_title_en') === false) {
+        update_option('products_section_title_en', 'Products');
     }
 }
 add_action('after_switch_theme', 'grupofadiar_initialize_products_options');

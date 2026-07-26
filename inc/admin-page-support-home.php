@@ -51,12 +51,16 @@ function grupofadiar_render_support_home_settings_page() {
 
         update_option('support_home_section_title', sanitize_text_field($_POST['support_home_section_title'] ?? 'Soporte y Garantía'));
         update_option('support_home_section_subtitle', sanitize_text_field($_POST['support_home_section_subtitle'] ?? 'POR QUÉ ESCOGER GRUPO FADIAR'));
+        update_option('support_home_section_title_en', sanitize_text_field($_POST['support_home_section_title_en'] ?? 'Support and Warranty'));
+        update_option('support_home_section_subtitle_en', sanitize_text_field($_POST['support_home_section_subtitle_en'] ?? 'WHY CHOOSE GRUPO FADIAR'));
 
         echo '<div class="updated"><p>Configuración guardada exitosamente.</p></div>';
     }
 
     $title = get_option('support_home_section_title', 'Soporte y Garantía');
     $subtitle = get_option('support_home_section_subtitle', 'POR QUÉ ESCOGER GRUPO FADIAR');
+    $title_en = get_option('support_home_section_title_en', 'Support and Warranty');
+    $subtitle_en = get_option('support_home_section_subtitle_en', 'WHY CHOOSE GRUPO FADIAR');
     ?>
     <div class="wrap">
         <h1>Editar Títulos de Soporte y Garantía</h1>
@@ -75,11 +79,27 @@ function grupofadiar_render_support_home_settings_page() {
                     </td>
                 </tr>
                 <tr>
+                    <th scope="row"><label for="support_home_section_title_en">Título (EN)</label></th>
+                    <td>
+                        <input type="text" name="support_home_section_title_en" id="support_home_section_title_en"
+                            value="<?php echo esc_attr($title_en); ?>" class="regular-text" />
+                        <p class="description">English version of the title.</p>
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row"><label for="support_home_section_subtitle">Subtítulo (H2)</label></th>
                     <td>
                         <input type="text" name="support_home_section_subtitle" id="support_home_section_subtitle"
                             value="<?php echo esc_attr($subtitle); ?>" class="regular-text" />
                         <p class="description">Texto grande del encabezado que aparece debajo.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="support_home_section_subtitle_en">Subtítulo (EN)</label></th>
+                    <td>
+                        <input type="text" name="support_home_section_subtitle_en" id="support_home_section_subtitle_en"
+                            value="<?php echo esc_attr($subtitle_en); ?>" class="regular-text" />
+                        <p class="description">English version of the subtitle.</p>
                     </td>
                 </tr>
             </table>
@@ -96,6 +116,12 @@ function grupofadiar_initialize_support_home_options() {
     }
     if (get_option('support_home_section_subtitle') === false) {
         update_option('support_home_section_subtitle', 'POR QUÉ ESCOGER GRUPO FADIAR');
+    }
+    if (get_option('support_home_section_title_en') === false) {
+        update_option('support_home_section_title_en', 'Support and Warranty');
+    }
+    if (get_option('support_home_section_subtitle_en') === false) {
+        update_option('support_home_section_subtitle_en', 'WHY CHOOSE GRUPO FADIAR');
     }
 }
 add_action('after_switch_theme', 'grupofadiar_initialize_support_home_options');

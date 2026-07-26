@@ -9,14 +9,33 @@ function grupofadiar_register_faq_acf_fields() {
 
         acf_add_local_field_group(array(
             'key' => 'group_faq_item_fields',
-            'title' => 'Respuesta',
+            'title' => 'Campos de la FAQ',
             'fields' => array(
+                array(
+                    'key' => 'field_faq_post_title_en',
+                    'label' => 'Pregunta (English)',
+                    'name' => 'post_title_en',
+                    'type' => 'text',
+                    'instructions' => 'English version of the question.',
+                    'required' => 0,
+                ),
                 array(
                     'key' => 'field_faq_answer',
                     'label' => 'Respuesta',
                     'name' => 'faq_answer',
                     'type' => 'wysiwyg',
                     'instructions' => 'Escribe la respuesta aquí. Puedes usar negritas, viñetas, párrafos, enlaces, etc.',
+                    'toolbar' => 'basic',
+                    'media_buttons' => 0,
+                    'teeny' => true,
+                    'required' => 0,
+                ),
+                array(
+                    'key' => 'field_faq_answer_en',
+                    'label' => 'Answer (English)',
+                    'name' => 'faq_answer_en',
+                    'type' => 'wysiwyg',
+                    'instructions' => 'English version of the answer.',
                     'toolbar' => 'basic',
                     'media_buttons' => 0,
                     'teeny' => true,

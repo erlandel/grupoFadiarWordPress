@@ -19,6 +19,7 @@ require_once get_template_directory() . '/inc/custom-fields-support-home.php';
 require_once get_template_directory() . '/inc/admin-page-support-home.php';
 require_once get_template_directory() . '/inc/custom-fields-noticias.php';
 require_once get_template_directory() . '/inc/custom-fields-about-us.php';
+require_once get_template_directory() . '/inc/custom-fields-support-header.php';
 require_once get_template_directory() . '/inc/admin-page-support-header.php';
 require_once get_template_directory() . '/inc/seed-about-us.php';
 require_once get_template_directory() . '/inc/custom-fields-our-story.php';
@@ -31,10 +32,15 @@ require_once get_template_directory() . '/inc/seed-noticias-categories.php';
 require_once get_template_directory() . '/inc/custom-fields-warranty-contacts.php';
 require_once get_template_directory() . '/inc/custom-fields-warranty-steps.php';
 require_once get_template_directory() . '/inc/custom-fields-faq.php';
+require_once get_template_directory() . '/inc/custom-fields-contact-subjects.php';
 require_once get_template_directory() . '/inc/seed-warranty-contacts.php';
 require_once get_template_directory() . '/inc/seed-warranty-steps.php';
 require_once get_template_directory() . '/inc/admin-page-contacts.php';
 require_once get_template_directory() . '/inc/seed-contact-subjects.php';
+require_once get_template_directory() . '/inc/field-helpers.php';
+require_once get_template_directory() . '/inc/i18n-static-strings.php';
+require_once get_template_directory() . '/inc/rest-lang.php';
+require_once get_template_directory() . '/inc/seed-english-translations.php';
 require_once get_template_directory() . '/inc/search-endpoint.php';
 
 function grupofadiar_setup() {
@@ -63,8 +69,42 @@ function grupofadiar_assets() {
     wp_localize_script('grupofadiar-search', 'grupofadiarSearchData', array(
         'restUrl' => rest_url('grupofadiar/v1/search'),
     ));
+
+    $lang = gf_current_lang();
+    $strings = gf_static_strings();
+    $lang_strings = [];
+    foreach ($strings as $key => $pair) {
+        $lang_strings[$key] = isset($pair[$lang]) ? $pair[$lang] : $pair['es'];
+    }
+    wp_localize_script('grupofadiar-search', 'gfStrings', $lang_strings);
+    wp_add_inline_script('grupofadiar-search', 'window.gfLang = "' . esc_js($lang) . '";', 'before');
 }
 add_action('wp_enqueue_scripts', 'grupofadiar_assets');
+
+add_filter('locale', function ($locale) {
+    $lang = gf_current_lang();
+    if ($lang === 'en') {
+        return 'en_US';
+    }
+    return 'es_ES';
+});
+
+add_filter('language_attributes', function ($output) {
+    $lang = gf_current_lang();
+    $html_lang = $lang === 'en' ? 'en-US' : 'es-ES';
+    return 'lang="' . $html_lang . '"';
+});
+
+add_action('wp_print_styles', function () {
+    wp_dequeue_style('trp-language-switcher-v2');
+    wp_dequeue_script('trp-language-switcher-js-v2');
+}, 100);
+
+add_filter('body_class', function ($classes) {
+    return array_filter($classes, function ($c) {
+        return strpos($c, 'translatepress-') === false;
+    });
+});
 
 function get_icon($name, $class = '') {
     $path = get_template_directory() . '/icons/' . $name . '.php';

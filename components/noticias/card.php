@@ -1,11 +1,11 @@
 <?php
 $post_id = isset($args['post_id']) ? $args['post_id'] : get_the_ID();
-$title = get_the_title($post_id);
+$title = gf_get_post_title($post_id);
 $permalink = get_permalink($post_id);
 $thumbnail = get_the_post_thumbnail_url($post_id, 'large');
 $categories = wp_get_post_terms($post_id, 'categoria_noticia');
-$category_label = !empty($categories) ? $categories[0]->name : '';
-$intro = get_field('intro_noticia', $post_id);
+$category_label = !empty($categories) ? gf_get_term_name($categories[0]) : '';
+$intro = gf_get_field('intro_noticia', $post_id);
 ?>
 <a href="<?php echo esc_url($permalink); ?>" class="flex flex-col h-full group">
   <!-- Imagen -->

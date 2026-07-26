@@ -1,16 +1,18 @@
 <?php
-$title = (string) get_option('our_story_title', 'Nuestra historia');
+$title = (string) gf_get_option('our_story_title', 'Nuestra historia', 'Our Story');
 if ($title === '') {
-    $title = 'Nuestra historia';
+    $title = gf_current_lang() === 'en' ? 'Our Story' : 'Nuestra historia';
 }
 
-$paragraph_1 = (string) get_option(
+$paragraph_1 = (string) gf_get_option(
     'our_story_paragraph_1',
-    'Grupo Fadiar nació en 2023 con la visión de transformar la industria nacional. Partiendo  de un pequeño taller, hemos crecido hasta convertirnos en un grupo empresarial que  integra tres marcas referentes.'
+    'Grupo Fadiar nació en 2023 con la visión de transformar la industria nacional. Partiendo  de un pequeño taller, hemos crecido hasta convertirnos en un grupo empresarial que  integra tres marcas referentes.',
+    'Grupo Fadiar was born in 2023 with the vision of transforming the national industry.'
 );
-$paragraph_2 = (string) get_option(
+$paragraph_2 = (string) gf_get_option(
     'our_story_paragraph_2',
-    'Nuestros hitos incluyen la apertura de nuestras  instalaciones en Ciudad Libertad, el lanzamiento de nuestras primeras líneas de  productos y las alianzas con distribuidores en todo el país e internacionales. Hoy,  seguimos construyendo el futuro con pasión y responsabilidad.'
+    'Nuestros hitos incluyen la apertura de nuestras  instalaciones en Ciudad Libertad, el lanzamiento de nuestras primeras líneas de  productos y las alianzas con distribuidores en todo el país e internacionales. Hoy,  seguimos construyendo el futuro con pasión y responsabilidad.',
+    'Our milestones include the opening of our facilities in Ciudad Libertad, the launch of our first product lines, and partnerships with distributors nationwide and internationally.'
 );
 
 $our_story_items = array();
@@ -26,21 +28,21 @@ if (post_type_exists('our_story_item')) {
 
 function grupofadiar_render_our_story_item($post) {
     $args = array(
-        'title' => $post->post_title,
+        'title' => gf_get_post_title($post->ID),
     );
 
     $tipo = get_field('tipo_contenido', $post->ID);
 
     if ($tipo === 'lider') {
-        $intro = get_field('osi_intro_text', $post->ID);
+        $intro = gf_get_field('osi_intro_text', $post->ID);
         if (!empty($intro)) {
             $args['content'] = wp_kses_post($intro);
         }
 
-        $name              = (string) get_field('osi_leader_name', $post->ID);
+        $name              = (string) gf_get_field('osi_leader_name', $post->ID);
         $image             = get_field('osi_leader_image', $post->ID);
-        $short_description = (string) get_field('osi_leader_short_description', $post->ID);
-        $full_description  = (string) get_field('osi_leader_full_description', $post->ID);
+        $short_description = (string) gf_get_field('osi_leader_short_description', $post->ID);
+        $full_description  = (string) gf_get_field('osi_leader_full_description', $post->ID);
 
         if ($name !== '' || !empty($image) || $short_description !== '' || $full_description !== '') {
             $image_url = '';
@@ -62,7 +64,7 @@ function grupofadiar_render_our_story_item($post) {
             ));
         }
     } else {
-        $text = get_field('osi_text', $post->ID);
+        $text = gf_get_field('osi_text', $post->ID);
         if (empty($text)) {
             $text = '';
         }

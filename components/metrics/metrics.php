@@ -37,18 +37,18 @@ for ($i = 1; $i <= 4; $i++) {
     if (!empty($v)) {
         $metrics_value[$i] = $v;
     }
-    $l = $metrics_post_id ? get_field('about_metric_' . $i . '_label', $metrics_post_id) : '';
+    $l = $metrics_post_id ? gf_get_field('about_metric_' . $i . '_label', $metrics_post_id) : '';
     if (!empty($l)) {
         $metrics_label[$i] = $l;
     }
 }
 
-$description_1 = $metrics_post_id ? (string) get_field('about_metrics_description_1', $metrics_post_id) : '';
+$description_1 = $metrics_post_id ? (string) gf_get_field('about_metrics_description_1', $metrics_post_id) : '';
 if ($description_1 === '') {
     $description_1 = 'Grupo Fadiar (Fabricación y Diseño Artesanal) comenzó como un sueño, un reto personal. Se forjó desde los cimientos. Construyendo sus instalaciones, escribiendo lo importante, uniendo personas invaluables. Poco a poco hicimos nuestro camino. En estos tres años, Grupo Fadiar ha crecido con un propósito claro: ofrecer productos que combinan calidad, accesibilidad y responsabilidad social. Nuestra trayectoria se basa en la innovación, la producción nacional y alianzas estratégicas que fortalecen la economía local.';
 }
 
-$description_2 = $metrics_post_id ? (string) get_field('about_metrics_description_2', $metrics_post_id) : '';
+$description_2 = $metrics_post_id ? (string) gf_get_field('about_metrics_description_2', $metrics_post_id) : '';
 if ($description_2 === '') {
     $description_2 = 'Nuestra filosofía "Diversidad de Soluciones, Un solo compromiso" refleja lo que somos, nuestra esencia. En Fadiar crecemos profesional y personalmente. Cada equipo, cada objeto que fabricamos y que llega a un hogar o negocio es un reto, un compromiso y, sobre todo, una oportunidad para ser útiles. Y en eso, ponemos lo mejor de nosotros. ¡Más que productos, compartimos experiencias';
 }

@@ -15,7 +15,7 @@ if (!empty($about_posts)) {
     $about_id = (int) $about_posts[0];
 }
 
-$page_title = $about_id ? (string) get_field('about_page_title', $about_id) : '';
+$page_title = $about_id ? (string) gf_get_field('about_page_title', $about_id) : '';
 if ($page_title === '') {
     $page_title = 'Grupo Fadiar – Innovación y compromiso social';
 }
@@ -23,9 +23,9 @@ if ($page_title === '') {
 
 <div class="mx-20 mt-10">
   <div class="flex text-xl">
-    <p><a href="<?php echo home_url('/'); ?>">Inicio</a></p>
+    <p><a href="<?php echo home_url('/'); ?>"><?php echo esc_html(gf_e('noticias.breadcrumb_home')); ?></a></p>
     <svg class="h-6 w-6 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-    <p>Grupo Fadiar</p>
+    <p><?php echo esc_html(gf_e('header.menu.about')); ?></p>
   </div>
   <div id="metrics" class="scroll-mt-24 mt-10">
     <h1 class="text-5xl font-bold text-dark"><?php echo esc_html($page_title); ?></h1>

@@ -3,7 +3,7 @@
 add_action('rest_api_init', function () {
     register_rest_route('grupofadiar/v1', '/search', [
         'methods'             => 'GET',
-        'callback'            => 'grupofadiar_search_handler',
+        'callback'            => 'gf_search_handler',
         'permission_callback' => '__return_true',
         'args'                => [
             'search' => [
@@ -15,150 +15,166 @@ add_action('rest_api_init', function () {
                 'sanitize_callback' => 'sanitize_text_field',
                 'default'           => 'todos',
             ],
-            'lang' => [
+            'page' => [
                 'required'          => false,
-                'sanitize_callback' => 'sanitize_text_field',
+                'sanitize_callback' => 'absint',
+                'default'           => 1,
             ],
         ],
     ]);
 });
 
-function grupofadiar_search_handler(WP_REST_Request $request) {
+function gf_search_handler(WP_REST_Request $request) {
     $search = trim($request->get_param('search'));
     $filter = strtolower(trim($request->get_param('filter')));
+    $page   = max(1, (int) $request->get_param('page'));
+    $lang   = gf_current_lang();
+    $per_page = 10;
 
     if ($search === '' && $filter === 'todos') {
-        return new WP_REST_Response(['results' => [], 'total' => 0, 'query' => ''], 200);
+        return new WP_REST_Response(['results' => [], 'total' => 0, 'query' => '', 'page' => 1], 200);
     }
 
     if (!in_array($filter, ['todos', 'productos', 'noticias', 'corporativa', 'garantias'], true)) {
         $filter = 'todos';
     }
 
-    global $wpdb;
-    $search_queries = [$search];
-
-    // TranslatePress compatibility: find original strings for translated search terms
-    $tables = $wpdb->get_col("SHOW TABLES LIKE '{$wpdb->prefix}trp_dictionary_%'");
-    if (!empty($tables)) {
-        foreach ($tables as $table) {
-            // Ignore untranslated tables as they don't have the translations
-            if (strpos($table, '_untranslated') !== false) {
-                continue;
-            }
-            $originals = $wpdb->get_col($wpdb->prepare(
-                "SELECT original FROM `$table` WHERE translated LIKE %s LIMIT 20",
-                '%' . $wpdb->esc_like($search) . '%'
-            ));
-            if (!empty($originals)) {
-                foreach ($originals as $orig) {
-                    $clean_orig = trim(wp_strip_all_tags($orig));
-                    if (!empty($clean_orig)) {
-                        $search_queries[] = $clean_orig;
-                    }
-                }
-            }
-        }
-    }
-    $search_queries = array_unique($search_queries);
-
-    if (count($search_queries) <= 1 && mb_strlen($search) > 5) {
-        $words = explode(' ', $search);
-        foreach ($words as $w) {
-            $w = trim($w);
-            if (mb_strlen($w) > 2) {
-                $search_queries[] = $w;
-            }
-        }
-        $search_queries = array_unique($search_queries);
-    }
-
     $all_results = [];
     $max_per_type = 20;
-    $max_total = 50;
 
-    foreach ($search_queries as $sq) {
-        $search_terms = explode(' ', $sq);
-
-        if ($filter === 'todos' || $filter === 'noticias') {
-            $all_results = array_merge($all_results, grupofadiar_search_noticias($search_terms, $sq, $max_per_type));
-        }
-        if ($filter === 'todos' || $filter === 'productos') {
-            $all_results = array_merge($all_results, grupofadiar_search_productos($search_terms, $sq, $max_per_type));
-        }
-        if ($filter === 'todos' || $filter === 'corporativa') {
-            $all_results = array_merge($all_results, grupofadiar_search_corporativa($search_terms, $sq, $max_per_type));
-        }
-        if ($filter === 'todos' || $filter === 'garantias') {
-            $all_results = array_merge($all_results, grupofadiar_search_garantias($search_terms, $sq, $max_per_type));
-        }
+    if ($filter === 'todos' || $filter === 'noticias') {
+        $all_results = array_merge($all_results, gf_search_noticias($search, $lang, $max_per_type));
+    }
+    if ($filter === 'todos' || $filter === 'productos') {
+        $all_results = array_merge($all_results, gf_search_productos($search, $lang, $max_per_type));
+    }
+    if ($filter === 'todos') {
+        $all_results = array_merge($all_results, gf_search_brand($search, $lang, $max_per_type));
+    }
+    if ($filter === 'todos' || $filter === 'corporativa') {
+        $all_results = array_merge($all_results, gf_search_corporativa($search, $lang, $max_per_type));
+        $all_results = array_merge($all_results, gf_search_carousel($search, $lang, $max_per_type));
+    }
+    if ($filter === 'todos' || $filter === 'garantias') {
+        $all_results = array_merge($all_results, gf_search_garantias($search, $lang, $max_per_type));
+    }
+    if ($filter === 'todos') {
+        $all_results = array_merge($all_results, gf_search_options($search, $lang, $max_per_type));
     }
 
-    // Deduplicate results by permalink
     $unique_results = [];
     foreach ($all_results as $res) {
-        $unique_results[$res['permalink']] = $res;
+        $uf = $res['permalink'] . '|' . ($res['type'] ?? '') . '|' . $res['title'];
+        if (!isset($unique_results[$uf])) {
+            $unique_results[$uf] = $res;
+        }
     }
     $all_results = array_values($unique_results);
 
-    usort($all_results, function ($a, $b) {
+    usort($all_results, function ($a, $b) use ($search) {
+        $order = ($b['order'] ?? 0) - ($a['order'] ?? 0);
+        if ($order !== 0) return $order;
+        $q = gf_aq_normalize($search);
+        $tA = gf_aq_normalize($a['title']);
+        $tB = gf_aq_normalize($b['title']);
+        $titleA = strpos($tA, $q) !== false ? 1 : 0;
+        $titleB = strpos($tB, $q) !== false ? 1 : 0;
+        if ($titleA !== $titleB) return $titleB - $titleA;
         return strcmp($a['title'], $b['title']);
     });
 
     $total = count($all_results);
-    $all_results = array_slice($all_results, 0, $max_total);
-
-    $lang = trim($request->get_param('lang'));
-    if (!empty($lang) && function_exists('trp_translate')) {
-        // Map common short codes to TranslatePress defaults if needed
-        if ($lang === 'en') $lang = 'en_US';
-        if ($lang === 'es') $lang = 'es_ES';
-
-        foreach ($all_results as &$res) {
-            $res['title'] = grupofadiar_translate_text(wp_strip_all_tags($res['title']), $lang);
-            if (!empty($res['_raw_excerpt'])) {
-                $stripped = wp_strip_all_tags($res['_raw_excerpt']);
-                $res['excerpt'] = wp_trim_words(grupofadiar_translate_text($stripped, $lang), 25);
-                unset($res['_raw_excerpt']);
-            } else {
-                $res['excerpt'] = grupofadiar_translate_text(wp_strip_all_tags($res['excerpt']), $lang);
-            }
-            $res['category'] = grupofadiar_translate_text(wp_strip_all_tags($res['category']), $lang);
-            if (!empty($res['external_text'])) {
-                $res['external_text'] = grupofadiar_translate_text(wp_strip_all_tags($res['external_text']), $lang);
-            }
-        }
-    } else {
-        // Fallback cleanup if not translated
-        foreach ($all_results as &$res) {
-            if (isset($res['_raw_excerpt'])) unset($res['_raw_excerpt']);
-        }
-    }
+    $offset = ($page - 1) * $per_page;
+    $paginated = array_slice($all_results, $offset, $per_page);
 
     return new WP_REST_Response([
-        'results' => $all_results,
+        'results' => $paginated,
         'total'   => $total,
         'query'   => $search,
+        'page'    => $page,
     ], 200);
 }
 
-function grupofadiar_search_noticias($search_terms, $raw_search, $limit) {
-    $post_ids = grupofadiar_search_in_cpt('noticia', $raw_search, [
-        'intro_noticia',
-        'descripcion',
-        'autor',
-        'fecha_noticia',
-    ], $limit);
+function gf_normalize_entities($str) {
+    if (!is_string($str) || $str === '') return $str;
+    $str = html_entity_decode($str, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $str = html_entity_decode($str, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    return $str;
+}
 
-    $results = grupofadiar_search_options($raw_search, [
-        ['key' => 'noticias_page_title',    'page' => '/noticias/',    'anchor' => '',        'type' => 'noticia',  'category' => 'Noticias'],
-        ['key' => 'noticias_page_subtitle', 'page' => '/noticias/',    'anchor' => '',        'type' => 'noticia',  'category' => 'Noticias'],
-    ]);
-    foreach ($post_ids as $id) {
+function gf_aq_normalize($text) {
+    if (!is_string($text)) return '';
+    $text = wp_strip_all_tags($text);
+    $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $unwanted = ['á'=>'a','é'=>'e','í'=>'i','ó'=>'o','ú'=>'u','ü'=>'u','ñ'=>'n','Á'=>'A','É'=>'E','Í'=>'I','Ó'=>'O','Ú'=>'U','Ü'=>'U','Ñ'=>'N'];
+    $text = strtr($text, $unwanted);
+    $text = strtolower(trim(preg_replace('/\s+/u', ' ', $text)));
+    return $text;
+}
+
+function gf_text_matches($query, $text) {
+    $q = gf_aq_normalize($query);
+    $t = gf_aq_normalize($text);
+    if ($q === '' || $t === '') return false;
+
+    if (strpos($t, $q) !== false) {
+        return true;
+    }
+
+    $tokens = preg_split('/\s+/', $q);
+    foreach ($tokens as $token) {
+        if (strlen($token) < 2) continue;
+        if (strpos($t, $token) === false) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function gf_match_rank($query, $text) {
+    $q = gf_aq_normalize($query);
+    $t = gf_aq_normalize($text);
+    if ($q === '' || $t === '') return 0;
+
+    if (strpos($t, $q) !== false) {
+        return 2;
+    }
+
+    $tokens = preg_split('/\s+/', $q);
+    $all_present = false;
+    $token_count = 0;
+    foreach ($tokens as $token) {
+        if (strlen($token) < 2) continue;
+        $token_count++;
+        if (strpos($t, $token) === false) {
+            $all_present = false;
+            break;
+        }
+        $all_present = true;
+    }
+    return ($token_count > 0 && $all_present) ? 1 : 0;
+}
+
+function gf_aq_score_text($query, $text) {
+    return gf_match_rank($query, $text);
+}
+
+function gf_search_noticias($search, $lang, $limit) {
+    $results = [];
+    $base_fields = ['intro_noticia', 'descripcion', 'autor', 'fecha_noticia'];
+    $en_fields = ['intro_noticia_en', 'descripcion_en', 'autor_en', 'fecha_noticia_en'];
+    $fields_to_scan = ($lang === 'en') ? array_unique(array_merge($base_fields, $en_fields)) : $base_fields;
+
+    $matched = gf_search_in_cpt('noticia', $search, $fields_to_scan, $lang, $limit);
+
+    foreach ($matched as $item) {
+        $id = $item['id'];
+        $best_rank = $item['rank'];
+
         $categories = wp_get_post_terms($id, 'categoria_noticia');
-        $category_name = !empty($categories) ? $categories[0]->name : '';
+        $category_name = !empty($categories) ? gf_get_term_name($categories[0]) : '';
 
-        $excerpt = get_field('intro_noticia', $id);
+        $excerpt = gf_get_field('intro_noticia', $id);
         if (!$excerpt) {
             $content = get_post_field('post_content', $id);
             $excerpt = wp_strip_all_tags($content);
@@ -167,27 +183,34 @@ function grupofadiar_search_noticias($search_terms, $raw_search, $limit) {
         $thumbnail = get_the_post_thumbnail_url($id, 'medium');
 
         $results[] = [
-            'type'         => 'noticia',
-            'title'        => get_the_title($id),
-            'excerpt'      => wp_trim_words($excerpt, 25),
-            '_raw_excerpt' => $excerpt,
-            'permalink'    => get_permalink($id),
-            'thumbnail'    => $thumbnail ?: '',
-            'external_url' => '',
-            'external_text'=> '',
-            'category'     => $category_name,
-            'date'         => get_field('fecha_noticia', $id) ?: get_the_date('Y-m-d', $id),
+            'type'          => 'noticia',
+            'title'         => gf_normalize_entities(gf_get_post_title($id)),
+            'excerpt'       => gf_normalize_entities(wp_trim_words($excerpt, 25)),
+            'permalink'     => get_permalink($id),
+            'thumbnail'     => $thumbnail ?: '',
+            'external_url'  => '',
+            'external_text' => '',
+            'category'      => gf_normalize_entities($category_name ?: gf_get_category_name('noticia')),
+            'date'          => gf_get_field('fecha_noticia', $id) ?: get_the_date('Y-m-d', $id),
+            'order'         => $best_rank,
         ];
     }
 
     return $results;
 }
 
-function grupofadiar_search_productos($search_terms, $raw_search, $limit) {
-    $post_ids = grupofadiar_search_in_cpt('home_product', $raw_search, [], $limit);
-
+function gf_search_productos($search, $lang, $limit) {
     $results = [];
-    foreach ($post_ids as $id) {
+    $base_fields = ['product_button_text'];
+    $en_fields = ['product_button_text_en'];
+    $fields_to_scan = ($lang === 'en') ? array_unique(array_merge($base_fields, $en_fields)) : $base_fields;
+
+    $matched = gf_search_in_cpt('home_product', $search, $fields_to_scan, $lang, $limit);
+
+    foreach ($matched as $item) {
+        $id = $item['id'];
+        $best_rank = $item['rank'];
+
         $media_file = get_field('product_media_file', $id);
         $thumbnail = '';
         if ($media_file && is_array($media_file) && isset($media_file['url'])) {
@@ -197,47 +220,114 @@ function grupofadiar_search_productos($search_terms, $raw_search, $limit) {
         }
 
         $external_url = get_field('product_button_url', $id);
-        $button_text = get_field('product_button_text', $id);
-
-        $stored_button_text = $button_text ?: 'Ver producto';
+        $button_text  = gf_get_field('product_button_text', $id);
+        $stored_button_text = $button_text ?: ($lang === 'en' ? 'View product' : 'Ver producto');
 
         $results[] = [
             'type'          => 'producto',
-            'title'         => get_the_title($id),
-            'excerpt'       => $stored_button_text,
-            '_raw_excerpt'  => $stored_button_text,
+            'title'         => gf_normalize_entities(gf_get_post_title($id)),
+            'excerpt'       => gf_normalize_entities($stored_button_text),
             'permalink'     => $external_url ?: get_permalink($id),
             'thumbnail'     => $thumbnail,
             'external_url'  => $external_url ?: '',
-            'external_text' => $external_url ? ($button_text ?: 'Abrir tienda') : '',
-            'category'      => 'Producto',
+            'external_text' => gf_normalize_entities($external_url ? ($button_text ?: ($lang === 'en' ? 'Open in store' : 'Abrir tienda')) : ''),
+            'category'      => gf_normalize_entities(gf_get_category_name('producto')),
             'date'          => get_the_date('Y-m-d', $id),
+            'order'         => $best_rank,
         ];
     }
 
     return $results;
 }
 
-function grupofadiar_search_corporativa($search_terms, $raw_search, $limit) {
-    $results = grupofadiar_search_options($raw_search, [
-        ['key' => 'our_story_title',        'page' => '/about-us/',    'anchor' => '#ourStory',    'type' => 'corporativa', 'category' => 'Nuestra Historia'],
-        ['key' => 'brands_section_title',    'page' => '/',             'anchor' => '#ourBrands',   'type' => 'corporativa', 'category' => 'Sección'],
-        ['key' => 'brands_section_subtitle', 'page' => '/',             'anchor' => '#ourBrands',   'type' => 'corporativa', 'category' => 'Sección'],
-        ['key' => 'products_section_title',  'page' => '/',             'anchor' => '#products',    'type' => 'corporativa', 'category' => 'Sección'],
-        ['key' => 'contact_page_title',      'page' => '/contacts/',   'anchor' => '',              'type' => 'corporativa', 'category' => 'Contactos'],
-        ['key' => 'contact_page_subtitle',   'page' => '/contacts/',   'anchor' => '',              'type' => 'corporativa', 'category' => 'Contactos'],
-    ]);
+function gf_search_brand($search, $lang, $limit) {
+    $results = [];
+    $base_fields = ['brand_description', 'brand_button_text'];
+    $en_fields = ['brand_description_en', 'brand_button_text_en'];
+    $fields_to_scan = ($lang === 'en') ? array_unique(array_merge($base_fields, $en_fields)) : $base_fields;
 
-    $corporativa_cpts = [
+    $matched = gf_search_in_cpt('brand', $search, $fields_to_scan, $lang, $limit);
+
+    foreach ($matched as $item) {
+        $id = $item['id'];
+        $best_rank = $item['rank'];
+
+        $description = gf_get_field('brand_description', $id);
+
+        $results[] = [
+            'type'          => 'brand',
+            'title'         => gf_normalize_entities(gf_get_post_title($id)),
+            'excerpt'       => gf_normalize_entities($description ?: ''),
+            'permalink'     => home_url('/#ourBrands'),
+            'thumbnail'     => get_the_post_thumbnail_url($id, 'medium') ?: '',
+            'external_url'  => '',
+            'external_text' => '',
+            'category'      => gf_normalize_entities(gf_get_category_name('brand')),
+            'date'          => get_the_date('Y-m-d', $id),
+            'order'         => $best_rank,
+        ];
+    }
+
+    return $results;
+}
+
+function gf_search_carousel($search, $lang, $limit) {
+    $results = [];
+    $base_fields = ['slide_title_text', 'slide_subtitle', 'slide_description'];
+    $en_fields = ['slide_title_text_en', 'slide_subtitle_en', 'slide_description_en'];
+    $fields_to_scan = ($lang === 'en') ? array_unique(array_merge($base_fields, $en_fields)) : $base_fields;
+
+    $matched = gf_search_in_cpt('carousel_slide', $search, $fields_to_scan, $lang, $limit);
+
+    foreach ($matched as $item) {
+        $id = $item['id'];
+        $best_rank = $item['rank'];
+
+        $slide_subtitle = gf_get_field('slide_subtitle', $id);
+        $slide_title    = gf_get_field('slide_title_text', $id);
+        $slide_desc     = gf_get_field('slide_description', $id);
+        $excerpt = $slide_subtitle ?: $slide_title ?: $slide_desc ?: '';
+
+        $results[] = [
+            'type'          => 'carousel',
+            'title'         => gf_normalize_entities(gf_get_post_title($id)),
+            'excerpt'       => gf_normalize_entities(wp_trim_words($excerpt, 25)),
+            'permalink'     => home_url('/#heroCarousel'),
+            'thumbnail'     => get_the_post_thumbnail_url($id, 'medium') ?: '',
+            'external_url'  => '',
+            'external_text' => '',
+            'category'      => gf_normalize_entities(gf_get_category_name('carousel')),
+            'date'          => get_the_date('Y-m-d', $id),
+            'order'         => $best_rank,
+        ];
+    }
+
+    return $results;
+}
+
+function gf_search_corporativa($search, $lang, $limit) {
+    $results = [];
+
+    $base_map = [
         'about_us'        => ['about_page_title', 'about_metrics_description_1', 'about_metrics_description_2'],
         'our_story_item'  => ['osi_text', 'osi_intro_text', 'osi_leader_name', 'osi_leader_short_description', 'osi_leader_full_description'],
         'pilar_corporativo' => ['pillar_subtitle', 'pillar_description'],
         'discover_group'  => ['discover_subtitle', 'discover_description_1', 'discover_description_2'],
     ];
+    $en_map = [];
+    foreach ($base_map as $cpt => $fields) {
+        $en_map[$cpt] = array_map(function ($f) { return $f . '_en'; }, $fields);
+    }
 
-    foreach ($corporativa_cpts as $cpt => $acf_fields) {
-        $post_ids = grupofadiar_search_in_cpt($cpt, $raw_search, $acf_fields, $limit);
-        foreach ($post_ids as $id) {
+    foreach ($base_map as $cpt => $base_fields) {
+        $en_fields = $en_map[$cpt];
+        $fields_to_scan = ($lang === 'en') ? array_unique(array_merge($base_fields, $en_fields)) : $base_fields;
+
+        $matched = gf_search_in_cpt($cpt, $search, $fields_to_scan, $lang, $limit);
+        foreach ($matched as $item) {
+            $id = $item['id'];
+            $best_rank = $item['rank'];
+
             $post = get_post($id);
             $anchor = '';
 
@@ -254,18 +344,18 @@ function grupofadiar_search_corporativa($search_terms, $raw_search, $limit) {
             $base_url = ($cpt === 'discover_group') ? home_url('/') : home_url('/about-us/');
             $permalink = $base_url . $anchor;
 
-            $excerpt = grupofadiar_get_first_acf_text($id, $acf_fields);
+            $excerpt = gf_get_first_acf_text($id, array_merge($base_fields, $en_fields));
 
             $results[] = [
-                'type'         => 'corporativa',
-                'title'        => get_the_title($id),
-                'excerpt'      => wp_trim_words(wp_strip_all_tags($excerpt), 25),
-                '_raw_excerpt' => $excerpt,
-                'permalink'    => $permalink,
-                'thumbnail'    => get_the_post_thumbnail_url($id, 'medium') ?: '',
-                'external_url' => '',
-                'category'     => grupofadiar_corporativa_category($cpt),
-                'date'         => get_the_date('Y-m-d', $id),
+                'type'          => 'corporativa',
+                'title'         => gf_normalize_entities(gf_get_post_title($id)),
+                'excerpt'       => gf_normalize_entities(wp_trim_words(wp_strip_all_tags($excerpt), 25)),
+                'permalink'     => $permalink,
+                'thumbnail'     => get_the_post_thumbnail_url($id, 'medium') ?: '',
+                'external_url'  => '',
+                'category'      => gf_normalize_entities(gf_corporativa_category($cpt)),
+                'date'          => get_the_date('Y-m-d', $id),
+                'order'         => $best_rank,
             ];
         }
     }
@@ -273,34 +363,52 @@ function grupofadiar_search_corporativa($search_terms, $raw_search, $limit) {
     return $results;
 }
 
-function grupofadiar_search_garantias($search_terms, $raw_search, $limit) {
-    $results = grupofadiar_search_options($raw_search, [
-        ['key' => 'support_warranty_title',         'page' => '/support-warranty/', 'anchor' => '',              'type' => 'garantia', 'category' => 'Soporte y Garantía'],
-        ['key' => 'support_warranty_subtitle',       'page' => '/support-warranty/', 'anchor' => '',              'type' => 'garantia', 'category' => 'Soporte y Garantía'],
-        ['key' => 'support_warranty_description',    'page' => '/support-warranty/', 'anchor' => '',              'type' => 'garantia', 'category' => 'Soporte y Garantía'],
-        ['key' => 'warranty_section_left_title',     'page' => '/support-warranty/', 'anchor' => '#warrantyInfo', 'type' => 'garantia', 'category' => 'Proceso de Reclamación'],
-        ['key' => 'warranty_section_right_title',    'page' => '/support-warranty/', 'anchor' => '#warrantyInfo', 'type' => 'garantia', 'category' => 'Contactos de Garantía'],
-        ['key' => 'faq_section_title',               'page' => '/support-warranty/', 'anchor' => '#faq',          'type' => 'garantia', 'category' => 'Preguntas Frecuentes'],
-        ['key' => 'support_home_section_title',      'page' => '/',                   'anchor' => '#supportHome', 'type' => 'garantia', 'category' => 'Soporte y Garantía'],
-        ['key' => 'support_home_section_subtitle',   'page' => '/',                   'anchor' => '#supportHome', 'type' => 'garantia', 'category' => 'Soporte y Garantía'],
-    ]);
+function gf_search_garantias($search, $lang, $limit) {
+    $results = [];
 
-    $garantias_cpts = [
-        'warranty_step'     => ['ws_step_description'],
-        'warranty_contact'  => ['wc_label', 'wc_phone', 'wc_schedule'],
-        'faq_item'          => ['faq_answer'],
-        'support_home_item' => ['support_item_description'],
+    $base_map = [
+        'warranty_step'      => ['ws_step_description'],
+        'warranty_contact'   => ['wc_label', 'wc_schedule', 'wc_phone'],
+        'faq_item'           => ['faq_answer'],
+        'support_home_item'  => ['support_item_description'],
         'support_header_item' => [],
     ];
 
-    foreach ($garantias_cpts as $cpt => $acf_fields) {
-        $post_ids = grupofadiar_search_in_cpt($cpt, $raw_search, $acf_fields, $limit);
-        foreach ($post_ids as $id) {
+    foreach ($base_map as $cpt => $base_fields) {
+        $en_fields = array_map(function ($f) { return $f . '_en'; }, $base_fields);
+        $fields_to_scan = ($lang === 'en') ? array_unique(array_merge($base_fields, $en_fields)) : $base_fields;
+
+        $matched = gf_search_in_cpt($cpt, $search, $fields_to_scan, $lang, $limit);
+        foreach ($matched as $item) {
+            $id = $item['id'];
+            $best_rank = $item['rank'];
+
             $post = get_post($id);
             $anchor = '';
 
             if ($cpt === 'warranty_step') {
                 $anchor = '#warranty-step-' . $post->post_name;
+
+                $step_number = get_field('ws_step_number', $id);
+                $step_desc   = gf_get_field('ws_step_description', $id);
+                $step_desc_clean = wp_strip_all_tags($step_desc);
+
+                $constructed_title = $step_number
+                    ? sprintf('%d. %s', $step_number, wp_trim_words($step_desc_clean, 10, ''))
+                    : wp_trim_words($step_desc_clean, 10, '');
+
+                $results[] = [
+                    'type'          => 'garantia',
+                    'title'         => gf_normalize_entities($constructed_title),
+                    'excerpt'       => wp_trim_words($step_desc_clean, 30),
+                    'permalink'     => home_url('/support-warranty/' . $anchor),
+                    'thumbnail'     => get_the_post_thumbnail_url($id, 'medium') ?: '',
+                    'external_url'  => '',
+                    'category'      => gf_normalize_entities(gf_garantias_category($cpt)),
+                    'date'          => get_the_date('Y-m-d', $id),
+                    'order'         => $best_rank,
+                ];
+                continue;
             } elseif ($cpt === 'warranty_contact') {
                 $anchor = '#warranty-contact-' . $post->post_name;
             } elseif ($cpt === 'faq_item') {
@@ -309,34 +417,34 @@ function grupofadiar_search_garantias($search_terms, $raw_search, $limit) {
                 $base_url = home_url('/');
                 $anchor = '#supportHome';
 
-                $excerpt = grupofadiar_get_first_acf_text($id, $acf_fields);
+                $excerpt = gf_get_first_acf_text($id, $fields_to_scan);
 
                 $results[] = [
-                    'type'         => 'garantia',
-                    'title'        => get_the_title($id),
-                    'excerpt'      => wp_trim_words(wp_strip_all_tags($excerpt), 25),
-                    '_raw_excerpt' => $excerpt,
+                    'type'          => 'garantia',
+                    'title'         => gf_normalize_entities(gf_get_post_title($id)),
+                    'excerpt'       => gf_normalize_entities(wp_trim_words(wp_strip_all_tags($excerpt), 25)),
                     'permalink'    => $base_url . $anchor,
                     'thumbnail'    => get_the_post_thumbnail_url($id, 'medium') ?: '',
                     'external_url' => '',
-                    'category'     => grupofadiar_garantias_category($cpt),
+                    'category'     => gf_normalize_entities(gf_garantias_category($cpt)),
                     'date'         => get_the_date('Y-m-d', $id),
+                    'order'        => $best_rank,
                 ];
                 continue;
             }
 
-            $excerpt = grupofadiar_get_first_acf_text($id, $acf_fields);
+            $excerpt = gf_get_first_acf_text($id, $fields_to_scan);
 
             $results[] = [
-                'type'         => 'garantia',
-                'title'        => get_the_title($id),
-                'excerpt'      => wp_trim_words(wp_strip_all_tags($excerpt), 25),
-                '_raw_excerpt' => $excerpt,
-                'permalink'    => home_url('/support-warranty/' . $anchor),
-                'thumbnail'    => get_the_post_thumbnail_url($id, 'medium') ?: '',
-                'external_url' => '',
-                'category'     => grupofadiar_garantias_category($cpt),
-                'date'         => get_the_date('Y-m-d', $id),
+                'type'          => 'garantia',
+                'title'         => gf_normalize_entities(gf_get_post_title($id)),
+                'excerpt'       => gf_normalize_entities(wp_trim_words(wp_strip_all_tags($excerpt), 25)),
+                'permalink'     => home_url('/support-warranty/' . $anchor),
+                'thumbnail'     => get_the_post_thumbnail_url($id, 'medium') ?: '',
+                'external_url'  => '',
+                'category'      => gf_normalize_entities(gf_garantias_category($cpt)),
+                'date'          => get_the_date('Y-m-d', $id),
+                'order'         => $best_rank,
             ];
         }
     }
@@ -344,63 +452,157 @@ function grupofadiar_search_garantias($search_terms, $raw_search, $limit) {
     return $results;
 }
 
-function grupofadiar_search_options($raw_search, $option_configs) {
+function gf_search_options($search, $lang, $limit) {
     $results = [];
-    foreach ($option_configs as $cfg) {
-        $value = get_option($cfg['key'], '');
-        if ($value !== '' && grupofadiar_str_contains($value, $raw_search)) {
-            $results[] = [
-                'type'         => $cfg['type'],
-                'title'        => $value,
-                'excerpt'      => wp_trim_words(wp_strip_all_tags($value), 25),
-                '_raw_excerpt' => $value,
-                'permalink'    => home_url($cfg['page'] . $cfg['anchor']),
-                'thumbnail'    => '',
-                'external_url' => '',
-                'category'     => $cfg['category'],
-                'date'         => '',
-            ];
+
+    $options_map = [
+        ['products_section_title',       home_url('/#products'),                  'Productos',           'Products',           null],
+        ['brands_section_title',         home_url('/#ourBrands'),                 'Nuestras marcas',     'Our Brands',         'brands_section_subtitle'],
+        ['brands_section_subtitle',      home_url('/#ourBrands'),                 'Nuestras marcas',     'Our Brands',         null],
+        ['support_home_section_title',   home_url('/#supportHome'),               'Soporte y Garantía',  'Support and Warranty','support_home_section_subtitle'],
+        ['support_home_section_subtitle',home_url('/#supportHome'),               'Soporte y Garantía',  'Support and Warranty',null],
+        ['our_story_title',              home_url('/about-us/#ourStory'),         'Nuestra historia',    'Our Story',          'our_story_paragraph_1'],
+        ['our_story_paragraph_1',        home_url('/about-us/#ourStory'),         'Nuestra historia',    'Our Story',          null],
+        ['our_story_paragraph_2',        home_url('/about-us/#ourStory'),         'Nuestra historia',    'Our Story',          null],
+        ['contact_page_title',           home_url('/contacts'),                   'Contacto',            'Contact',            'contact_page_subtitle'],
+        ['contact_page_subtitle',        home_url('/contacts'),                   'Contacto',            'Contact',            null],
+        ['contact_address_label',        home_url('/contacts'),                   'Contacto',            'Contact',            'contact_main_address'],
+        ['contact_main_address',         home_url('/contacts'),                   'Contacto',            'Contact',            null],
+        ['contact_schedule_label',       home_url('/contacts'),                   'Contacto',            'Contact',            'contact_schedule_value'],
+        ['contact_schedule_value',       home_url('/contacts'),                   'Contacto',            'Contact',            null],
+        ['noticias_page_title',          home_url('/noticias'),                   'Noticias',            'News',               'noticias_page_subtitle'],
+        ['noticias_page_subtitle',       home_url('/noticias'),                   'Noticias',            'News',               null],
+        ['support_warranty_title',       home_url('/support-warranty'),           'Soporte y Garantía',  'Support and Warranty','support_warranty_subtitle'],
+        ['support_warranty_subtitle',    home_url('/support-warranty'),           'Soporte y Garantía',  'Support and Warranty',null],
+        ['support_warranty_description', home_url('/support-warranty'),           'Soporte y Garantía',  'Support and Warranty',null],
+        ['warranty_section_left_title',  home_url('/support-warranty#warrantyInfo'), 'Garantías',       'Warranties',         null],
+        ['warranty_section_right_title', home_url('/support-warranty#warrantyInfo'), 'Garantías',       'Warranties',         null],
+        ['faq_section_title',            home_url('/support-warranty#faq'),       'Preguntas frecuentes','Frequently Asked Questions', null],
+    ];
+
+    foreach ($options_map as $entry) {
+        if (count($results) >= $limit) break;
+
+        list($key, $url, $cat_es, $cat_en, $excerpt_key) = $entry;
+
+        if ($lang === 'en') {
+            $value = get_option($key . '_en');
+        } else {
+            $value = get_option($key);
         }
+        if ($value === false || $value === '') continue;
+
+        $rank = gf_match_rank($search, $value);
+        if ($rank < 1) continue;
+
+        $excerpt = '';
+        if ($excerpt_key) {
+            $excerpt_raw = ($lang === 'en') ? get_option($excerpt_key . '_en') : get_option($excerpt_key);
+            if ($excerpt_raw && is_string($excerpt_raw)) {
+                $excerpt = wp_trim_words($excerpt_raw, 25);
+            }
+        }
+
+        $category = ($lang === 'en') ? $cat_en : $cat_es;
+
+        $results[] = [
+            'type'          => 'opcion',
+            'title'         => gf_normalize_entities($value),
+            'excerpt'       => gf_normalize_entities($excerpt),
+            'permalink'     => $url,
+            'thumbnail'     => '',
+            'external_url'  => '',
+            'external_text' => '',
+            'category'      => gf_normalize_entities($category),
+            'date'          => '',
+            'order'         => $rank,
+        ];
     }
+
     return $results;
 }
 
-function grupofadiar_search_in_cpt($cpt, $search, $acf_fields = [], $limit = 20) {
-    $post_ids = [];
-
-    $main_query = new WP_Query([
-        'post_type'      => $cpt,
-        's'              => $search,
-        'posts_per_page' => $limit,
-        'post_status'    => 'publish',
-        'fields'         => 'ids',
-        'no_found_rows'  => true,
-    ]);
-    $post_ids = $main_query->posts;
-
-    foreach ($acf_fields as $field_name) {
-        $meta_ids = get_posts([
+function gf_search_in_cpt($cpt, $search, $fields_to_scan, $lang, $limit = 20) {
+    if (empty($search)) {
+        $all = get_posts([
             'post_type'      => $cpt,
             'posts_per_page' => $limit,
             'post_status'    => 'publish',
             'fields'         => 'ids',
             'no_found_rows'  => true,
-            'meta_query'     => [
-                [
-                    'key'     => $field_name,
-                    'value'   => $search,
-                    'compare' => 'LIKE',
-                ],
-            ],
+            'orderby'        => 'menu_order',
+            'order'          => 'ASC',
         ]);
-        $post_ids = array_merge($post_ids, $meta_ids);
+        $result = [];
+        foreach ($all as $id) {
+            $result[] = ['id' => $id, 'rank' => 0];
+        }
+        return $result;
     }
 
-    $post_ids = array_unique($post_ids);
-    return array_slice($post_ids, 0, $limit);
+    $all_posts = get_posts([
+        'post_type'      => $cpt,
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+        'fields'         => 'ids',
+        'no_found_rows'  => true,
+        'orderby'        => 'menu_order',
+        'order'          => 'ASC',
+    ]);
+
+    $matched = [];
+
+    foreach ($all_posts as $id) {
+        $best_rank = 0;
+
+        $title = get_the_title($id);
+        $rank = gf_match_rank($search, $title);
+        if ($rank > $best_rank) $best_rank = $rank;
+
+        foreach ($fields_to_scan as $field) {
+            if (empty($field)) continue;
+            $value = get_field($field, $id);
+            if (!is_string($value) && !is_numeric($value)) continue;
+            $rank = gf_match_rank($search, (string)$value);
+            if ($rank > $best_rank) $best_rank = $rank;
+        }
+
+        $content = get_post_field('post_content', $id);
+        if (is_string($content) && $content !== '') {
+            $rank = gf_match_rank($search, $content);
+            if ($rank > $best_rank) $best_rank = $rank;
+        }
+
+        $excerpt = get_post_field('post_excerpt', $id);
+        if (is_string($excerpt) && $excerpt !== '') {
+            $rank = gf_match_rank($search, $excerpt);
+            if ($rank > $best_rank) $best_rank = $rank;
+        }
+
+        $all_meta = get_post_meta($id);
+        foreach ($all_meta as $key => $values) {
+            if (strpos($key, '_') === 0) continue;
+            if ($lang !== 'en' && substr($key, -3) === '_en') continue;
+            foreach ((array)$values as $v) {
+                if (!is_string($v) || $v === '') continue;
+                $rank = gf_match_rank($search, $v);
+                if ($rank > $best_rank) $best_rank = $rank;
+            }
+        }
+
+        if ($best_rank >= 1) {
+            $matched[] = ['id' => $id, 'rank' => $best_rank];
+        }
+    }
+
+    usort($matched, function ($a, $b) {
+        return ($b['rank'] - $a['rank']);
+    });
+
+    return array_slice($matched, 0, $limit);
 }
 
-function grupofadiar_get_first_acf_text($post_id, $acf_fields) {
+function gf_get_first_acf_text($post_id, $acf_fields) {
     foreach ($acf_fields as $field) {
         $value = get_field($field, $post_id);
         if (!empty($value) && is_string($value)) {
@@ -410,153 +612,25 @@ function grupofadiar_get_first_acf_text($post_id, $acf_fields) {
     return get_post_field('post_excerpt', $post_id) ?: get_post_field('post_content', $post_id);
 }
 
-function grupofadiar_corporativa_category($cpt) {
+function gf_corporativa_category($cpt) {
+    $lang = gf_current_lang();
     $map = [
-        'about_us'        => 'Grupo Fadiar',
-        'our_story_item'  => 'Nuestra Historia',
-        'pilar_corporativo' => 'Valores Corporativos',
-        'discover_group'  => 'Quiénes Somos',
+        'about_us'        => ['es' => 'Grupo Fadiar',               'en' => 'Grupo Fadiar'],
+        'our_story_item'  => ['es' => 'Nuestra Historia',           'en' => 'Our Story'],
+        'pilar_corporativo' => ['es' => 'Valores Corporativos',     'en' => 'Corporate Values'],
+        'discover_group'  => ['es' => 'Quiénes Somos',              'en' => 'Who We Are'],
     ];
-    return isset($map[$cpt]) ? $map[$cpt] : 'Información Corporativa';
+    return isset($map[$cpt][$lang]) ? $map[$cpt][$lang] : 'Información Corporativa';
 }
 
-function grupofadiar_garantias_category($cpt) {
+function gf_garantias_category($cpt) {
+    $lang = gf_current_lang();
     $map = [
-        'warranty_step'      => 'Proceso de Reclamación',
-        'warranty_contact'   => 'Contactos de Garantía',
-        'faq_item'           => 'Preguntas Frecuentes',
-        'support_home_item'  => 'Soporte y Garantía',
-        'support_header_item' => 'Soporte y Garantía',
+        'warranty_step'      => ['es' => 'Proceso de Reclamación',   'en' => 'Claims Process'],
+        'warranty_contact'   => ['es' => 'Contactos de Garantía',    'en' => 'Warranty Contacts'],
+        'faq_item'           => ['es' => 'Preguntas Frecuentes',     'en' => 'Frequently Asked Questions'],
+        'support_home_item'  => ['es' => 'Soporte y Garantía',       'en' => 'Support and Warranty'],
+        'support_header_item' => ['es' => 'Soporte y Garantía',      'en' => 'Support and Warranty'],
     ];
-    return isset($map[$cpt]) ? $map[$cpt] : 'Garantía';
-}
-
-if (!function_exists('grupofadiar_str_contains')) {
-    function grupofadiar_str_contains($haystack, $needle) {
-        return mb_stripos($haystack, $needle) !== false;
-    }
-}
-
-/**
- * Translate text via TranslatePress, with direct TRP dictionary fallback.
- */
-function grupofadiar_translate_text($string, $lang) {
-    if (empty($string) || !function_exists('trp_translate')) {
-        return $string;
-    }
-
-    $lang = ($lang === 'en' || $lang === 'en-US') ? 'en_US' : $lang;
-    $lang = ($lang === 'es' || $lang === 'es-ES') ? 'es_ES' : $lang;
-
-    $translated = trp_translate($string, $lang, false);
-    if ($translated !== $string) {
-        return $translated;
-    }
-
-    $stripped = wp_strip_all_tags($string);
-    if ($stripped !== $string) {
-        $translated = trp_translate($stripped, $lang, false);
-        if ($translated !== $stripped) {
-            return $translated;
-        }
-    }
-
-    global $wpdb;
-    $tables = $wpdb->get_col(
-        $wpdb->prepare(
-            "SHOW TABLES LIKE %s",
-            $wpdb->esc_like($wpdb->prefix . 'trp_dictionary_') . '%'
-        )
-    );
-    foreach ($tables as $table) {
-        if (stripos($table, '_untranslated') !== false) continue;
-        $result = $wpdb->get_var($wpdb->prepare(
-            "SELECT translated FROM `$table` WHERE original = %s LIMIT 1",
-            $stripped
-        ));
-        if (!empty($result)) return $result;
-    }
-
-    if ($lang === 'en_US') {
-        $hardcoded = [
-            'Quiénes Somos' => 'Who We Are',
-            'Valores Corporativos' => 'Corporate Values',
-            'Nuestra Historia' => 'Our Story',
-            'Grupo Fadiar' => 'Group Fadiar',
-            'Información Corporativa' => 'Corporate Information',
-            'Sección' => 'Section',
-            'Proceso de Reclamación' => 'Claims Process',
-            'Contactos de Garantía' => 'Warranty Contacts',
-            'Preguntas Frecuentes' => 'Frequently Asked Questions',
-            'Soporte y Garantía' => 'Support and Warranty',
-            'Ver producto' => 'View product',
-            'Abrir tienda' => 'Open in store',
-        ];
-        if (isset($hardcoded[$stripped])) {
-            return $hardcoded[$stripped];
-        }
-    }
-
-    if (function_exists('trp_register_string')) {
-        $registered = get_option('gf_trp_registered_static_strings', []);
-        if (!in_array($stripped, $registered, true)) {
-            trp_register_string('grupofadiar_static', $stripped, 'Search Categories');
-            $registered[] = $stripped;
-            update_option('gf_trp_registered_static_strings', $registered);
-        }
-    }
-
-    return $string;
-}
-
-add_action('init', 'grupofadiar_register_static_strings');
-function grupofadiar_register_static_strings() {
-    if (!function_exists('trp_register_string')) return;
-
-    $static_strings = [
-        'Quiénes Somos', 'Valores Corporativos', 'Nuestra Historia',
-        'Grupo Fadiar', 'Información Corporativa', 'Sección',
-        'Proceso de Reclamación', 'Contactos de Garantía',
-        'Preguntas Frecuentes', 'Soporte y Garantía', 'Garantía',
-        'Ver producto', 'Abrir tienda',
-    ];
-
-    $registered = get_option('gf_trp_registered_static_strings', []);
-    $changed = false;
-
-    foreach ($static_strings as $s) {
-        if (!in_array($s, $registered, true)) {
-            trp_register_string('grupofadiar_static', $s, 'Search Categories');
-            $registered[] = $s;
-            $changed = true;
-        }
-    }
-
-    if ($changed) {
-        update_option('gf_trp_registered_static_strings', $registered);
-    }
-}
-
-add_action('acf/save_post', 'grupofadiar_register_acf_strings', 20);
-function grupofadiar_register_acf_strings($post_id) {
-    if (!function_exists('trp_register_string')) return;
-    if (wp_is_post_revision($post_id) || wp_is_post_autosave($post_id)) return;
-
-    $post_type = get_post_type($post_id);
-    $translatable_types = ['warranty_step', 'warranty_contact', 'faq_item', 'support_home_item',
-                           'support_header_item', 'noticia', 'home_product',
-                           'about_us', 'our_story_item', 'pilar_corporativo', 'discover_group'];
-
-    if (!in_array($post_type, $translatable_types, true)) return;
-
-    $fields = get_field_objects($post_id);
-    if (!is_array($fields)) return;
-
-    foreach ($fields as $field_name => $field) {
-        if (!in_array($field['type'], ['text', 'textarea', 'wysiwyg'], true)) continue;
-        $value = $field['value'];
-        if (is_string($value) && !empty($value)) {
-            trp_register_string($post_type . '_' . $field_name, $value, $post_type . ' - ' . $field['label']);
-        }
-    }
+    return isset($map[$cpt][$lang]) ? $map[$cpt][$lang] : 'Garantía';
 }

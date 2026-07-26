@@ -7,8 +7,8 @@
  */
 
 // Obtener títulos de la sección desde las opciones
-$section_title    = get_option('brands_section_title', 'Nuestras marcas');
-$section_subtitle = get_option('brands_section_subtitle', 'Diversidad de soluciones, un solo compromiso');
+$section_title    = gf_get_option('brands_section_title', 'Nuestras marcas', 'Our Brands');
+$section_subtitle = gf_get_option('brands_section_subtitle', 'Diversidad de soluciones, un solo compromiso', 'Diverse solutions, one single commitment');
 
 // Obtener todas las marcas publicadas
 $brands_query = new WP_Query(array(
@@ -33,12 +33,12 @@ $brands_query = new WP_Query(array(
                 <?php
                 // Obtener campos ACF
                 $product_image     = get_the_post_thumbnail_url(get_the_ID(), 'full');
-                $product_alt       = get_the_title();
+                $product_alt       = gf_get_post_title();
                 $brand_logo        = get_field('brand_logo');
                 $brand_logo_url    = $brand_logo ? $brand_logo['url'] : '';
-                $brand_logo_alt    = $brand_logo ? $brand_logo['alt'] : get_the_title();
-                $description       = get_field('brand_description');
-                $button_text       = get_field('brand_button_text') ?: 'Ver más';
+                $brand_logo_alt    = $brand_logo ? $brand_logo['alt'] : gf_get_post_title();
+                $description       = gf_get_field('brand_description');
+                $button_text       = gf_get_field('brand_button_text') ?: (gf_current_lang() === 'en' ? 'View more' : 'Ver más');
                 $button_url        = get_field('brand_button_url') ?: '#';
 
                 // Preparar args para card-product.php

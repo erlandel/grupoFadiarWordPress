@@ -23,6 +23,15 @@ function grupofadiar_register_about_us_acf_fields() {
                     'default_value' => 'Grupo Fadiar – Innovación y compromiso social',
                     'required' => 0,
                 ),
+                array(
+                    'key' => 'field_about_page_title_en',
+                    'label' => 'Page Title H1 (English)',
+                    'name' => 'about_page_title_en',
+                    'type' => 'text',
+                    'instructions' => 'English version of the H1 page title.',
+                    'default_value' => 'Grupo Fadiar – Innovation and social commitment',
+                    'required' => 0,
+                ),
 
                 array(
                     'key' => 'field_about_metrics_image',
@@ -54,6 +63,14 @@ function grupofadiar_register_about_us_acf_fields() {
                     'default_value' => 'colaboradores',
                     'required' => 0,
                 ),
+                array(
+                    'key' => 'field_about_metric_1_label_en',
+                    'label' => 'Metric 1 – label (English)',
+                    'name' => 'about_metric_1_label_en',
+                    'type' => 'text',
+                    'default_value' => 'collaborators',
+                    'required' => 0,
+                ),
 
                 array(
                     'key' => 'field_about_metric_2_value',
@@ -69,6 +86,14 @@ function grupofadiar_register_about_us_acf_fields() {
                     'name' => 'about_metric_2_label',
                     'type' => 'text',
                     'default_value' => 'marcas',
+                    'required' => 0,
+                ),
+                array(
+                    'key' => 'field_about_metric_2_label_en',
+                    'label' => 'Metric 2 – label (English)',
+                    'name' => 'about_metric_2_label_en',
+                    'type' => 'text',
+                    'default_value' => 'brands',
                     'required' => 0,
                 ),
 
@@ -88,6 +113,14 @@ function grupofadiar_register_about_us_acf_fields() {
                     'default_value' => 'productos',
                     'required' => 0,
                 ),
+                array(
+                    'key' => 'field_about_metric_3_label_en',
+                    'label' => 'Metric 3 – label (English)',
+                    'name' => 'about_metric_3_label_en',
+                    'type' => 'text',
+                    'default_value' => 'products',
+                    'required' => 0,
+                ),
 
                 array(
                     'key' => 'field_about_metric_4_value',
@@ -105,6 +138,14 @@ function grupofadiar_register_about_us_acf_fields() {
                     'default_value' => 'unidades vendidas',
                     'required' => 0,
                 ),
+                array(
+                    'key' => 'field_about_metric_4_label_en',
+                    'label' => 'Metric 4 – label (English)',
+                    'name' => 'about_metric_4_label_en',
+                    'type' => 'text',
+                    'default_value' => 'units sold',
+                    'required' => 0,
+                ),
 
                 array(
                     'key' => 'field_about_metrics_description_1',
@@ -117,6 +158,16 @@ function grupofadiar_register_about_us_acf_fields() {
                     'required' => 0,
                 ),
                 array(
+                    'key' => 'field_about_metrics_description_1_en',
+                    'label' => 'Description 1 – Left Paragraph (English)',
+                    'name' => 'about_metrics_description_1_en',
+                    'type' => 'textarea',
+                    'instructions' => 'English version of the left paragraph.',
+                    'default_value' => 'Grupo Fadiar (Fabricación y Diseño Artesanal) began as a dream, a personal challenge. It was built from the ground up — constructing its facilities, writing down what mattered, bringing together invaluable people. Step by step we made our way. In these three years, Grupo Fadiar has grown with a clear purpose: to offer products that combine quality, accessibility and social responsibility. Our track record is built on innovation, national production and strategic alliances that strengthen the local economy.',
+                    'rows' => 6,
+                    'required' => 0,
+                ),
+                array(
                     'key' => 'field_about_metrics_description_2',
                     'label' => 'Descripción 2 (párrafo derecho)',
                     'name' => 'about_metrics_description_2',
@@ -124,6 +175,24 @@ function grupofadiar_register_about_us_acf_fields() {
                     'instructions' => 'Segundo párrafo de la sección de descriptions dentro del bloque metrics.',
                     'default_value' => 'Nuestra filosofía "Diversidad de Soluciones, Un solo compromiso" refleja lo que somos, nuestra esencia. En Fadiar crecemos profesional y personalmente. Cada equipo, cada objeto que fabricamos y que llega a un hogar o negocio es un reto, un compromiso y, sobre todo, una oportunidad para ser útiles. Y en eso, ponemos lo mejor de nosotros. ¡Más que productos, compartimos experiencias',
                     'rows' => 6,
+                    'required' => 0,
+                ),
+                array(
+                    'key' => 'field_about_metrics_description_2_en',
+                    'label' => 'Description 2 – Right Paragraph (English)',
+                    'name' => 'about_metrics_description_2_en',
+                    'type' => 'textarea',
+                    'instructions' => 'English version of the right paragraph.',
+                    'default_value' => 'Our philosophy "Diversity of Solutions, One Single Commitment" reflects who we are, our essence. At Fadiar we grow professionally and personally. Every team, every object we manufacture that reaches a home or business is a challenge, a commitment and, above all, an opportunity to be useful. And in that, we give our best. More than products, we share experiences.',
+                    'rows' => 6,
+                    'required' => 0,
+                ),
+                array(
+                    'key' => 'field_about_post_title_en',
+                    'label' => 'Título en Inglés',
+                    'name' => 'post_title_en',
+                    'type' => 'text',
+                    'default_value' => 'Grupo Fadiar',
                     'required' => 0,
                 ),
             ),

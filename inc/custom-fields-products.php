@@ -52,6 +52,23 @@ function grupofadiar_register_products_acf_fields() {
                     'required' => 0,
                 ),
                 array(
+                    'key' => 'field_product_button_text_en',
+                    'label' => 'Button Text (English)',
+                    'name' => 'product_button_text_en',
+                    'type' => 'text',
+                    'instructions' => 'English version of the button text.',
+                    'default_value' => 'View product',
+                    'required' => 0,
+                ),
+                array(
+                    'key' => 'field_post_title_en_product',
+                    'label' => 'Título en Inglés',
+                    'name' => 'post_title_en',
+                    'type' => 'text',
+                    'instructions' => 'Título del producto en inglés.',
+                    'required' => 0,
+                ),
+                array(
                     'key' => 'field_product_button_url',
                     'label' => 'URL del Botón',
                     'name' => 'product_button_url',

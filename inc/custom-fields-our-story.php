@@ -56,6 +56,26 @@ function grupofadiar_register_our_story_acf_fields() {
                         ),
                     ),
                 ),
+                array(
+                    'key' => 'field_osi_text_en',
+                    'label' => 'Paragraph (English)',
+                    'name' => 'osi_text_en',
+                    'type' => 'wysiwyg',
+                    'instructions' => 'English version of the paragraph content.',
+                    'toolbar' => 'basic',
+                    'media_buttons' => 0,
+                    'teeny' => true,
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_tipo_contenido',
+                                'operator' => '==',
+                                'value' => 'parrafo',
+                            ),
+                        ),
+                    ),
+                ),
 
                 array(
                     'key' => 'field_osi_intro_text',
@@ -77,11 +97,47 @@ function grupofadiar_register_our_story_acf_fields() {
                         ),
                     ),
                 ),
+                array(
+                    'key' => 'field_osi_intro_text_en',
+                    'label' => 'Intro Text (English)',
+                    'name' => 'osi_intro_text_en',
+                    'type' => 'wysiwyg',
+                    'instructions' => 'English version of the intro text.',
+                    'toolbar' => 'basic',
+                    'media_buttons' => 0,
+                    'teeny' => true,
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_tipo_contenido',
+                                'operator' => '==',
+                                'value' => 'lider',
+                            ),
+                        ),
+                    ),
+                ),
 
                 array(
                     'key' => 'field_osi_leader_name',
                     'label' => 'Nombre del líder',
                     'name' => 'osi_leader_name',
+                    'type' => 'text',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_tipo_contenido',
+                                'operator' => '==',
+                                'value' => 'lider',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_osi_leader_name_en',
+                    'label' => 'Leader Name (English)',
+                    'name' => 'osi_leader_name_en',
                     'type' => 'text',
                     'required' => 0,
                     'conditional_logic' => array(
@@ -133,6 +189,23 @@ function grupofadiar_register_our_story_acf_fields() {
                         ),
                     ),
                 ),
+                array(
+                    'key' => 'field_osi_leader_short_description_en',
+                    'label' => 'Short Description (English)',
+                    'name' => 'osi_leader_short_description_en',
+                    'type' => 'textarea',
+                    'rows' => 3,
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_tipo_contenido',
+                                'operator' => '==',
+                                'value' => 'lider',
+                            ),
+                        ),
+                    ),
+                ),
 
                 array(
                     'key' => 'field_osi_leader_full_description',
@@ -150,6 +223,30 @@ function grupofadiar_register_our_story_acf_fields() {
                             ),
                         ),
                     ),
+                ),
+                array(
+                    'key' => 'field_osi_leader_full_description_en',
+                    'label' => 'Full Description (English)',
+                    'name' => 'osi_leader_full_description_en',
+                    'type' => 'textarea',
+                    'rows' => 6,
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_tipo_contenido',
+                                'operator' => '==',
+                                'value' => 'lider',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_osi_post_title_en',
+                    'label' => 'Título en Inglés',
+                    'name' => 'post_title_en',
+                    'type' => 'text',
+                    'required' => 0,
                 ),
             ),
             'location' => array(

@@ -25,6 +25,9 @@ function grupofadiar_render_support_header_settings_page() {
         update_option('support_warranty_title', sanitize_text_field($_POST['support_warranty_title'] ?? 'Soporte y Garantía'));
         update_option('support_warranty_subtitle', sanitize_text_field($_POST['support_warranty_subtitle'] ?? 'Atención técnica y reclamaciones'));
         update_option('support_warranty_description', wp_kses_post($_POST['support_warranty_description'] ?? ''));
+        update_option('support_warranty_title_en', sanitize_text_field($_POST['support_warranty_title_en'] ?? 'Support and Warranty'));
+        update_option('support_warranty_subtitle_en', sanitize_text_field($_POST['support_warranty_subtitle_en'] ?? 'Technical assistance and claims'));
+        update_option('support_warranty_description_en', wp_kses_post($_POST['support_warranty_description_en'] ?? ''));
 
         echo '<div class="updated"><p>Configuración guardada exitosamente.</p></div>';
     }
@@ -32,6 +35,9 @@ function grupofadiar_render_support_header_settings_page() {
     $title = get_option('support_warranty_title', 'Soporte y Garantía');
     $subtitle = get_option('support_warranty_subtitle', 'Atención técnica y reclamaciones');
     $description = get_option('support_warranty_description', '');
+    $title_en = get_option('support_warranty_title_en', 'Support and Warranty');
+    $subtitle_en = get_option('support_warranty_subtitle_en', 'Technical assistance and claims');
+    $description_en = get_option('support_warranty_description_en', '');
     ?>
     <div class="wrap">
         <h1>Editar Encabezado y Descripción - Soporte y Garantía</h1>
@@ -50,6 +56,14 @@ function grupofadiar_render_support_header_settings_page() {
                     </td>
                 </tr>
                 <tr>
+                    <th scope="row"><label for="support_warranty_title_en">Título (EN)</label></th>
+                    <td>
+                        <input type="text" name="support_warranty_title_en" id="support_warranty_title_en"
+                            value="<?php echo esc_attr($title_en); ?>" class="regular-text" />
+                        <p class="description">English version of the title.</p>
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row"><label for="support_warranty_subtitle">Subtítulo (H2)</label></th>
                     <td>
                         <input type="text" name="support_warranty_subtitle" id="support_warranty_subtitle"
@@ -58,10 +72,25 @@ function grupofadiar_render_support_header_settings_page() {
                     </td>
                 </tr>
                 <tr>
+                    <th scope="row"><label for="support_warranty_subtitle_en">Subtítulo (EN)</label></th>
+                    <td>
+                        <input type="text" name="support_warranty_subtitle_en" id="support_warranty_subtitle_en"
+                            value="<?php echo esc_attr($subtitle_en); ?>" class="regular-text" />
+                        <p class="description">English version of the subtitle.</p>
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row"><label for="support_warranty_description">Descripción</label></th>
                     <td>
                         <textarea name="support_warranty_description" id="support_warranty_description" rows="5" class="large-text"><?php echo esc_textarea($description); ?></textarea>
                         <p class="description">La descripción que aparece debajo del subtítulo.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="support_warranty_description_en">Descripción (EN)</label></th>
+                    <td>
+                        <textarea name="support_warranty_description_en" id="support_warranty_description_en" rows="5" class="large-text"><?php echo esc_textarea($description_en); ?></textarea>
+                        <p class="description">English version of the description.</p>
                     </td>
                 </tr>
             </table>
@@ -81,6 +110,15 @@ function grupofadiar_initialize_support_header_options() {
     }
     if (get_option('support_warranty_description') === false) {
         update_option('support_warranty_description', '');
+    }
+    if (get_option('support_warranty_title_en') === false) {
+        update_option('support_warranty_title_en', 'Support and Warranty');
+    }
+    if (get_option('support_warranty_subtitle_en') === false) {
+        update_option('support_warranty_subtitle_en', 'Technical assistance and claims');
+    }
+    if (get_option('support_warranty_description_en') === false) {
+        update_option('support_warranty_description_en', '');
     }
 }
 add_action('after_switch_theme', 'grupofadiar_initialize_support_header_options');

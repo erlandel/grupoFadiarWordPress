@@ -2,8 +2,8 @@
 get_header();
 
 $post_id = get_the_ID();
-$title = get_the_title();
-$fecha = get_field('fecha_noticia');
+$title = gf_get_post_title();
+$fecha = gf_get_field('fecha_noticia');
 $categories = wp_get_post_terms($post_id, 'categoria_noticia');
 
 $thumbnail_url = get_the_post_thumbnail_url($post_id, 'full');
@@ -17,7 +17,7 @@ $total_in_cat = 1;
 
 if (!empty($categories) && !is_wp_error($categories)) {
   $cat_term_id = $categories[0]->term_id;
-  $category_name = $categories[0]->name;
+  $category_name = gf_get_term_name($categories[0]);
 
   $all_ids = get_posts(array(
     'post_type'      => 'noticia',
@@ -60,9 +60,9 @@ if (!empty($categories) && !is_wp_error($categories)) {
 ?>
 <div class="mx-20 mt-10">
   <div class="flex text-xl">
-    <p><a href="<?php echo home_url('/'); ?>">Inicio</a></p>
+    <p><a href="<?php echo home_url('/'); ?>"><?php echo esc_html(gf_e('noticias.breadcrumb_home')); ?></a></p>
     <svg class="h-6 w-6 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-    <p><a href="<?php echo home_url('/noticias/'); ?>">Noticias</a></p>
+    <p><a href="<?php echo home_url('/noticias/'); ?>"><?php echo esc_html(gf_e('noticias.breadcrumb')); ?></a></p>
   </div>
 </div>
 
@@ -71,10 +71,10 @@ if (!empty($categories) && !is_wp_error($categories)) {
     <?php if ($thumbnail_url): ?>
       <div id="hero-share"
            class="relative w-full overflow-hidden rounded-xl aspect-video bg-gray-100"
-           data-share-title="<?php echo esc_attr(get_the_title()); ?>"
+           data-share-title="<?php echo esc_attr(gf_get_post_title()); ?>"
            data-share-url="<?php echo esc_attr(get_permalink()); ?>"
            data-share-date="<?php echo esc_attr($fecha ?: get_the_date('d/m/Y')); ?>"
-           data-share-author="<?php echo esc_attr(get_field('autor') ?: ''); ?>"
+           data-share-author="<?php echo esc_attr(gf_get_field('autor') ?: ''); ?>"
            data-share-image="<?php echo esc_url($thumbnail_url); ?>">
         <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($title); ?>" class="w-full h-full object-cover" />
         <button data-share-btn type="button" aria-label="Compartir noticia"
@@ -93,7 +93,7 @@ if (!empty($categories) && !is_wp_error($categories)) {
       <div class="flex items-center gap-4 mt-3 text-xl text-dark">
         <span><?php echo esc_html($fecha ?: get_the_date('d/m/Y')); ?></span>
       </div>
-      <?php $autor = get_field('autor'); if ($autor): ?>
+      <?php $autor = gf_get_field('autor'); if ($autor): ?>
         <p class="italic font-semibold text-dark text-xl mt-1"><?php echo esc_html($autor); ?></p>
       <?php endif; ?>
     </div>
@@ -150,14 +150,14 @@ if (!empty($categories) && !is_wp_error($categories)) {
       }
     ?>
       <div class="bg-[#F8F8F8] w-full rounded-xl p-6 pb-10 border border-gray-200">
-        <h3 class="text-3xl font-bold text-dark mb-4">Categorías</h3>
+        <h3 class="text-3xl font-bold text-dark mb-4"><?php echo esc_html(gf_e('noticias.sidebar_title')); ?></h3>
         <ul class="space-y-2">
           <li class="border-b-3 border-[#EDEDED]">
-            <a href="<?php echo home_url('/noticias/'); ?>" class="block text-xl text-dark transition px-3 py-2 rounded-md hover:bg-gray-200 <?php echo empty($categories) ? 'font-bold' : ''; ?>">Todas las Noticias</a>
+            <a href="<?php echo home_url('/noticias/'); ?>" class="block text-xl text-dark transition px-3 py-2 rounded-md hover:bg-gray-200 <?php echo empty($categories) ? 'font-bold' : ''; ?>"><?php echo esc_html(gf_e('noticias.sidebar_all')); ?></a>
           </li>
           <?php foreach ($all_categories as $cat): ?>
             <li class="border-b-3 border-[#EDEDED]">
-              <a href="<?php echo esc_url($first_by_cat[$cat->term_id] ?? '#'); ?>" class="block text-xl text-dark transition px-3 py-2 rounded-md hover:bg-gray-200 <?php echo (isset($categories[0]) && $cat->term_id == $categories[0]->term_id) ? 'font-bold' : ''; ?>"><?php echo esc_html($cat->name); ?></a>
+              <a href="<?php echo esc_url($first_by_cat[$cat->term_id] ?? '#'); ?>" class="block text-xl text-dark transition px-3 py-2 rounded-md hover:bg-gray-200 <?php echo (isset($categories[0]) && $cat->term_id == $categories[0]->term_id) ? 'font-bold' : ''; ?>"><?php echo esc_html(gf_get_term_name($cat)); ?></a>
             </li>
           <?php endforeach; ?>
         </ul>
@@ -169,7 +169,7 @@ if (!empty($categories) && !is_wp_error($categories)) {
 
 <?php if (isset($related_query) && $related_query->have_posts()): ?>
   <div class="mx-15 mt-20 mb-20">
-    <h2 class="text-3xl font-bold text-dark mb-8">También te puede interesar</h2>
+    <h2 class="text-3xl font-bold text-dark mb-8"><?php echo esc_html(gf_e('noticias.related_title')); ?></h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <?php while ($related_query->have_posts()): $related_query->the_post(); ?>
         <?php get_template_part('components/noticias/card', null, array('post_id' => get_the_ID())); ?>

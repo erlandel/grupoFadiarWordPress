@@ -27,6 +27,12 @@ function grupofadiar_render_contact_settings_page() {
         update_option('contact_main_address', sanitize_textarea_field($_POST['contact_main_address'] ?? ''));
         update_option('contact_schedule_label', sanitize_text_field($_POST['contact_schedule_label'] ?? 'Horario:'));
         update_option('contact_schedule_value', sanitize_text_field($_POST['contact_schedule_value'] ?? 'Lun-Vie 9:00 – 17:00.'));
+        update_option('contact_page_title_en', sanitize_text_field($_POST['contact_page_title_en'] ?? 'Contact Us'));
+        update_option('contact_page_subtitle_en', sanitize_text_field($_POST['contact_page_subtitle_en'] ?? 'Write to us, call or visit. We are here to help.'));
+        update_option('contact_address_label_en', sanitize_text_field($_POST['contact_address_label_en'] ?? 'Addresses:'));
+        update_option('contact_main_address_en', sanitize_textarea_field($_POST['contact_main_address_en'] ?? ''));
+        update_option('contact_schedule_label_en', sanitize_text_field($_POST['contact_schedule_label_en'] ?? 'Schedule:'));
+        update_option('contact_schedule_value_en', sanitize_text_field($_POST['contact_schedule_value_en'] ?? 'Mon–Fri 9:00 – 17:00.'));
 
         echo '<div class="updated"><p>Configuración guardada exitosamente.</p></div>';
     }
@@ -37,6 +43,12 @@ function grupofadiar_render_contact_settings_page() {
     $main_address   = get_option('contact_main_address', "Calle 29F entre 114 y 114A, Edificio 11413, Almacén 9A (ENAME). Ciudad Libertad, Marianao, La Habana, Cuba.");
     $schedule_label = get_option('contact_schedule_label', 'Horario:');
     $schedule_value = get_option('contact_schedule_value', 'Lun-Vie 9:00 – 17:00.');
+    $title_en          = get_option('contact_page_title_en', 'Contact Us');
+    $subtitle_en       = get_option('contact_page_subtitle_en', 'Write to us, call or visit. We are here to help.');
+    $address_label_en  = get_option('contact_address_label_en', 'Addresses:');
+    $main_address_en   = get_option('contact_main_address_en', "Calle 29F between 114 and 114A, Building 11413, Warehouse 9A (ENAME). Ciudad Libertad, Marianao, Havana, Cuba.");
+    $schedule_label_en = get_option('contact_schedule_label_en', 'Schedule:');
+    $schedule_value_en = get_option('contact_schedule_value_en', 'Mon–Fri 9:00 – 17:00.');
     ?>
     <div class="wrap">
         <h1>Editar Configuración — Contacto</h1>
@@ -55,11 +67,27 @@ function grupofadiar_render_contact_settings_page() {
                     </td>
                 </tr>
                 <tr>
+                    <th scope="row"><label for="contact_page_title_en">Título (EN)</label></th>
+                    <td>
+                        <input type="text" name="contact_page_title_en" id="contact_page_title_en"
+                            value="<?php echo esc_attr($title_en); ?>" class="regular-text" />
+                        <p class="description">English version of the title.</p>
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row"><label for="contact_page_subtitle">Subtítulo</label></th>
                     <td>
                         <input type="text" name="contact_page_subtitle" id="contact_page_subtitle"
                             value="<?php echo esc_attr($subtitle); ?>" class="large-text" />
                         <p class="description">Subtítulo debajo del título. Ej: "Escríbenos, llama o visítanos. Estamos para ayudarte."</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="contact_page_subtitle_en">Subtítulo (EN)</label></th>
+                    <td>
+                        <input type="text" name="contact_page_subtitle_en" id="contact_page_subtitle_en"
+                            value="<?php echo esc_attr($subtitle_en); ?>" class="large-text" />
+                        <p class="description">English version of the subtitle.</p>
                     </td>
                 </tr>
                 <tr>
@@ -71,10 +99,25 @@ function grupofadiar_render_contact_settings_page() {
                     </td>
                 </tr>
                 <tr>
+                    <th scope="row"><label for="contact_address_label_en">Etiqueta de direcciones (EN)</label></th>
+                    <td>
+                        <input type="text" name="contact_address_label_en" id="contact_address_label_en"
+                            value="<?php echo esc_attr($address_label_en); ?>" class="regular-text" />
+                        <p class="description">English version of the address label.</p>
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row"><label for="contact_main_address">Sede central</label></th>
                     <td>
                         <textarea name="contact_main_address" id="contact_main_address" rows="3" class="large-text"><?php echo esc_textarea($main_address); ?></textarea>
                         <p class="description">Dirección completa de la sede principal.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="contact_main_address_en">Sede central (EN)</label></th>
+                    <td>
+                        <textarea name="contact_main_address_en" id="contact_main_address_en" rows="3" class="large-text"><?php echo esc_textarea($main_address_en); ?></textarea>
+                        <p class="description">English version of the main address.</p>
                     </td>
                 </tr>
                 <tr>
@@ -86,11 +129,27 @@ function grupofadiar_render_contact_settings_page() {
                     </td>
                 </tr>
                 <tr>
+                    <th scope="row"><label for="contact_schedule_label_en">Etiqueta de horario (EN)</label></th>
+                    <td>
+                        <input type="text" name="contact_schedule_label_en" id="contact_schedule_label_en"
+                            value="<?php echo esc_attr($schedule_label_en); ?>" class="regular-text" />
+                        <p class="description">English version of the schedule label.</p>
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row"><label for="contact_schedule_value">Horario</label></th>
                     <td>
                         <input type="text" name="contact_schedule_value" id="contact_schedule_value"
                             value="<?php echo esc_attr($schedule_value); ?>" class="regular-text" />
                         <p class="description">Texto del horario de atención. Ej: "Lun-Vie 9:00 – 17:00."</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="contact_schedule_value_en">Horario (EN)</label></th>
+                    <td>
+                        <input type="text" name="contact_schedule_value_en" id="contact_schedule_value_en"
+                            value="<?php echo esc_attr($schedule_value_en); ?>" class="regular-text" />
+                        <p class="description">English version of the schedule value.</p>
                     </td>
                 </tr>
             </table>
@@ -123,6 +182,24 @@ function grupofadiar_initialize_contact_options() {
     if (get_option('contact_recipient_email') === false) {
         update_option('contact_recipient_email', 'delfinoerlan@gmail.com');
     }
+    if (get_option('contact_page_title_en') === false) {
+        update_option('contact_page_title_en', 'Contact Us');
+    }
+    if (get_option('contact_page_subtitle_en') === false) {
+        update_option('contact_page_subtitle_en', 'Write to us, call or visit. We are here to help.');
+    }
+    if (get_option('contact_address_label_en') === false) {
+        update_option('contact_address_label_en', 'Addresses:');
+    }
+    if (get_option('contact_main_address_en') === false) {
+        update_option('contact_main_address_en', "Calle 29F between 114 and 114A, Building 11413, Warehouse 9A (ENAME). Ciudad Libertad, Marianao, Havana, Cuba.");
+    }
+    if (get_option('contact_schedule_label_en') === false) {
+        update_option('contact_schedule_label_en', 'Schedule:');
+    }
+    if (get_option('contact_schedule_value_en') === false) {
+        update_option('contact_schedule_value_en', 'Mon–Fri 9:00 – 17:00.');
+    }
 }
 add_action('after_switch_theme', 'grupofadiar_initialize_contact_options');
 add_action('admin_init', 'grupofadiar_initialize_contact_options');
@@ -141,8 +218,21 @@ function grupofadiar_register_contact_section_menu() {
          'dashicons-email',
         9.5
     );
+
+    add_submenu_page(
+        'contact_section',
+        'Títulos y Datos',
+        'Títulos y Datos',
+        'manage_options',
+        'contact-section-settings',
+        'grupofadiar_render_contact_settings_page'
+    );
 }
 add_action('admin_menu', 'grupofadiar_register_contact_section_menu', 0);
+
+add_action('admin_menu', function () {
+    remove_submenu_page('contact_section', 'contact-section-settings');
+}, 20);
 
 function grupofadiar_render_contact_section_landing() {
     ?>

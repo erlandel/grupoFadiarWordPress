@@ -559,6 +559,50 @@ function grupofadiar_register_categoria_noticia_taxonomy() {
 }
 add_action('init', 'grupofadiar_register_categoria_noticia_taxonomy', 0);
 
+add_action('categoria_noticia_add_form_fields', 'gf_categoria_noticia_en_field_add', 10);
+add_action('categoria_noticia_edit_form_fields', 'gf_categoria_noticia_en_field_edit', 10, 2);
+add_action('created_categoria_noticia', 'gf_categoria_noticia_save_en_field', 10, 1);
+add_action('edited_categoria_noticia', 'gf_categoria_noticia_save_en_field', 10, 1);
+
+function gf_categoria_noticia_en_field_add() {
+    ?>
+    <div class="form-field form-required term-en-name-wrap">
+        <label for="tag-name-en"><?php _e('Name (EN)'); ?></label>
+        <input type="text" name="name_en" id="tag-name-en" value="" />
+        <p><?php _e('The English name of the category.'); ?></p>
+    </div>
+    <?php
+    gf_categoria_noticia_hide_fields_css();
+}
+
+function gf_categoria_noticia_en_field_edit($term, $taxonomy) {
+    $name_en = get_field('name_en', 'term_' . $term->term_id);
+    ?>
+    <tr class="form-field form-required term-en-name-wrap">
+        <th scope="row"><label for="name_en"><?php _e('Name (EN)'); ?></label></th>
+        <td>
+            <input type="text" name="name_en" id="name_en" value="<?php echo esc_attr($name_en); ?>" />
+            <p class="description"><?php _e('The English name of the category.'); ?></p>
+        </td>
+    </tr>
+    <?php
+    gf_categoria_noticia_hide_fields_css();
+}
+
+function gf_categoria_noticia_save_en_field($term_id) {
+    if (isset($_POST['name_en'])) {
+        update_field('name_en', sanitize_text_field($_POST['name_en']), 'term_' . $term_id);
+    }
+}
+
+function gf_categoria_noticia_hide_fields_css() {
+    ?><style>
+        .term-description-wrap,
+        .term-parent-wrap,
+        .term-slug-wrap { display: none; }
+    </style><?php
+}
+
 function grupofadiar_register_warranty_contact_cpt() {
     $labels = array(
         'name'                  => _x('Contactos de Garantía', 'Post type general name', 'grupofadiar'),
@@ -938,17 +982,20 @@ function grupofadiar_warranty_step_section_title_form() {
         wp_verify_nonce($_POST['grupofadiar_warranty_step_section_nonce'], 'grupofadiar_save_warranty_step_section')) {
 
         update_option('warranty_section_left_title', sanitize_text_field($_POST['warranty_section_left_title'] ?? 'Proceso de reclamación'));
+        update_option('warranty_section_left_title_en', sanitize_text_field($_POST['warranty_section_left_title_en'] ?? 'Claims Process'));
 
         echo '<div class="notice notice-success is-dismissible"><p>Título de la tarjeta actualizado.</p></div>';
     }
 
     $title = get_option('warranty_section_left_title', 'Proceso de reclamación');
+    $title_en = get_option('warranty_section_left_title_en', 'Claims Process');
     ?>
     <div class="wrap" style="margin-top:10px;">
         <form method="post" action="" style="display:flex;align-items:center;gap:10px;background:#f0f6fc;padding:10px 12px;border:1px solid #c3c4c7;border-radius:4px;">
             <?php wp_nonce_field('grupofadiar_save_warranty_step_section', 'grupofadiar_warranty_step_section_nonce'); ?>
             <strong style="white-space:nowrap;">Título de la card:</strong>
             <input type="text" name="warranty_section_left_title" value="<?php echo esc_attr($title); ?>" class="regular-text" style="flex:1;" />
+            <input type="text" name="warranty_section_left_title_en" value="<?php echo esc_attr($title_en); ?>" class="regular-text" style="flex:1;" placeholder="EN" />
             <?php submit_button('Guardar', 'primary', '', false, array('style' => 'margin:0;')); ?>
         </form>
     </div>
@@ -966,17 +1013,20 @@ function grupofadiar_warranty_contact_section_title_form() {
         wp_verify_nonce($_POST['grupofadiar_warranty_contact_section_nonce'], 'grupofadiar_save_warranty_contact_section')) {
 
         update_option('warranty_section_right_title', sanitize_text_field($_POST['warranty_section_right_title'] ?? 'Contactos'));
+        update_option('warranty_section_right_title_en', sanitize_text_field($_POST['warranty_section_right_title_en'] ?? 'Contacts'));
 
         echo '<div class="notice notice-success is-dismissible"><p>Título de la tarjeta actualizado.</p></div>';
     }
 
     $title = get_option('warranty_section_right_title', 'Contactos');
+    $title_en = get_option('warranty_section_right_title_en', 'Contacts');
     ?>
     <div class="wrap" style="margin-top:10px;">
         <form method="post" action="" style="display:flex;align-items:center;gap:10px;background:#f0f6fc;padding:10px 12px;border:1px solid #c3c4c7;border-radius:4px;">
             <?php wp_nonce_field('grupofadiar_save_warranty_contact_section', 'grupofadiar_warranty_contact_section_nonce'); ?>
             <strong style="white-space:nowrap;">Título de la card:</strong>
             <input type="text" name="warranty_section_right_title" value="<?php echo esc_attr($title); ?>" class="regular-text" style="flex:1;" />
+            <input type="text" name="warranty_section_right_title_en" value="<?php echo esc_attr($title_en); ?>" class="regular-text" style="flex:1;" placeholder="EN" />
             <?php submit_button('Guardar', 'primary', '', false, array('style' => 'margin:0;')); ?>
         </form>
     </div>
@@ -1036,6 +1086,7 @@ function grupofadiar_save_faq_section_title() {
         wp_verify_nonce($_POST['grupofadiar_faq_section_nonce'], 'grupofadiar_save_faq_section')) {
 
         update_option('faq_section_title', sanitize_text_field($_POST['faq_section_title'] ?? 'Preguntas frecuentes'));
+        update_option('faq_section_title_en', sanitize_text_field($_POST['faq_section_title_en'] ?? 'Frequently Asked Questions'));
     }
 }
 add_action('admin_init', 'grupofadiar_save_faq_section_title', 9);
@@ -1052,12 +1103,14 @@ function grupofadiar_faq_section_title_form() {
     }
 
     $title = get_option('faq_section_title', 'Preguntas frecuentes');
+    $title_en = get_option('faq_section_title_en', 'Frequently Asked Questions');
     ?>
     <div class="wrap" style="margin-top:10px;">
         <form method="post" action="" style="display:flex;align-items:center;gap:10px;background:#f0f6fc;padding:10px 12px;border:1px solid #c3c4c7;border-radius:4px;">
             <?php wp_nonce_field('grupofadiar_save_faq_section', 'grupofadiar_faq_section_nonce'); ?>
             <strong style="white-space:nowrap;">Título de la sección:</strong>
             <input type="text" name="faq_section_title" value="<?php echo esc_attr($title); ?>" class="regular-text" style="flex:1;" />
+            <input type="text" name="faq_section_title_en" value="<?php echo esc_attr($title_en); ?>" class="regular-text" style="flex:1;" placeholder="EN" />
             <?php submit_button('Guardar', 'primary', '', false, array('style' => 'margin:0;')); ?>
         </form>
     </div>
@@ -1074,6 +1127,15 @@ function grupofadiar_initialize_warranty_options() {
     }
     if (get_option('faq_section_title') === false) {
         update_option('faq_section_title', 'Preguntas frecuentes');
+    }
+    if (get_option('warranty_section_left_title_en') === false) {
+        update_option('warranty_section_left_title_en', 'Claims Process');
+    }
+    if (get_option('warranty_section_right_title_en') === false) {
+        update_option('warranty_section_right_title_en', 'Contacts');
+    }
+    if (get_option('faq_section_title_en') === false) {
+        update_option('faq_section_title_en', 'Frequently Asked Questions');
     }
 }
 add_action('after_switch_theme', 'grupofadiar_initialize_warranty_options');

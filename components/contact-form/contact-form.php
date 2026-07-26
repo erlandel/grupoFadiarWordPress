@@ -9,7 +9,10 @@ $contact_subject_posts = get_posts(array(
 ));
 $contact_subjects = array();
 foreach ($contact_subject_posts as $post) {
-    $contact_subjects[] = $post->post_title;
+    $contact_subjects[] = array(
+        'id'    => $post->ID,
+        'title' => $post->post_title,
+    );
 }
 unset($post);
 
@@ -19,13 +22,13 @@ $redirect_to = esc_url(add_query_arg(null, null));
 
 <?php if ($status === 'ok'): ?>
   <div data-auto-dismiss class="mb-6 p-4 bg-green-100 border border-green-400 text-green-800 rounded-xl text-lg flex items-center justify-between transition-opacity duration-500">
-    <span>Mensaje enviado correctamente. Te contactaremos pronto.</span>
+    <span><?php gf_render_e('contact.success'); ?></span>
     <a href="<?php echo esc_url(remove_query_arg('contact')); ?>"
        class="text-green-800/60 hover:text-green-800 ml-4 text-2xl leading-none">&times;</a>
   </div>
 <?php elseif ($status === 'error'): ?>
   <div data-auto-dismiss class="mb-6 p-4 bg-red-100 border border-red-400 text-red-800 rounded-xl text-lg flex items-center justify-between transition-opacity duration-500">
-    <span>Ocurrió un error al enviar el mensaje. Intenta de nuevo.</span>
+    <span><?php gf_render_e('contact.error'); ?></span>
     <a href="<?php echo esc_url(remove_query_arg('contact')); ?>"
        class="text-red-800/60 hover:text-red-800 ml-4 text-2xl leading-none">&times;</a>
   </div>
@@ -42,15 +45,15 @@ $redirect_to = esc_url(add_query_arg(null, null));
   <div class="grid md:grid-cols-2 gap-x-6 gap-y-6">
 
     <div class="relative">
-      <input type="text" name="nombre" placeholder="Nombre completo*"
+      <input type="text" name="nombre" placeholder="<?php echo esc_attr(gf_e('contact.name')); ?>"
              class="bg-[#F4F4F4] rounded-full px-7 py-4 text-xl text-dark placeholder:text-dark/45 outline-none focus:ring-3 focus:ring-dark w-full data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500"/>
-      <p data-error class="hidden text-sm text-red-500 mt-1 ml-2">Ingresa tu nombre y ambos apellidos</p>
+      <p data-error class="hidden text-sm text-red-500 mt-1 ml-2"><?php gf_render_e('contact.name_error'); ?></p>
     </div>
 
     <div class="relative">
-      <input type="email" name="correo" placeholder="Correo electrónico*"
+      <input type="email" name="correo" placeholder="<?php echo esc_attr(gf_e('contact.email')); ?>"
              class="bg-[#F4F4F4] rounded-full px-7 py-4 text-xl text-dark placeholder:text-dark/45 outline-none focus:ring-3 focus:ring-dark w-full data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500"/>
-      <p data-error class="hidden text-sm text-red-500 mt-1 ml-2">Correo electrónico no válido</p>
+      <p data-error class="hidden text-sm text-red-500 mt-1 ml-2"><?php gf_render_e('contact.email_error'); ?></p>
     </div>
 
     <?php include __DIR__ . '/phone-input.php'; ?>
@@ -58,7 +61,7 @@ $redirect_to = esc_url(add_query_arg(null, null));
     <div class="relative md:col-span-2" data-subject-dropdown>
       <button type="button" data-subject-trigger
               class="w-full bg-[#F4F4F4] rounded-full px-7 py-4 text-xl text-dark flex items-center justify-between gap-2 cursor-pointer hover:bg-[#ECECEC] transition-colors outline-none focus:ring-3 focus:ring-dark data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500">
-        <span data-subject-label class="text-dark/45">Asunto*</span>
+        <span data-subject-label class="text-dark/45"><?php gf_render_e('contact.subject'); ?></span>
         <?php echo get_icon('chevron-down', 'h-8 w-8 text-dark transition-transform duration-200 pointer-events-none'); ?>
       </button>
       <div data-subject-list
@@ -67,34 +70,36 @@ $redirect_to = esc_url(add_query_arg(null, null));
         <div class="flex flex-col">
           <label class="flex items-center gap-4 py-4 px-6 border-b-3 border-[#EDEDED] cursor-pointer text-xl text-dark hover:bg-gray-200 rounded transition-colors">
             <input type="radio" name="asunto" value=""
-                   data-subject-radio data-subject-label-text="Asunto*"
+                   data-subject-radio data-subject-label-text="<?php echo esc_attr(gf_e('contact.subject')); ?>"
                    class="peer sr-only" checked>
             <span class="w-5 h-5 rounded-full border-2 border-dark flex items-center justify-center shrink-0 peer-checked:border-secondary peer-checked:[&>span]:scale-100">
               <span class="w-2.5 h-2.5 rounded-full bg-secondary scale-0 transition"></span>
             </span>
-            <span class="font-normal peer-checked:font-bold peer-checked:text-secondary">Ninguno</span>
+            <span class="font-normal peer-checked:font-bold peer-checked:text-secondary"><?php gf_render_e('contact.subject_none'); ?></span>
           </label>
-          <?php foreach ($contact_subjects as $subject): ?>
+          <?php foreach ($contact_subjects as $subject_data):
+            $subject_title = gf_get_post_title($subject_data['id']);
+          ?>
             <label class="flex items-center gap-4 py-4 px-6 border-b-3 border-[#EDEDED] last:border-0 cursor-pointer text-xl text-dark hover:bg-gray-200 rounded transition-colors">
               <input type="radio" name="asunto"
-                     value="<?php echo esc_attr($subject); ?>"
+                     value="<?php echo esc_attr($subject_data['title']); ?>"
                      data-subject-radio
-                     data-subject-label-text="<?php echo esc_attr($subject); ?>"
+                     data-subject-label-text="<?php echo esc_attr($subject_title); ?>"
                      class="peer sr-only">
               <span class="w-5 h-5 rounded-full border-2 border-dark flex items-center justify-center shrink-0 peer-checked:border-secondary peer-checked:[&>span]:scale-100">
                 <span class="w-2.5 h-2.5 rounded-full bg-secondary scale-0 transition"></span>
               </span>
-              <span class="font-normal peer-checked:font-bold peer-checked:text-secondary"><?php echo esc_html($subject); ?></span>
+              <span class="font-normal peer-checked:font-bold peer-checked:text-secondary"><?php echo esc_html($subject_title); ?></span>
             </label>
           <?php endforeach; ?>
         </div>
       </div>
-      <p data-error class="hidden text-sm text-red-500 mt-1">Selecciona un asunto</p>
+      <p data-error class="hidden text-sm text-red-500 mt-1"><?php gf_render_e('contact.subject_error'); ?></p>
     </div>
 
     <div class="md:col-span-2">
       <div class="relative">
-        <textarea name="mensaje" placeholder="Mensaje*"
+        <textarea name="mensaje" placeholder="<?php echo esc_attr(gf_e('contact.message')); ?>"
                   rows="6" data-word-limit="100"
                   class="bg-[#F4F4F4] rounded-2xl pl-7 pr-20 pt-4 pb-14 text-xl text-dark placeholder:text-dark/45 outline-none focus:ring-3 focus:ring-dark w-full resize-none data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500"></textarea>
         <div class="pointer-events-none absolute right-7 bottom-7 flex items-center gap-2 text-sm text-dark/60">
@@ -102,7 +107,7 @@ $redirect_to = esc_url(add_query_arg(null, null));
           <?php echo get_icon('paperclip', 'h-4 w-4'); ?>
         </div>
       </div>
-      <p data-error class="hidden text-sm text-red-500 mt-1 ml-2">El mensaje no puede estar vacío</p>
+      <p data-error class="hidden text-sm text-red-500 mt-1 ml-2"><?php gf_render_e('contact.message_empty'); ?></p>
     </div>
 
   </div>
@@ -111,16 +116,14 @@ $redirect_to = esc_url(add_query_arg(null, null));
     <label data-privacidad-wrapper
            class="flex items-start gap-3 text-2xl text-[#8C8C8C] cursor-pointer">
       <input type="checkbox" name="privacidad" class="h-6.5 w-6.5 accent-dark"/>
-      <span>He leído y acepto la política de privacidad</span>
+      <span><?php gf_render_e('contact.privacy'); ?></span>
     </label>
-    <p data-error class="hidden text-sm text-red-500 mt-1">Debes aceptar la política de privacidad</p>
+    <p data-error class="hidden text-sm text-red-500 mt-1"><?php gf_render_e('contact.privacy_error'); ?></p>
   </div>
 
   <button type="submit" data-submit-btn
           class="mt-8 w-full bg-dark text-white py-4 rounded-xl text-xl font-medium hover:opacity-90 transition cursor-pointer disabled:cursor-not-allowed">
-    <span data-submit-text class="inline-flex items-center gap-2">
-      Enviar mensaje
-    </span>
+    <span data-submit-text class="inline-flex items-center gap-2"><?php gf_render_e('contact.submit'); ?></span>
   </button>
 
   <template id="submitSpinnerTmpl">
@@ -257,9 +260,10 @@ $redirect_to = esc_url(add_query_arg(null, null));
   var form = document.getElementById('contactForm');
   if (!form) return;
 
+  var S = window.gfStrings || {};
   var rules = [
-    { name: 'nombre',    selector: 'input[name="nombre"]',       test: function (v) { return /^\S+(?:\s+\S+){2,}$/.test(v.trim()); },           msg: 'Ingresa tu nombre y ambos apellidos',   event: 'input' },
-    { name: 'correo',    selector: 'input[name="correo"]',      test: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); },   msg: 'Correo electrónico no válido',           event: 'input' },
+    { name: 'nombre',    selector: 'input[name="nombre"]',       test: function (v) { return /^\S+(?:\s+\S+){2,}$/.test(v.trim()); },           msg: S['contact.name_error'] || 'Ingresa tu nombre y ambos apellidos',   event: 'input' },
+    { name: 'correo',    selector: 'input[name="correo"]',      test: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); },   msg: S['contact.email_error'] || 'Correo electrónico no válido',           event: 'input' },
     { name: 'telefono',  selector: 'input[name="telefono"]',    test: function (v) {
       var m = v.trim().match(/^\+?\d{1,4}\s(\d+)$/);
       if (!m) return false;
@@ -267,10 +271,10 @@ $redirect_to = esc_url(add_query_arg(null, null));
       if (!container) return false;
       var lengths = (container.getAttribute('data-phone-lengths') || '').split(',');
       return lengths.indexOf(String(m[1].length)) !== -1;
-    },         msg: 'Ingresa un número de teléfono válido',   event: 'input',  isPhone: true },
-    { name: 'asunto',    selector: 'input[name="asunto"]',      test: function ()  { var c = form.querySelector('input[name="asunto"]:checked'); return c && c.value !== ''; }, msg: 'Selecciona un asunto', event: 'change', isRadio: true },
-    { name: 'mensaje',   selector: 'textarea[name="mensaje"]',  test: function (v) { var w = v.trim() ? v.trim().split(/\s+/).length : 0; return w > 0 && w <= 100; },  msg: 'El mensaje no puede exceder las 100 palabras',  event: 'input' },
-    { name: 'privacidad', selector: 'input[name="privacidad"]', test: function (_, el) { return el.checked; },                                 msg: 'Debes aceptar la política de privacidad', event: 'change' },
+    },         msg: S['contact.phone_error'] || 'Ingresa un número de teléfono válido',   event: 'input',  isPhone: true },
+    { name: 'asunto',    selector: 'input[name="asunto"]',      test: function ()  { var c = form.querySelector('input[name="asunto"]:checked'); return c && c.value !== ''; }, msg: S['contact.subject_error'] || 'Selecciona un asunto', event: 'change', isRadio: true },
+    { name: 'mensaje',   selector: 'textarea[name="mensaje"]',  test: function (v) { var w = v.trim() ? v.trim().split(/\s+/).length : 0; return w > 0 && w <= 100; },  msg: S['contact.message_limit'] || 'El mensaje no puede exceder las 100 palabras',  event: 'input' },
+    { name: 'privacidad', selector: 'input[name="privacidad"]', test: function (_, el) { return el.checked; },                                 msg: S['contact.privacy_error'] || 'Debes aceptar la política de privacidad', event: 'change' },
   ];
 
   var els = {};
@@ -384,7 +388,7 @@ $redirect_to = esc_url(add_query_arg(null, null));
     var tmpl = document.getElementById('submitSpinnerTmpl');
     text.textContent = '';
     if (tmpl) text.appendChild(tmpl.content.firstElementChild.cloneNode(true));
-    text.appendChild(document.createTextNode(' Enviando...'));
+    text.appendChild(document.createTextNode(' ' + (window.gfStrings['contact.submitting'] || 'Enviando...')));
     btn.disabled = true;
   });
 })();

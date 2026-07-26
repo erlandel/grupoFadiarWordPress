@@ -29,35 +29,35 @@ $base_url = get_permalink();
 
   <!-- Breadcrumb -->
   <div class="flex text-xl">
-    <p><a href="<?php echo home_url('/'); ?>">Inicio</a></p>
+    <p><a href="<?php echo home_url('/'); ?>"><?php echo gf_e('noticias.breadcrumb_home'); ?></a></p>
     <svg class="h-6 w-6 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-    <p>Noticias</p>
+    <p><?php echo gf_e('noticias.breadcrumb'); ?></p>
   </div>
 
   <!-- Título -->
   <div class="mt-10">
     <h1 class="text-5xl md:text-5xl font-bold text-dark">
-      <?php echo esc_html(get_option('noticias_page_title', 'Noticias')); ?>
+      <?php echo esc_html(gf_get_option('noticias_page_title', 'Noticias', 'News')); ?>
     </h1>
   </div>
 
   <!-- Subtítulo + Filtro -->
   <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mt-10">
     <p class="text-xl md:text-3xl font-bold text-dark max-w-3xl">
-      <?php echo esc_html(get_option('noticias_page_subtitle', 'Mantente al día con las últimas novedades, lanzamientos y eventos de Grupo Fadiar.')); ?>
+      <?php echo esc_html(gf_get_option('noticias_page_subtitle', 'Mantente al día con las últimas novedades, lanzamientos y eventos de Grupo Fadiar.', 'Stay up to date with the latest news, launches and events from Grupo Fadiar.')); ?>
     </p>
 
     <?php if (!empty($categories) && !is_wp_error($categories)): ?>
       <button type="button" data-filter-open class="relative flex items-center gap-2 shrink-0 cursor-pointer group">
-        <span class="text-2xl font-medium text-dark whitespace-nowrap">Filtrar por:</span>
+        <span class="text-2xl font-medium text-dark whitespace-nowrap"><?php echo esc_html(gf_e('noticias.filter_label')); ?></span>
         <svg class="pointer-events-none h-8 w-8 text-dark transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
       </button>
 
       <div data-filter-modal class="fixed inset-0 z-100 hidden items-center justify-center bg-black/40">
         <div class="bg-[#F8F8F8] rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="filter-modal-title">
           <div class="flex items-center justify-between px-6 pt-6 pb-4">
-            <h2 id="filter-modal-title" class="text-3xl font-bold text-dark">Categorías</h2>
-            <button type="button" data-filter-close class="text-dark hover:opacity-70 transition-opacity cursor-pointer" aria-label="Cerrar">
+            <h2 id="filter-modal-title" class="text-3xl font-bold text-dark"><?php echo esc_html(gf_e('noticias.filter_categories')); ?></h2>
+            <button type="button" data-filter-close class="text-dark hover:opacity-70 transition-opacity cursor-pointer" aria-label="<?php echo esc_attr(gf_e('noticias.filter_close')); ?>">
               <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
             </button>
           </div>
@@ -66,12 +66,12 @@ $base_url = get_permalink();
             <div class="flex flex-col">
               <label class="flex items-center gap-4 py-4 px-2 -mx-2 border-b-3 border-[#EDEDED] cursor-pointer text-2xl text-dark hover:bg-gray-200 rounded transition-colors">
                 <input type="radio" name="categoria" value="" <?php checked($current_category, 0); ?> class="h-5 w-5 accent-dark cursor-pointer shrink-0">
-                <span class="<?php echo $current_category == 0 ? 'font-bold' : 'font-normal'; ?>">Todas las categorías</span>
+                <span class="<?php echo $current_category == 0 ? 'font-bold' : 'font-normal'; ?>"><?php echo esc_html(gf_e('noticias.filter_all')); ?></span>
               </label>
               <?php foreach ($categories as $cat): ?>
                 <label class="flex items-center gap-4 py-4 px-2 -mx-2 border-b-3 border-[#EDEDED] last:border-0 cursor-pointer text-2xl text-dark hover:bg-gray-200 rounded transition-colors">
                   <input type="radio" name="categoria" value="<?php echo esc_attr($cat->term_id); ?>" <?php checked($current_category, $cat->term_id); ?> class="h-5 w-5 accent-dark cursor-pointer shrink-0">
-                  <span class="<?php echo $current_category == $cat->term_id ? 'font-bold' : 'font-normal'; ?>"><?php echo esc_html($cat->name); ?></span>
+                  <span class="<?php echo $current_category == $cat->term_id ? 'font-bold' : 'font-normal'; ?>"><?php echo esc_html(gf_get_term_name($cat)); ?></span>
                 </label>
               <?php endforeach; ?>
             </div>
@@ -191,7 +191,7 @@ $base_url = get_permalink();
     ?>
   <?php else: ?>
     <div class="mt-16 mb-16 text-center text-gray-500">
-      <p class="text-lg">No hay noticias publicadas aún.</p>
+      <p class="text-lg"><?php echo esc_html(gf_e('noticias.none')); ?></p>
     </div>
   <?php endif; ?>
 </div>

@@ -17,7 +17,7 @@ $products = get_posts(array(
 ));
 
 // Título de la sección desde opciones globales
-$section_title = get_option('products_section_title', 'Productos');
+$section_title = gf_get_option('products_section_title', 'Productos', 'Products');
 ?>
 <section class="w-full py-16 overflow-hidden bg-white">
   <div>
@@ -39,7 +39,7 @@ $section_title = get_option('products_section_title', 'Productos');
           $media_type = get_field('product_media_type', $product->ID);
           $media_file = get_field('product_media_file', $product->ID);
           $button_url_raw = get_field('product_button_url', $product->ID);
-          $button_text_raw = get_field('product_button_text', $product->ID);
+          $button_text_raw = gf_get_field('product_button_text', $product->ID);
           
           if (!empty($media_file) && isset($media_file['url'])) {
             $media_url = $media_file['url'];
@@ -59,7 +59,7 @@ $section_title = get_option('products_section_title', 'Productos');
             <?php if ($media_type === 'video'): ?>
               <video src="<?php echo esc_url($media_url); ?>" class="w-full h-full object-cover" autoplay muted loop playsinline></video>
             <?php else: ?>
-              <img src="<?php echo esc_url($media_url); ?>" alt="<?php echo esc_attr($product->post_title); ?>" class="w-full h-full object-cover" loading="<?php echo $i < 2 ? 'eager' : 'lazy'; ?>" />
+              <img src="<?php echo esc_url($media_url); ?>" alt="<?php echo esc_attr(gf_get_post_title($product->ID)); ?>" class="w-full h-full object-cover" loading="<?php echo $i < 2 ? 'eager' : 'lazy'; ?>" />
             <?php endif; ?>
           <?php else: ?>
             <!-- Placeholder cuando no hay producto -->

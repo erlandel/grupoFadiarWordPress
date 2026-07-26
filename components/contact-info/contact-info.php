@@ -1,8 +1,8 @@
 <?php
-$address_label   = get_option('contact_address_label', 'Direcciones:');
-$main_address    = get_option('contact_main_address', 'Calle 29F entre 114 y 114A, Edificio 11413, Almacén 9A (ENAME). Ciudad Libertad, Marianao, La Habana, Cuba.');
-$schedule_label  = get_option('contact_schedule_label', 'Horario:');
-$schedule_value  = get_option('contact_schedule_value', 'Lun-Vie 9:00 – 17:00.');
+$address_label   = gf_get_option('contact_address_label', 'Direcciones:', 'Addresses:');
+$main_address    = gf_get_option('contact_main_address', 'Calle 29F entre 114 y 114A, Edificio 11413, Almacén 9A (ENAME). Ciudad Libertad, Marianao, La Habana, Cuba.', 'Calle 29F between 114 and 114A, Building 11413, Warehouse 9A (ENAME). Ciudad Libertad, Marianao, Havana, Cuba.');
+$schedule_label  = gf_get_option('contact_schedule_label', 'Horario:', 'Schedule:');
+$schedule_value  = gf_get_option('contact_schedule_value', 'Lun-Vie 9:00 – 17:00.', 'Mon–Fri 9:00 – 17:00.');
 ?>
 <div class="text-3xl text-dark">
   <p><span class="font-bold"><?php echo esc_html($address_label); ?></span></p>

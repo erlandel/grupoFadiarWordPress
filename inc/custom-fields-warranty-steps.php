@@ -36,6 +36,15 @@ function grupofadiar_register_warranty_steps_acf_fields() {
                     'required' => 1,
                     'rows' => 3,
                 ),
+                array(
+                    'key' => 'field_ws_step_description_en',
+                    'label' => 'Step Description (English)',
+                    'name' => 'ws_step_description_en',
+                    'type' => 'textarea',
+                    'instructions' => 'English version of the step description.',
+                    'required' => 0,
+                    'rows' => 3,
+                ),
             ),
             'location' => array(
                 array(

@@ -68,6 +68,22 @@ function grupofadiar_register_carousel_acf_fields() {
                     ),
                 ),
                 array(
+                    'key' => 'field_slide_title_text_en',
+                    'label' => 'Title Text (English)',
+                    'name' => 'slide_title_text_en',
+                    'type' => 'text',
+                    'instructions' => 'English version of the title text for simple layout.',
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_slide_layout',
+                                'operator' => '==',
+                                'value' => 'simple',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
                     'key' => 'field_slide_description',
                     'label' => 'Descripción Principal',
                     'name' => 'slide_description',
@@ -85,11 +101,36 @@ function grupofadiar_register_carousel_acf_fields() {
                     ),
                 ),
                 array(
+                    'key' => 'field_slide_description_en',
+                    'label' => 'Main Description (English)',
+                    'name' => 'slide_description_en',
+                    'type' => 'textarea',
+                    'instructions' => 'English version of the main description for brand layout.',
+                    'rows' => 4,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_slide_layout',
+                                'operator' => '==',
+                                'value' => 'brand',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
                     'key' => 'field_slide_subtitle',
                     'label' => 'Subtítulo',
                     'name' => 'slide_subtitle',
                     'type' => 'text',
                     'instructions' => 'Texto secundario que aparece debajo del título principal (en diseño simple) o debajo de la descripción (en diseño de marca).',
+                    'conditional_logic' => 0,
+                ),
+                array(
+                    'key' => 'field_slide_subtitle_en',
+                    'label' => 'Subtitle (English)',
+                    'name' => 'slide_subtitle_en',
+                    'type' => 'text',
+                    'instructions' => 'English version of the subtitle.',
                     'conditional_logic' => 0,
                 ),
                 array(
@@ -120,6 +161,14 @@ function grupofadiar_register_carousel_acf_fields() {
                     'type' => 'text',
                     'instructions' => 'Texto visible en el primer botón. Déjalo vacío para omitir este botón.',
                     'placeholder' => 'Ej: Conócenos',
+                ),
+                array(
+                    'key' => 'field_button_1_text_en',
+                    'label' => 'Button 1 Text (English)',
+                    'name' => 'button_1_text_en',
+                    'type' => 'text',
+                    'instructions' => 'English version of the first button text.',
+                    'placeholder' => 'e.g. Learn More',
                 ),
                 array(
                     'key' => 'field_button_1_url',
@@ -166,6 +215,22 @@ function grupofadiar_register_carousel_acf_fields() {
                     'type' => 'text',
                     'instructions' => 'Texto visible en el segundo botón. Déjalo vacío para omitir este botón.',
                     'placeholder' => 'Ej: Ver Menú',
+                ),
+                array(
+                    'key' => 'field_button_2_text_en',
+                    'label' => 'Button 2 Text (English)',
+                    'name' => 'button_2_text_en',
+                    'type' => 'text',
+                    'instructions' => 'English version of the second button text.',
+                    'placeholder' => 'e.g. View Menu',
+                ),
+                array(
+                    'key' => 'field_carousel_post_title_en',
+                    'label' => 'Título en Inglés',
+                    'name' => 'post_title_en',
+                    'type' => 'text',
+                    'instructions' => 'Título de la diapositiva en inglés.',
+                    'required' => 0,
                 ),
                 array(
                     'key' => 'field_button_2_url',

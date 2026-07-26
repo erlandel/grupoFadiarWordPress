@@ -22,14 +22,14 @@ function grupofadiar_get_pillar_image_url($image) {
 }
 
 function render_pillar_text($post_id) {
-    $subtitle      = get_field('pillar_subtitle', $post_id);
+    $subtitle      = gf_get_field('pillar_subtitle', $post_id);
     $subtitle_bold = (bool) get_field('pillar_subtitle_bold', $post_id);
     if (!empty($subtitle)) {
         $subtitle_class = 'text-dark leading-relaxed mt-8 mb-5' . ($subtitle_bold ? ' text-2xl font-bold' : ' text-[22px]');
         echo '<p class="' . esc_attr($subtitle_class) . '">' . esc_html($subtitle) . '</p>';
     }
 
-    $description = get_field('pillar_description', $post_id);
+    $description = gf_get_field('pillar_description', $post_id);
     if (!empty($description)) {
         echo '<div class="pillar-description text-dark text-xl leading-relaxed [&_p]:mb-4 [&_p:last-child]:mb-0 text-justify">' . wp_kses_post($description) . '</div>';
     }
@@ -105,7 +105,7 @@ function render_pillar_image($post_id) {
         <?php render_pillar_image($post_id); ?>
         <div class="flex flex-col justify-between" dir="ltr">
           <div class="space-y-4">
-            <h2 class="text-dark text-[44px] font-black tracking-tight uppercase leading-tight"><?php echo esc_html($pillar->post_title); ?></h2>
+            <h2 class="text-dark text-[44px] font-black tracking-tight uppercase leading-tight"><?php echo esc_html(gf_get_post_title($post_id)); ?></h2>
             <?php render_pillar_text($post_id); ?>
           </div>
           <div class="mt-8 w-full border-2 border-dark"></div>
@@ -113,7 +113,7 @@ function render_pillar_image($post_id) {
       <?php else: ?>
         <div class="flex flex-col justify-between">
           <div class="space-y-4">
-            <h2 class="text-dark text-[44px] font-black tracking-tight uppercase leading-tight"><?php echo esc_html($pillar->post_title); ?></h2>
+            <h2 class="text-dark text-[44px] font-black tracking-tight uppercase leading-tight"><?php echo esc_html(gf_get_post_title($post_id)); ?></h2>
             <?php render_pillar_text($post_id); ?>
           </div>
           <div class="mt-8 w-full border-2 border-dark"></div>

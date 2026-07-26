@@ -20,7 +20,7 @@ if ($slide_query->have_posts()) :
         $current_slide = array(
             'layout'    => $slide_layout,
             'url'       => get_the_post_thumbnail_url($slide_id, 'full'),
-            'subtitle'  => get_field('slide_subtitle', $slide_id),
+            'subtitle'  => gf_get_field('slide_subtitle', $slide_id),
             'buttons'   => array(),
         );
 
@@ -41,10 +41,10 @@ if ($slide_query->have_posts()) :
         }
 
         if ($slide_layout === 'simple') {
-            $current_slide['title'] = get_field('slide_title_text', $slide_id);
+            $current_slide['title'] = gf_get_field('slide_title_text', $slide_id);
         } else { // 'brand'
             $current_slide['title'] = get_field('slide_title_image', $slide_id);
-            $current_slide['description'] = get_field('slide_description', $slide_id);
+            $current_slide['description'] = gf_get_field('slide_description', $slide_id);
             if ($font_value == 'font-flatlion') {
                 $current_slide['description_font_class'] = '';
                 $current_slide['description_font_style'] = 'font-family: \'Flatlion Personal Use Only\', sans-serif;';
@@ -55,7 +55,7 @@ if ($slide_query->have_posts()) :
         }
 
         foreach (array(1, 2) as $button_number) {
-            $button_text = get_field("button_{$button_number}_text", $slide_id);
+            $button_text = gf_get_field("button_{$button_number}_text", $slide_id);
             $button_url = process_url(get_field("button_{$button_number}_url", $slide_id));
             $button_style_type = get_field("button_{$button_number}_style", $slide_id);
 
@@ -86,7 +86,7 @@ if ($slide_query->have_posts()) :
     wp_reset_postdata();
 endif;
 ?>
-<section class="hero-carousel h-screen w-full flex flex-col overflow-hidden">
+<section id="heroCarousel" class="hero-carousel h-screen w-full flex flex-col overflow-hidden">
   <div class="relative flex-1">
     <?php foreach ($slides as $index => $slide): ?>
       <div class="carousel-slide absolute inset-0 transition-all duration-1000 ease-out <?php echo $index === 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-105'; ?>">

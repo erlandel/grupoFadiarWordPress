@@ -90,9 +90,16 @@ function grupofadiar_render_noticias_titles_page() {
 
         update_option('noticias_page_title', sanitize_text_field($_POST['noticias_page_title'] ?? 'Noticias'));
         update_option('noticias_page_subtitle', sanitize_text_field($_POST['noticias_page_subtitle'] ?? ''));
+        update_option('noticias_page_title_en', sanitize_text_field($_POST['noticias_page_title_en'] ?? 'News'));
+        update_option('noticias_page_subtitle_en', sanitize_text_field($_POST['noticias_page_subtitle_en'] ?? 'Stay up to date with the latest news, launches and events from Grupo Fadiar.'));
 
         echo '<div class="updated"><p>Títulos guardados exitosamente.</p></div>';
     }
+
+    $title = get_option('noticias_page_title', 'Noticias');
+    $subtitle = get_option('noticias_page_subtitle', '');
+    $title_en = get_option('noticias_page_title_en', 'News');
+    $subtitle_en = get_option('noticias_page_subtitle_en', 'Stay up to date with the latest news, launches and events from Grupo Fadiar.');
     ?>
     <div class="wrap">
         <h1>Títulos de la página de Noticias</h1>
@@ -106,18 +113,36 @@ function grupofadiar_render_noticias_titles_page() {
                     <th scope="row"><label for="noticias_page_title">Título</label></th>
                     <td>
                         <input type="text" name="noticias_page_title" id="noticias_page_title"
-                            value="<?php echo esc_attr(get_option('noticias_page_title', 'Noticias')); ?>"
+                            value="<?php echo esc_attr($title); ?>"
                             class="regular-text" />
                         <p class="description">Título principal de la página (etiqueta H1).</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="noticias_page_title_en">Título (EN)</label></th>
+                    <td>
+                        <input type="text" name="noticias_page_title_en" id="noticias_page_title_en"
+                            value="<?php echo esc_attr($title_en); ?>"
+                            class="regular-text" />
+                        <p class="description">English version of the title.</p>
                     </td>
                 </tr>
                 <tr>
                     <th scope="row"><label for="noticias_page_subtitle">Subtítulo</label></th>
                     <td>
                         <input type="text" name="noticias_page_subtitle" id="noticias_page_subtitle"
-                            value="<?php echo esc_attr(get_option('noticias_page_subtitle', '')); ?>"
+                            value="<?php echo esc_attr($subtitle); ?>"
                             class="regular-text" style="width:100%;" />
                         <p class="description">Subtítulo que aparece debajo del título.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="noticias_page_subtitle_en">Subtítulo (EN)</label></th>
+                    <td>
+                        <input type="text" name="noticias_page_subtitle_en" id="noticias_page_subtitle_en"
+                            value="<?php echo esc_attr($subtitle_en); ?>"
+                            class="regular-text" style="width:100%;" />
+                        <p class="description">English version of the subtitle.</p>
                     </td>
                 </tr>
             </table>
@@ -133,9 +158,13 @@ function grupofadiar_render_noticias_categories_page() {
     if (isset($_POST['grupofadiar_new_category_nonce']) &&
         wp_verify_nonce($_POST['grupofadiar_new_category_nonce'], 'grupofadiar_add_category')) {
         $cat_name = sanitize_text_field($_POST['new_category_name'] ?? '');
+        $cat_name_en = sanitize_text_field($_POST['new_category_name_en'] ?? '');
         if (!empty($cat_name)) {
             $result = wp_insert_term($cat_name, 'categoria_noticia');
             if (!is_wp_error($result)) {
+                if (!empty($cat_name_en)) {
+                    update_field('name_en', $cat_name_en, 'term_' . $result['term_id']);
+                }
                 $category_created = true;
             } else {
                 echo '<div class="notice notice-error"><p>' . esc_html($result->get_error_message()) . '</p></div>';
@@ -148,10 +177,12 @@ function grupofadiar_render_noticias_categories_page() {
         <h1>Categorías de Noticias</h1>
 
         <h2 class="title">Agregar nueva categoría</h2>
-        <form method="post" action="" style="display:flex;gap:8px;align-items:center;">
+        <form method="post" action="" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
             <?php wp_nonce_field('grupofadiar_add_category', 'grupofadiar_new_category_nonce'); ?>
-            <input type="text" name="new_category_name" placeholder="Nombre de la categoría" required
-                style="padding:4px 8px;border:1px solid #8c8f94;border-radius:4px;width:300px;" />
+            <input type="text" name="new_category_name" placeholder="Nombre (ES)" required
+                style="padding:4px 8px;border:1px solid #8c8f94;border-radius:4px;width:200px;" />
+            <input type="text" name="new_category_name_en" placeholder="Name (EN)"
+                style="padding:4px 8px;border:1px solid #8c8f94;border-radius:4px;width:200px;" />
             <?php submit_button('Agregar nueva categoría', 'primary', 'submit', false, array('style' => 'padding:4px 12px;margin:0;')); ?>
         </form>
         <?php if ($category_created): ?>
@@ -163,7 +194,8 @@ function grupofadiar_render_noticias_categories_page() {
             <table class="wp-list-table widefat fixed striped" style="margin-top:12px;">
                 <thead>
                     <tr>
-                        <th>Nombre</th>
+                        <th>Nombre (ES)</th>
+                        <th>Nombre (EN)</th>
                         <th>Noticias</th>
                         <th>Acciones</th>
                     </tr>
@@ -172,6 +204,7 @@ function grupofadiar_render_noticias_categories_page() {
                     <?php foreach ($all_cats as $cat): ?>
                         <tr>
                             <td><strong><?php echo esc_html($cat->name); ?></strong></td>
+                            <td><?php echo esc_html(get_field('name_en', 'term_' . $cat->term_id) ?: '—'); ?></td>
                             <td><?php echo intval($cat->count); ?></td>
                             <td>
                                 <a href="<?php echo esc_url(admin_url('term.php?taxonomy=categoria_noticia&post_type=noticia&tag_ID=' . $cat->term_id)); ?>" class="button button-small">Editar</a>
@@ -194,6 +227,12 @@ function grupofadiar_initialize_noticias_options() {
     }
     if (get_option('noticias_page_subtitle') === false) {
         update_option('noticias_page_subtitle', 'Mantente al día con las últimas novedades, lanzamientos y eventos de Grupo Fadiar.');
+    }
+    if (get_option('noticias_page_title_en') === false) {
+        update_option('noticias_page_title_en', 'News');
+    }
+    if (get_option('noticias_page_subtitle_en') === false) {
+        update_option('noticias_page_subtitle_en', 'Stay up to date with the latest news, launches and events from Grupo Fadiar.');
     }
 }
 add_action('after_switch_theme', 'grupofadiar_initialize_noticias_options');

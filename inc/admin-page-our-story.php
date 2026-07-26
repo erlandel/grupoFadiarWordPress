@@ -33,6 +33,9 @@ function grupofadiar_render_our_story_settings_page() {
         update_option('our_story_title', sanitize_text_field($_POST['our_story_title'] ?? 'Nuestra historia'));
         update_option('our_story_paragraph_1', wp_kses_post($_POST['our_story_paragraph_1'] ?? ''));
         update_option('our_story_paragraph_2', wp_kses_post($_POST['our_story_paragraph_2'] ?? ''));
+        update_option('our_story_title_en', sanitize_text_field($_POST['our_story_title_en'] ?? 'Our Story'));
+        update_option('our_story_paragraph_1_en', wp_kses_post($_POST['our_story_paragraph_1_en'] ?? ''));
+        update_option('our_story_paragraph_2_en', wp_kses_post($_POST['our_story_paragraph_2_en'] ?? ''));
 
         echo '<div class="updated"><p>Configuración guardada exitosamente.</p></div>';
     }
@@ -45,6 +48,15 @@ function grupofadiar_render_our_story_settings_page() {
     $paragraph_2 = get_option(
         'our_story_paragraph_2',
         'Nuestros hitos incluyen la apertura de nuestras  instalaciones en Ciudad Libertad, el lanzamiento de nuestras primeras líneas de  productos y las alianzas con distribuidores en todo el país e internacionales. Hoy,  seguimos construyendo el futuro con pasión y responsabilidad.'
+    );
+    $title_en     = get_option('our_story_title_en', 'Our Story');
+    $paragraph_1_en = get_option(
+        'our_story_paragraph_1_en',
+        'Grupo Fadiar was born in 2023 with the vision of transforming the national industry. Starting from a small workshop, we have grown into a business group that integrates three leading brands.'
+    );
+    $paragraph_2_en = get_option(
+        'our_story_paragraph_2_en',
+        'Our milestones include the opening of our facilities in Ciudad Libertad, the launch of our first product lines, and alliances with distributors nationwide and internationally. Today, we continue building the future with passion and responsibility.'
     );
     ?>
     <div class="wrap">
@@ -64,15 +76,35 @@ function grupofadiar_render_our_story_settings_page() {
                     </td>
                 </tr>
                 <tr>
+                    <th scope="row"><label for="our_story_title_en">Título (EN)</label></th>
+                    <td>
+                        <input type="text" name="our_story_title_en" id="our_story_title_en"
+                            value="<?php echo esc_attr($title_en); ?>" class="regular-text" />
+                        <p class="description">English version of the title.</p>
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row"><label for="our_story_paragraph_1">Párrafo 1</label></th>
                     <td>
                         <textarea name="our_story_paragraph_1" id="our_story_paragraph_1" rows="5" class="large-text"><?php echo esc_textarea($paragraph_1); ?></textarea>
                     </td>
                 </tr>
                 <tr>
+                    <th scope="row"><label for="our_story_paragraph_1_en">Párrafo 1 (EN)</label></th>
+                    <td>
+                        <textarea name="our_story_paragraph_1_en" id="our_story_paragraph_1_en" rows="5" class="large-text"><?php echo esc_textarea($paragraph_1_en); ?></textarea>
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row"><label for="our_story_paragraph_2">Párrafo 2</label></th>
                     <td>
                         <textarea name="our_story_paragraph_2" id="our_story_paragraph_2" rows="5" class="large-text"><?php echo esc_textarea($paragraph_2); ?></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="our_story_paragraph_2_en">Párrafo 2 (EN)</label></th>
+                    <td>
+                        <textarea name="our_story_paragraph_2_en" id="our_story_paragraph_2_en" rows="5" class="large-text"><?php echo esc_textarea($paragraph_2_en); ?></textarea>
                     </td>
                 </tr>
             </table>
@@ -92,6 +124,15 @@ function grupofadiar_initialize_our_story_options() {
     }
     if (get_option('our_story_paragraph_2') === false) {
         update_option('our_story_paragraph_2', 'Nuestros hitos incluyen la apertura de nuestras  instalaciones en Ciudad Libertad, el lanzamiento de nuestras primeras líneas de  productos y las alianzas con distribuidores en todo el país e internacionales. Hoy,  seguimos construyendo el futuro con pasión y responsabilidad.');
+    }
+    if (get_option('our_story_title_en') === false) {
+        update_option('our_story_title_en', 'Our Story');
+    }
+    if (get_option('our_story_paragraph_1_en') === false) {
+        update_option('our_story_paragraph_1_en', 'Grupo Fadiar was born in 2023 with the vision of transforming the national industry. Starting from a small workshop, we have grown into a business group that integrates three leading brands.');
+    }
+    if (get_option('our_story_paragraph_2_en') === false) {
+        update_option('our_story_paragraph_2_en', 'Our milestones include the opening of our facilities in Ciudad Libertad, the launch of our first product lines, and alliances with distributors nationwide and internationally. Today, we continue building the future with passion and responsibility.');
     }
 }
 add_action('after_switch_theme', 'grupofadiar_initialize_our_story_options');

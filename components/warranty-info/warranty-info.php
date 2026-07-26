@@ -25,7 +25,7 @@ if (post_type_exists('warranty_step')) {
 <section id="warrantyInfo" class="scroll-mt-20 mx-auto my-20 grid grid-cols-1 md:grid-cols-2 gap-10 max-w-350 ">
 
   <div class="bg-[#F4F4F4] p-10 rounded-2xl">
-    <h2 class="text-4xl font-bold text-dark mb-6"><?php echo esc_html(get_option('warranty_section_left_title', 'Proceso de reclamación')); ?></h2>
+    <h2 class="text-4xl font-bold text-dark mb-6"><?php echo esc_html(gf_get_option('warranty_section_left_title', 'Proceso de reclamación', 'Claims Process')); ?></h2>
     <?php if (!empty($steps)): ?>
       <ol class="text-2xl text-dark space-y-4 [&>li]:leading-relaxed">
         <?php foreach ($steps as $step):
@@ -33,7 +33,7 @@ if (post_type_exists('warranty_step')) {
           if (empty($step_number)) {
               $step_number = '';
           }
-          $step_desc = get_field('ws_step_description', $step->ID);
+          $step_desc = gf_get_field('ws_step_description', $step->ID);
         ?>
           <li id="warranty-step-<?php echo esc_attr($step->post_name); ?>" class="scroll-mt-24">
             <?php if (!empty($step_number)): ?>
@@ -47,13 +47,13 @@ if (post_type_exists('warranty_step')) {
   </div>
 
   <div class="bg-[#F4F4F4] p-10 rounded-2xl">
-    <h2 class="text-4xl font-bold text-dark mb-6"><?php echo esc_html(get_option('warranty_section_right_title', 'Contactos')); ?></h2>
+    <h2 class="text-4xl font-bold text-dark mb-6"><?php echo esc_html(gf_get_option('warranty_section_right_title', 'Contactos', 'Contacts')); ?></h2>
     <?php if (!empty($contacts)): ?>
       <ul class="text-2xl text-dark space-y-10">
         <?php foreach ($contacts as $contact):
-          $label    = get_field('wc_label', $contact->ID);
+          $label    = gf_get_field('wc_label', $contact->ID);
           $phone    = get_field('wc_phone', $contact->ID);
-          $schedule = get_field('wc_schedule', $contact->ID);
+          $schedule = gf_get_field('wc_schedule', $contact->ID);
         ?>
           <li id="warranty-contact-<?php echo esc_attr($contact->post_name); ?>" class="scroll-mt-24">
             <div class="flex flex-wrap items-center gap-x-6 gap-y-2">

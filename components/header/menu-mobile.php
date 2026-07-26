@@ -1,13 +1,13 @@
 <?php
 $home_url = home_url('/');
 $links = array(
-  array('href' => $home_url, 'label' => 'Inicio', 'icon' => 'home', 'key' => 'home'),
-  array('href' => home_url('/about-us/'), 'label' => 'Grupo Fadiar', 'key' => 'about-us'),
-  array('href' => $home_url . '#ourBrands', 'label' => 'Nuestras marcas', 'key' => ''),
-  array('href' => $home_url . '#products', 'label' => 'Productos', 'key' => ''),
-  array('href' => home_url('/noticias/'), 'label' => 'Noticias', 'key' => 'noticias'),
-  array('href' => home_url('/support-warranty/'), 'label' => 'Soporte y Garantía', 'key' => 'support-warranty'),
-  array('href' => home_url('/contacts/'), 'label' => 'Contactos', 'icon' => 'phone', 'key' => 'contacts'),
+  array('href' => $home_url, 'label' => gf_e('header.menu.home'), 'icon' => 'home', 'key' => 'home'),
+  array('href' => home_url('/about-us/'), 'label' => gf_e('header.menu.about'), 'key' => 'about-us'),
+  array('href' => $home_url . '#ourBrands', 'label' => gf_e('header.menu.brands'), 'key' => ''),
+  array('href' => $home_url . '#products', 'label' => gf_e('header.menu.products'), 'key' => ''),
+  array('href' => home_url('/noticias/'), 'label' => gf_e('header.menu.news'), 'key' => 'noticias'),
+  array('href' => home_url('/support-warranty/'), 'label' => gf_e('header.menu.support'), 'key' => 'support-warranty'),
+  array('href' => home_url('/contacts/'), 'label' => gf_e('header.menu.contacts'), 'icon' => 'phone', 'key' => 'contacts'),
 );
 ?>
 <div class="menu-mobile-overlay fixed inset-0 z-40 bg-black/20 hidden" style="display:none;"></div>

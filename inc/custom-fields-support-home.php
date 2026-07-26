@@ -12,6 +12,14 @@ function grupofadiar_register_support_home_acf_fields() {
             'title' => 'Información del Item',
             'fields' => array(
                 array(
+                    'key' => 'field_support_home_post_title_en',
+                    'label' => 'Title (English)',
+                    'name' => 'post_title_en',
+                    'type' => 'text',
+                    'instructions' => 'English version of the title.',
+                    'required' => 0,
+                ),
+                array(
                     'key' => 'field_support_item_image',
                     'label' => 'Imagen del Icono',
                     'name' => 'support_item_image',
@@ -28,6 +36,15 @@ function grupofadiar_register_support_home_acf_fields() {
                     'name' => 'support_item_description',
                     'type' => 'textarea',
                     'instructions' => 'Descripción del item.',
+                    'rows' => 4,
+                    'required' => 0,
+                ),
+                array(
+                    'key' => 'field_support_item_description_en',
+                    'label' => 'Description (English)',
+                    'name' => 'support_item_description_en',
+                    'type' => 'textarea',
+                    'instructions' => 'English version of the description.',
                     'rows' => 4,
                     'required' => 0,
                 ),

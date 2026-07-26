@@ -4,7 +4,7 @@ $default_title = 'DESCUBRE NUESTRO GRUPO Y SU GENTE';
 $default_subtitle = 'Grupo Fadiar: tres años creciendo junto a las familias cubanas.';
 $default_description_1 = 'Desde nuestras instalaciones, trabajamos cada día para ofrecer productos duraderos, accesibles y con verdadera calidad. El desarrollo local y la mejora continua son nuestra base. EÓN, Vital y Lámmina reflejan nuestro propósito: unir innovación, producción responsable y una garantía real que respalda cada compra.';
 $default_description_2 = 'Detrás de cada producto hay un equipo de profesionales apasionados, en constante evolución, que disfruta superando expectativas.';
-$default_button_text = 'Ver más';
+$default_button_text = gf_current_lang() === 'en' ? 'Learn more' : 'Ver más';
 $default_button_url = process_url('/about-us/');
 $default_image = get_template_directory_uri() . '/assets/images/girl.png';
 
@@ -21,11 +21,11 @@ $discover_query = new WP_Query(array(
 if ($discover_query->have_posts()) {
     $discover_query->the_post();
     $discover_item = array(
-        'title'         => get_the_title(),
-        'subtitle'      => get_field('discover_subtitle'),
-        'description_1' => get_field('discover_description_1'),
-        'description_2' => get_field('discover_description_2'),
-        'button_text'   => get_field('discover_button_text'),
+        'title'         => gf_get_post_title(),
+        'subtitle'      => gf_get_field('discover_subtitle'),
+        'description_1' => gf_get_field('discover_description_1'),
+        'description_2' => gf_get_field('discover_description_2'),
+        'button_text'   => gf_get_field('discover_button_text'),
         'button_url'    => get_field('discover_button_url'),
         'image'         => get_the_post_thumbnail_url(null, 'full'),
     );
