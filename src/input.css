@@ -83,6 +83,22 @@
   background: #b8860b;
 }
 
+/* Scrollbar para el panel de búsqueda (fondo claro) */
+.search-results::-webkit-scrollbar {
+  width: 6px;
+}
+.search-results::-webkit-scrollbar-track {
+  background: rgba(1, 10, 45, 0.06);
+  border-radius: 10px;
+}
+.search-results::-webkit-scrollbar-thumb {
+  background: #d69f03;
+  border-radius: 10px;
+}
+.search-results::-webkit-scrollbar-thumb:hover {
+  background: #b8860b;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
