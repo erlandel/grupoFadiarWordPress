@@ -21,16 +21,16 @@ $redirect_to = esc_url(add_query_arg(null, null));
 ?>
 
 <?php if ($status === 'ok'): ?>
-  <div data-auto-dismiss class="mb-6 p-4 bg-green-100 border border-green-400 text-green-800 rounded-xl text-lg flex items-center justify-between transition-opacity duration-500">
+  <div data-auto-dismiss class="mb-6 p-4 bg-green-100 border border-green-400 text-green-800 rounded-xl  flex items-center justify-between transition-opacity duration-500">
     <span><?php gf_render_e('contact.success'); ?></span>
     <a href="<?php echo esc_url(remove_query_arg('contact')); ?>"
-       class="text-green-800/60 hover:text-green-800 ml-4 text-2xl leading-none">&times;</a>
+       class="text-green-800/60 hover:text-green-800 ml-4 text-lg leading-none">&times;</a>
   </div>
 <?php elseif ($status === 'error'): ?>
-  <div data-auto-dismiss class="mb-6 p-4 bg-red-100 border border-red-400 text-red-800 rounded-xl text-lg flex items-center justify-between transition-opacity duration-500">
+  <div data-auto-dismiss class="mb-6 p-4 bg-red-100 border border-red-400 text-red-800 rounded-xl  flex items-center justify-between transition-opacity duration-500">
     <span><?php gf_render_e('contact.error'); ?></span>
     <a href="<?php echo esc_url(remove_query_arg('contact')); ?>"
-       class="text-red-800/60 hover:text-red-800 ml-4 text-2xl leading-none">&times;</a>
+       class="text-red-800/60 hover:text-red-800 ml-4 text-lg leading-none">&times;</a>
   </div>
 <?php endif; ?>
 
@@ -46,13 +46,13 @@ $redirect_to = esc_url(add_query_arg(null, null));
 
     <div class="relative">
       <input type="text" name="nombre" placeholder="<?php echo esc_attr(gf_e('contact.name')); ?>"
-             class="bg-[#F4F4F4] rounded-full px-7 py-4 text-xl text-dark placeholder:text-dark/45 outline-none focus:ring-3 focus:ring-dark w-full data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500"/>
+             class="bg-[#F4F4F4] rounded-full px-7 py-4 text-dark outline-none focus:ring-3 focus:ring-dark w-full data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500"/>
       <p data-error class="hidden text-sm text-red-500 mt-1 ml-2"><?php gf_render_e('contact.name_error'); ?></p>
     </div>
 
     <div class="relative">
       <input type="email" name="correo" placeholder="<?php echo esc_attr(gf_e('contact.email')); ?>"
-             class="bg-[#F4F4F4] rounded-full px-7 py-4 text-xl text-dark placeholder:text-dark/45 outline-none focus:ring-3 focus:ring-dark w-full data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500"/>
+             class="bg-[#F4F4F4] rounded-full px-7 py-4 text-dark outline-none focus:ring-3 focus:ring-dark w-full data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500"/>
       <p data-error class="hidden text-sm text-red-500 mt-1 ml-2"><?php gf_render_e('contact.email_error'); ?></p>
     </div>
 
@@ -60,7 +60,7 @@ $redirect_to = esc_url(add_query_arg(null, null));
 
     <div class="relative md:col-span-2" data-subject-dropdown>
       <button type="button" data-subject-trigger
-              class="w-full bg-[#F4F4F4] rounded-full px-7 py-4 text-xl text-dark flex items-center justify-between gap-2 cursor-pointer hover:bg-[#ECECEC] transition-colors outline-none focus:ring-3 focus:ring-dark data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500">
+               class="w-full bg-[#F4F4F4] rounded-full px-7 py-4 text-dark flex items-center justify-between gap-2 cursor-pointer hover:bg-[#ECECEC] transition-colors outline-none focus:ring-3 focus:ring-dark data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500">
         <span data-subject-label class="text-dark/45"><?php gf_render_e('contact.subject'); ?></span>
         <?php echo get_icon('chevron-down', 'h-8 w-8 text-dark transition-transform duration-200 pointer-events-none'); ?>
       </button>
@@ -68,7 +68,7 @@ $redirect_to = esc_url(add_query_arg(null, null));
            class="hidden absolute left-0 right-0 top-full mt-2 z-50 bg-[#F8F8F8] rounded-xl shadow-2xl overflow-hidden max-h-80 overflow-y-auto"
            role="listbox">
         <div class="flex flex-col">
-          <label class="flex items-center gap-4 py-4 px-6 border-b-3 border-[#EDEDED] cursor-pointer text-xl text-dark hover:bg-gray-200 rounded transition-colors">
+          <label class="flex items-center gap-4 py-4 px-6 border-b-3 border-[#EDEDED] cursor-pointer text-dark hover:bg-gray-200 rounded transition-colors">
             <input type="radio" name="asunto" value=""
                    data-subject-radio data-subject-label-text="<?php echo esc_attr(gf_e('contact.subject')); ?>"
                    class="peer sr-only" checked>
@@ -80,7 +80,7 @@ $redirect_to = esc_url(add_query_arg(null, null));
           <?php foreach ($contact_subjects as $subject_data):
             $subject_title = gf_get_post_title($subject_data['id']);
           ?>
-            <label class="flex items-center gap-4 py-4 px-6 border-b-3 border-[#EDEDED] last:border-0 cursor-pointer text-xl text-dark hover:bg-gray-200 rounded transition-colors">
+            <label class="flex items-center gap-4 py-4 px-6 border-b-3 border-[#EDEDED] last:border-0 cursor-pointer text-dark hover:bg-gray-200 rounded transition-colors">
               <input type="radio" name="asunto"
                      value="<?php echo esc_attr($subject_data['title']); ?>"
                      data-subject-radio
@@ -101,7 +101,7 @@ $redirect_to = esc_url(add_query_arg(null, null));
       <div class="relative">
         <textarea name="mensaje" placeholder="<?php echo esc_attr(gf_e('contact.message')); ?>"
                   rows="6" data-word-limit="100"
-                  class="bg-[#F4F4F4] rounded-2xl pl-7 pr-20 pt-4 pb-14 text-xl text-dark placeholder:text-dark/45 outline-none focus:ring-3 focus:ring-dark w-full resize-none data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500"></textarea>
+                  class="bg-[#F4F4F4] rounded-2xl pl-7 pr-20 pt-4 pb-14 text-dark outline-none focus:ring-3 focus:ring-dark w-full resize-none data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500"></textarea>
         <div class="pointer-events-none absolute right-7 bottom-7 flex items-center gap-2 text-sm text-dark/60">
           <span data-counter>0/100</span>
           <?php echo get_icon('paperclip', 'h-4 w-4'); ?>
@@ -114,15 +114,15 @@ $redirect_to = esc_url(add_query_arg(null, null));
 
   <div class="relative mt-4">
     <label data-privacidad-wrapper
-           class="flex items-start gap-3 text-2xl text-[#8C8C8C] cursor-pointer">
-      <input type="checkbox" name="privacidad" class="h-6.5 w-6.5 accent-dark"/>
+           class="flex items-start gap-2  text-[#8C8C8C] cursor-pointer">
+      <input type="checkbox" name="privacidad" class="h-5 w-5 accent-dark"/>
       <span><?php gf_render_e('contact.privacy'); ?></span>
     </label>
     <p data-error class="hidden text-sm text-red-500 mt-1"><?php gf_render_e('contact.privacy_error'); ?></p>
   </div>
 
   <button type="submit" data-submit-btn
-          class="mt-8 w-full bg-dark text-white py-4 rounded-xl text-xl font-medium hover:opacity-90 transition cursor-pointer disabled:cursor-not-allowed">
+          class="mt-5 w-full bg-dark text-white py-4 rounded-xl text-lg font-medium hover:opacity-90 transition cursor-pointer disabled:cursor-not-allowed">
     <span data-submit-text class="inline-flex items-center gap-2"><?php gf_render_e('contact.submit'); ?></span>
   </button>
 

@@ -22,14 +22,14 @@ $legal_keys = [
   'footer.legal.sitemap',
 ];
 ?>
-<footer class="bg-dark text-white py-12 px-4 md:px-8 xl:px-20">
+<footer class="bg-dark text-white py-12 px-4 md:px-8 xl:px-30">
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 border-b-2 border-white pb-8 mb-6">
     <div class="flex flex-col lg:col-span-1">
       <div>
         <div class="flex items-center mb-5">
           <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logoWithe.svg" alt="Grupo Fadiar Logo" width="150" height="40" />
         </div>
-        <p class="text-white text-lg mb-6"><?php echo esc_html(gf_e('footer.help_text')); ?></p>
+        <p class="text-white text-md mb-6"><?php echo esc_html(gf_e('footer.help_text')); ?></p>
         <div class="flex gap-8 mb-8">
           <a href="#" aria-label="<?php echo esc_attr(gf_e('footer.social.phone')); ?>">
             <svg class="w-7 h-7 text-white hover:scale-110 transition-transform" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -48,11 +48,11 @@ $legal_keys = [
     </div>
     <?php for ($i = 0; $i < count($section_keys); $i++): ?>
       <div class="flex flex-col items-start">
-        <h4 class="text-secondary text-2xl font-semibold mb-10"><?php echo esc_html(gf_e($section_keys[$i])); ?></h4>
+        <h4 class="text-secondary text-xl font-bold mb-10"><?php echo esc_html(gf_e($section_keys[$i])); ?></h4>
         <ul class="space-y-2">
           <?php foreach ($link_keys_by_section[$i] as $link_key): ?>
             <li>
-              <a href="#" class="text-lg hover:text-secondary transition-colors">
+              <a href="#" class="text-md hover:text-secondary transition-colors">
                 <?php echo esc_html(gf_e($link_key)); ?>
               </a>
             </li>
@@ -61,7 +61,7 @@ $legal_keys = [
       </div>
     <?php endfor; ?>
   </div>
-  <div class="flex flex-col md:flex-row justify-between items-center text-lg text-white/70">
+  <div class="flex flex-col md:flex-row justify-between items-center text-md text-white/70">
     <div class="flex flex-wrap justify-center md:justify-start gap-10 mb-4 md:mb-0">
       <?php foreach ($legal_keys as $key): ?>
         <a href="#" class="hover:text-secondary transition-colors">

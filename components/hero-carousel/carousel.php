@@ -65,13 +65,13 @@ if ($slide_query->have_posts()) :
 
             $button_class = '';
             if ($button_style_type === 'primary') {
-                $button_class = 'bg-white text-[#010A2D] font-bold px-8 py-2 rounded-full text-3xl transition-transform hover:scale-105 cursor-pointer';
+                $button_class = 'bg-white text-[#010A2D] font-bold px-5 py-1 rounded-full text-xl transition-transform hover:scale-105 cursor-pointer';
             } elseif ($button_style_type === 'secondary') {
-                $button_class = 'border-2 border-white px-10 py-2 rounded-full text-3xl cursor-pointer hover:scale-105';
+                $button_class = 'border-2 border-white px-5 py-1 rounded-full text-xl cursor-pointer hover:scale-105';
             }
             // Si el primer botón de la primera diapositiva es "Conócenos" y es primario, se le da un tamaño mayor
             if ($slide_layout === 'simple' && count($slides) === 0 && count($current_slide['buttons']) === 0 && $button_text === 'Conócenos' && $button_style_type === 'primary') {
-                $button_class = 'bg-white text-[#010A2D] font-bold px-10 py-2 rounded-full text-3xl transition-transform hover:scale-105 cursor-pointer';
+                $button_class = 'bg-white text-[#010A2D] font-bold px-5 py-1 rounded-full text-xl transition-transform hover:scale-105 cursor-pointer';
             }
 
             $current_slide['buttons'][] = array(
@@ -91,17 +91,17 @@ endif;
     <?php foreach ($slides as $index => $slide): ?>
       <div class="carousel-slide absolute inset-0 transition-all duration-1000 ease-out <?php echo $index === 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-105'; ?>">
         <div class="absolute inset-0 bg-center bg-cover"
-             style="background-image: linear-gradient(to top, #010A2D, #7594D000 70%), url(<?php echo esc_url($slide['url']); ?>);">
+             style="background-image: linear-gradient(to top, #010A2D, #7594D000 50%), url(<?php echo esc_url($slide['url']); ?>);">
         </div>
       </div>
     <?php endforeach; ?>
     <div class="relative h-full flex items-end text-white mx-20 pb-8 gap-5 ">
       <div class="flex flex-col gap-y-4 justify-end pb-2">
           <a href="#" aria-label="Instagram" class="p-2 rounded-full hover:scale-110 transition-colors">
-            <?php echo get_icon('instagram', 'w-10 h-10 text-white'); ?>
+            <?php echo get_icon('instagram', 'w-8 h-8 text-white'); ?>
           </a>
           <a href="#" aria-label="Facebook" class="p-2 rounded-full hover:scale-110 transition-colors">
-            <?php echo get_icon('facebook', 'w-9 h-9 text-white'); ?>
+            <?php echo get_icon('facebook', 'w-8 h-8 text-white'); ?>
           </a>
 
       </div>
@@ -113,13 +113,13 @@ endif;
                 <?php if ($slide['layout'] === 'simple'): ?>
                   <!-- DISEÑO SIMPLE -->
                   <div >
-                    <h2 class="text-5xl md:text-[70px]   <?php echo esc_attr($slide['title_font_class']); ?>" style="<?php echo $slide['title_font_style']; ?>">
+                    <h2 class="text-5xl md:text-[50px]   <?php echo esc_attr($slide['title_font_class']); ?>" style="<?php echo $slide['title_font_style']; ?>">
                       <?php echo esc_html($slide['title']); ?>
                     </h2>
                   </div>
                   
                   <?php if (!empty($slide['subtitle'])): ?>
-                    <p class="text-[22px] font-open mt-1 max-w-3xl">
+                    <p class="text-lg font-open mt-1 max-w-3xl">
                       <?php echo esc_html($slide['subtitle']); ?>
                     </p>
                   <?php endif; ?>
@@ -134,18 +134,18 @@ endif;
 
                 <?php else: ?>
                   <!-- DISEÑO DE MARCA -->
-                  <div class="mb-6">
-                    <img src="<?php echo esc_url($slide['title']); ?>" alt="<?php echo esc_attr($slide['subtitle']); ?>" class="object-contain h-auto w-auto" style="max-height:100px;" />
+                  <div class=>
+                    <img src="<?php echo esc_url($slide['title']); ?>" alt="<?php echo esc_attr($slide['subtitle']); ?>" class="object-contain h-auto w-auto" style="max-height:80px;" />
                   </div>
                   
                   <?php if (!empty($slide['description'])): ?>
-                    <p class="text-5xl pb-4 mt-3 <?php echo esc_attr($slide['description_font_class']); ?>" style="<?php echo $slide['description_font_style']; ?>">
+                    <p class="text-4xl pb-4 mt-6 <?php echo esc_attr($slide['description_font_class']); ?>" style="<?php echo $slide['description_font_style']; ?>">
                       <?php echo esc_html($slide['description']); ?>
                     </p>
                   <?php endif; ?>
 
                   <?php if (!empty($slide['subtitle'])): ?>
-                    <p class="text-3xl font-open mt-8 mb-2 font-bold">
+                    <p class="text-2xl font-open mt-4  font-bold">
                       <?php echo esc_html($slide['subtitle']); ?>
                     </p>
                   <?php endif; ?>

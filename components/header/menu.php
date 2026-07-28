@@ -10,14 +10,14 @@ $links = array(
   array('href' => home_url('/support-warranty/'), 'label' => gf_e('header.menu.support'), 'key' => 'support-warranty'),
 );
 ?>
-<div class="font-bold text-lg 2xl:text-xl">
-  <ul class="flex items-center lg:space-x-3">
+<div class="font-bold text-lg 2xl:text-lg">
+  <ul class="flex items-center lg:space-x-2">
     <?php foreach ($links as $link): ?>
       <li>
         <a href="<?php echo esc_url($link['href']); ?>"
-           class="transition-colors px-4 py-2 rounded-md flex items-center justify-center <?php echo isset($link['class']) ? esc_attr($link['class']) : ''; ?> <?php echo !empty($link['key']) ? esc_attr(gf_nav_link_classes($link['key'])) : 'text-dark hover:text-secondary'; ?>">
+           class="transition-colors px-3 py-2 rounded-md flex items-center justify-center <?php echo isset($link['class']) ? esc_attr($link['class']) : ''; ?> <?php echo !empty($link['key']) ? esc_attr(gf_nav_link_classes($link['key'])) : 'text-dark hover:text-secondary'; ?>">
              <?php if (isset($link['icon'])): ?>
-               <?php echo get_icon($link['icon'], 'w-7.5 h-7.5'); ?>
+               <?php echo get_icon($link['icon'], 'w-7 h-7 '); ?>
              <?php else: ?>
              <?php echo esc_html($link['label']); ?>
            <?php endif; ?>

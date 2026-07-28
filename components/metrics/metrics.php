@@ -59,30 +59,30 @@ if ($description_2 === '') {
   </div>
 
 
- <div class="mx-20">
+ <div class="mx-30">
   <div class="flex justify-between  -mt-20 text-center ">
-    <div class="w-64 bg-white px-5 py-7 shadow-xl flex flex-col items-center justify-center">
-      <h2 class="text-6xl font-black text-dark"><?php echo esc_html($metrics_value[1]); ?></h2>
-      <p class="text-3xl font-bold text-dark mt-2"><?php echo esc_html($metrics_label[1]); ?></p>
+    <div class="w-56 bg-white  py-6 shadow-xl flex flex-col items-center justify-center">
+      <h2 class="text-4xl font-black text-dark"><?php echo esc_html($metrics_value[1]); ?></h2>
+      <p class="text-2xl font-bold text-dark mt-2"><?php echo esc_html($metrics_label[1]); ?></p>
     </div>
-    <div class="w-64 bg-white px-5 py-7 shadow-xl flex flex-col items-center justify-center">
-      <h2 class="text-6xl font-black text-dark"><?php echo esc_html($metrics_value[2]); ?></h2>
-      <p class="text-3xl font-bold text-dark mt-2"><?php echo esc_html($metrics_label[2]); ?></p>
+    <div class="w-56 bg-white px-5 py-6 shadow-xl flex flex-col items-center justify-center">
+      <h2 class="text-4xl font-black text-dark"><?php echo esc_html($metrics_value[2]); ?></h2>
+      <p class="text-2xl font-bold text-dark mt-2"><?php echo esc_html($metrics_label[2]); ?></p>
     </div>
-    <div class="w-64 bg-white px-5 py-7 shadow-xl flex flex-col items-center justify-center">
-      <h2 class="text-6xl font-black text-dark"><?php echo esc_html($metrics_value[3]); ?></h2>
-      <p class="text-3xl font-bold text-dark mt-2"><?php echo esc_html($metrics_label[3]); ?></p>
+    <div class="w-56 bg-white px-5 py-6 shadow-xl flex flex-col items-center justify-center">
+      <h2 class="text-4xl font-black text-dark"><?php echo esc_html($metrics_value[3]); ?></h2>
+      <p class="text-2xl font-bold text-dark mt-2"><?php echo esc_html($metrics_label[3]); ?></p>
     </div>
-    <div class="w-64 bg-white px-5 py-7 shadow-xl flex flex-col items-center justify-center">
-      <h2 class="text-6xl font-black text-dark"><?php echo esc_html($metrics_value[4]); ?></h2>
-      <p class="text-3xl font-bold text-dark mt-2"><?php echo esc_html($metrics_label[4]); ?></p>
+    <div class="w-56 bg-white px-5 py-6 shadow-xl flex flex-col items-center justify-center">
+      <h2 class="text-4xl font-black text-dark"><?php echo esc_html($metrics_value[4]); ?></h2>
+      <p class="text-2xl font-bold text-dark mt-2"><?php echo esc_html($metrics_label[4]); ?></p>
     </div>
   </div>
 </div>
 
 
-  <div class="mt-20 mx-20">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-15 font-open text-dark text-xl text-justify">
+  <div class="mt-10 mx-30">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-15 font-open text-dark  text-justify">
       <div>
         <p ><?php echo esc_html($description_1); ?></p>
       </div>

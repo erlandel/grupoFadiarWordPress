@@ -26,7 +26,7 @@
           </div>
           <input
             type="text"
-            class="search-input w-full pl-14 pr-4 py-4 text-xl md:text-2xl bg-transparent border-b-2 border-dark/20 focus:border-dark outline-none text-dark placeholder:text-dark/30 font-montserrat transition-colors duration-300"
+            class="search-input w-full pl-14 pr-4 py-4 text-xl  bg-transparent border-b-2 border-dark/20 focus:border-dark outline-none text-dark placeholder:text-dark/30 font-montserrat transition-colors duration-300"
             placeholder="<?php echo esc_attr(gf_e('search.placeholder')); ?>"
             autocomplete="off"
           />
@@ -34,11 +34,11 @@
       </div>
 
       <div class="px-6 md:px-8 pb-6 shrink-0 flex gap-2 md:gap-3 overflow-x-auto search-filters scrollbar-hide">
-        <button class="search-filter active shrink-0 px-4 py-2 rounded-full text-sm md:text-base font-bold transition-colors duration-200 bg-dark text-secondary cursor-pointer" data-filter="todos"><?php gf_render_e('search.filter.all'); ?></button>
-        <button class="search-filter shrink-0 px-4 py-2 rounded-full text-sm md:text-base font-bold transition-colors duration-200 bg-dark/10 text-dark hover:bg-dark hover:text-secondary cursor-pointer" data-filter="productos"><?php gf_render_e('search.filter.products'); ?></button>
-        <button class="search-filter shrink-0 px-4 py-2 rounded-full text-sm md:text-base font-bold transition-colors duration-200 bg-dark/10 text-dark hover:bg-dark hover:text-secondary cursor-pointer" data-filter="noticias"><?php gf_render_e('search.filter.news'); ?></button>
-        <button class="search-filter shrink-0 px-4 py-2 rounded-full text-sm md:text-base font-bold transition-colors duration-200 bg-dark/10 text-dark hover:bg-dark hover:text-secondary cursor-pointer" data-filter="corporativa"><?php gf_render_e('search.filter.corporate'); ?></button>
-        <button class="search-filter shrink-0 px-4 py-2 rounded-full text-sm md:text-base font-bold transition-colors duration-200 bg-dark/10 text-dark hover:bg-dark hover:text-secondary cursor-pointer" data-filter="garantias"><?php gf_render_e('search.filter.warranty'); ?></button>
+        <button class="search-filter active shrink-0 px-4 py-2 rounded-full font-bold transition-colors duration-200 bg-dark text-secondary cursor-pointer" data-filter="todos"><?php gf_render_e('search.filter.all'); ?></button>
+        <button class="search-filter shrink-0 px-4 py-2 rounded-full font-bold transition-colors duration-200 bg-dark/10 text-dark hover:bg-dark hover:text-secondary cursor-pointer" data-filter="productos"><?php gf_render_e('search.filter.products'); ?></button>
+        <button class="search-filter shrink-0 px-4 py-2 rounded-full font-bold transition-colors duration-200 bg-dark/10 text-dark hover:bg-dark hover:text-secondary cursor-pointer" data-filter="noticias"><?php gf_render_e('search.filter.news'); ?></button>
+        <button class="search-filter shrink-0 px-4 py-2 rounded-full font-bold transition-colors duration-200 bg-dark/10 text-dark hover:bg-dark hover:text-secondary cursor-pointer" data-filter="corporativa"><?php gf_render_e('search.filter.corporate'); ?></button>
+        <button class="search-filter shrink-0 px-4 py-2 rounded-full font-bold transition-colors duration-200 bg-dark/10 text-dark hover:bg-dark hover:text-secondary cursor-pointer" data-filter="garantias"><?php gf_render_e('search.filter.warranty'); ?></button>
       </div>
       <div class="search-suggestion-hint hidden px-6 md:px-8 pb-4 text-sm text-dark/50" role="status"></div>
 

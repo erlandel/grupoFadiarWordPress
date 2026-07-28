@@ -23,11 +23,11 @@ $brands_query = new WP_Query(array(
 <section class="w-full bg-linear-to-br from-[#1D3D75] via-dark to-dark py-16">
     <div class="flex items-center justify-center text-white font-bold">
         <div>
-            <h2 class="text-secondary text-center text-3xl"><?php echo esc_html($section_title); ?></h2>
-            <h3 class="text-5xl mt-4">"<?php echo esc_html($section_subtitle); ?>"</h3>
+            <h2 class="text-secondary text-center text-2xl"><?php echo esc_html($section_title); ?></h2>
+            <h3 class="text-4xl mt-4">"<?php echo esc_html($section_subtitle); ?>"</h3>
         </div>
     </div>
-    <div class="flex flex-wrap justify-center items-center gap-8 mt-20">
+    <div class="flex flex-wrap justify-center items-center gap-8 mt-10">
         <?php if ($brands_query->have_posts()): ?>
             <?php while ($brands_query->have_posts()): $brands_query->the_post(); ?>
                 <?php

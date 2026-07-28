@@ -70,7 +70,7 @@ function gf_static_strings() {
         'footer.section.hr'          => ['es' => 'Recursos humanos',           'en' => 'Human Resources'],
         'footer.link.history'        => ['es' => 'Nuestra historia',           'en' => 'Our Story'],
         'footer.link.where'          => ['es' => 'Dónde estamos',              'en' => 'Where we are'],
-        'footer.link.rd'             => ['es' => 'I+D+i',                      'en' => 'R&D&i'],
+        'footer.link.rd'             => ['es' => 'I+D+i',                      'en' => 'R+D+i'],
         'footer.link.business'       => ['es' => 'Modelo de negocio',          'en' => 'Business Model'],
         'footer.link.quality'        => ['es' => 'Certificados de Calidad',    'en' => 'Quality Certificates'],
         'footer.link.schools'        => ['es' => 'Escuelas y proyectos',       'en' => 'Schools and Projects'],

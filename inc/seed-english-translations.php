@@ -305,9 +305,9 @@ function gf_get_body_text_translations() {
                 'pillar_description' => '<p>Our strategy rests on three fundamental pillars:</p><p><strong>1. Market expansion</strong> — reaching more customers nationwide.</p><p><strong>2. Technological innovation</strong> — developing more efficient and connected products.</p><p><strong>3. Sustainability</strong> — reducing our environmental footprint and supporting the circular economy. These pillars guide our decision-making and resource allocation.</p>',
             ],
             'I+D+i' => [
-                'post_title'       => 'R&D&I',
+                'post_title'       => 'R+D+I',
                 'pillar_subtitle'  => '',
-                'pillar_description' => '<p>We invest in R&D&I to stay at the forefront. We are currently working on:</p><ul><li><strong>Efficient appliances:</strong> reducing energy consumption by up to 30% with inverter motors.</li><li><strong>Sustainable materials:</strong> using bioplastics and certified woods.</li><li><strong>Smart lighting:</strong> voice and mobile app controlled systems.</li></ul>',
+                'pillar_description' => '<p>We invest in R+D+I to stay at the forefront. We are currently working on:</p><ul><li><strong>Efficient appliances:</strong> reducing energy consumption by up to 30% with inverter motors.</li><li><strong>Sustainable materials:</strong> using bioplastics and certified woods.</li><li><strong>Smart lighting:</strong> voice and mobile app controlled systems.</li></ul>',
             ],
         ],
         'our_story_item' => [

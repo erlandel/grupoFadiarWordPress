@@ -58,7 +58,7 @@ if (!empty($categories) && !is_wp_error($categories)) {
   $related_query = new WP_Query($related_args);
 }
 ?>
-<div class="mx-20 mt-10">
+<div class="mx-30 mt-10">
   <div class="flex text-xl">
     <p><a href="<?php echo home_url('/'); ?>"><?php echo esc_html(gf_e('noticias.breadcrumb_home')); ?></a></p>
     <svg class="h-6 w-6 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
@@ -66,7 +66,7 @@ if (!empty($categories) && !is_wp_error($categories)) {
   </div>
 </div>
 
-<div class="mx-20 mt-10 flex flex-col lg:flex-row gap-10">
+<div class="mx-30 mt-10 flex flex-col lg:flex-row gap-10 mb-20">
   <div class="lg:w-9/12">
     <?php if ($thumbnail_url): ?>
       <div id="hero-share"
@@ -88,7 +88,7 @@ if (!empty($categories) && !is_wp_error($categories)) {
       <?php if ($categories): ?>
         <!-- <span class="inline-block bg-primary text-dark text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4"><?php echo esc_html($categories[0]->name); ?></span> -->
       <?php endif; ?>
-      <h1 class="text-3xl font-bold text-dark leading-tight"><?php echo esc_html($title); ?></h1>
+      <h1 class="text-4xl font-bold text-dark leading-tight"><?php echo esc_html($title); ?></h1>
     
       <div class="flex items-center gap-4 mt-3 text-xl text-dark">
         <span><?php echo esc_html($fecha ?: get_the_date('d/m/Y')); ?></span>
@@ -104,7 +104,7 @@ if (!empty($categories) && !is_wp_error($categories)) {
 
     <?php if ($category_name): ?>
       <div class="flex items-center justify-between mt-10">
-        <span class="inline-block w-fit bg-[#F4F4F4] text-[#8C8C8C] text-2xl tracking-wider px-4 py-3 rounded-full">
+        <span class="inline-block w-fit bg-[#F4F4F4] text-[#8C8C8C] tracking-wider px-4 py-3 rounded-full">
           <?php echo esc_html($category_name); ?>
         </span>
 
@@ -150,7 +150,7 @@ if (!empty($categories) && !is_wp_error($categories)) {
       }
     ?>
       <div class="bg-[#F8F8F8] w-full rounded-xl p-6 pb-10 border border-gray-200">
-        <h3 class="text-3xl font-bold text-dark mb-4"><?php echo esc_html(gf_e('noticias.sidebar_title')); ?></h3>
+        <h3 class="text-2xl font-bold text-dark mb-4"><?php echo esc_html(gf_e('noticias.sidebar_title')); ?></h3>
         <ul class="space-y-2">
           <li class="border-b-3 border-[#EDEDED]">
             <a href="<?php echo home_url('/noticias/'); ?>" class="block text-xl text-dark transition px-3 py-2 rounded-md hover:bg-gray-200 <?php echo empty($categories) ? 'font-bold' : ''; ?>"><?php echo esc_html(gf_e('noticias.sidebar_all')); ?></a>
@@ -168,8 +168,8 @@ if (!empty($categories) && !is_wp_error($categories)) {
 </div>
 
 <?php if (isset($related_query) && $related_query->have_posts()): ?>
-  <div class="mx-15 mt-20 mb-20">
-    <h2 class="text-3xl font-bold text-dark mb-8"><?php echo esc_html(gf_e('noticias.related_title')); ?></h2>
+  <div class="mx-15  mb-20">
+    <h2 class="text-4xl font-bold text-dark mb-8"><?php echo esc_html(gf_e('noticias.related_title')); ?></h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <?php while ($related_query->have_posts()): $related_query->the_post(); ?>
         <?php get_template_part('components/noticias/card', null, array('post_id' => get_the_ID())); ?>

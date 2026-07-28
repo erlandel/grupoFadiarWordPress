@@ -19,10 +19,10 @@ $support_header_items = get_posts(array(
             <?php if ($image): ?>
               <img src="<?php echo esc_url($image); ?>"
                    alt="<?php echo esc_attr(gf_get_post_title($item->ID)); ?>"
-                   class="h-20 w-20 text-dark" />
+                   class="max-h-18 max-w-18 w-auto h-auto object-contain text-dark" />
             <?php endif; ?>
           </div>
-          <p class="mt-4 text-xl text-dark font-black tracking-wider"><?php echo esc_html(strtoupper(gf_get_post_title($item->ID))); ?></p>
+          <p class="mt-4 text-lg text-dark font-black tracking-wider"><?php echo esc_html(strtoupper(gf_get_post_title($item->ID))); ?></p>
         </div>
       <?php endforeach; ?>
     <?php endif; ?>

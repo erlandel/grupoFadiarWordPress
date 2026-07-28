@@ -1,3 +1,15 @@
+/*!
+Theme Name: Grupo Fadiar
+Theme URI: https://fadiar.com
+Author: Erlan
+Author URI: https://fadiar.com
+Description: Tema personalizado para Grupo Fadiar, con Next.js/Tailwind CSS v4
+Version: 1.0.0
+Requires at least: 6.0
+Requires PHP: 7.4
+Text Domain: grupofadiar-theme
+*/
+
 @import "tailwindcss";
 @source "../**/*.{php,html,js,ts,jsx,tsx}";
 

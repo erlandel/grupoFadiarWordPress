@@ -24,17 +24,17 @@ $intro = gf_get_field('intro_noticia', $post_id);
   </div>
 
   <!-- Categoría -->
-  <span class="inline-block w-fit bg-[#F4F4F4] text-[#8C8C8C] text-2xl tracking-wider px-4 py-2.5 rounded-full mt-4">
+  <span class="inline-block w-fit bg-[#F4F4F4] text-[#8C8C8C]  tracking-wider  px-4 py-3 rounded-full mt-4">
     <?php echo $category_label ? esc_html($category_label) : 'Categoría'; ?>
   </span>
 
   <!-- Contenido -->
   <div class="pt-3 flex flex-col flex-1">
-    <h3 class="text-3xl font-bold text-dark leading-tight group-hover:underline">
+    <h3 class="text-2xl font-bold text-dark leading-tight group-hover:underline">
       <?php echo esc_html($title); ?>
     </h3>
     <?php if ($intro): ?>
-      <p class="text-xl text-[#4A4A4A] leading-relaxed mt-3 line-clamp-3">
+      <p class=" text-[#4A4A4A] leading-relaxed mt-3 line-clamp-3">
         <?php echo esc_html($intro); ?>
       </p>
     <?php endif; ?>

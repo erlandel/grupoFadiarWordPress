@@ -22,12 +22,12 @@ if (post_type_exists('warranty_step')) {
 }
 
 ?>
-<section id="warrantyInfo" class="scroll-mt-20 mx-auto my-20 grid grid-cols-1 md:grid-cols-2 gap-10 max-w-350 ">
+<section id="warrantyInfo" class="scroll-mt-20 mx-30 min-[1920px]:mx-auto  my-15 grid grid-cols-1 md:grid-cols-2 gap-10 max-w-7xl ">
 
   <div class="bg-[#F4F4F4] p-10 rounded-2xl">
-    <h2 class="text-4xl font-bold text-dark mb-6"><?php echo esc_html(gf_get_option('warranty_section_left_title', 'Proceso de reclamación', 'Claims Process')); ?></h2>
+    <h2 class="text-3xl font-bold text-dark mb-6"><?php echo esc_html(gf_get_option('warranty_section_left_title', 'Proceso de reclamación', 'Claims Process')); ?></h2>
     <?php if (!empty($steps)): ?>
-      <ol class="text-2xl text-dark space-y-4 [&>li]:leading-relaxed">
+      <ol class="text-xl text-dark space-y-4 [&>li]:leading-relaxed">
         <?php foreach ($steps as $step):
           $step_number = get_field('ws_step_number', $step->ID);
           if (empty($step_number)) {
@@ -47,9 +47,9 @@ if (post_type_exists('warranty_step')) {
   </div>
 
   <div class="bg-[#F4F4F4] p-10 rounded-2xl">
-    <h2 class="text-4xl font-bold text-dark mb-6"><?php echo esc_html(gf_get_option('warranty_section_right_title', 'Contactos', 'Contacts')); ?></h2>
+    <h2 class="text-3xl font-bold text-dark mb-6"><?php echo esc_html(gf_get_option('warranty_section_right_title', 'Contactos', 'Contacts')); ?></h2>
     <?php if (!empty($contacts)): ?>
-      <ul class="text-2xl text-dark space-y-10">
+      <ul class="text-xl text-dark space-y-10">
         <?php foreach ($contacts as $contact):
           $label    = gf_get_field('wc_label', $contact->ID);
           $phone    = get_field('wc_phone', $contact->ID);
@@ -64,7 +64,7 @@ if (post_type_exists('warranty_step')) {
               </span>
             </div>
             <?php if (!empty($schedule)): ?>
-              <p class="text-2xl text-dark mt-1 text-end">(<?php echo esc_html($schedule); ?>)</p>
+              <p class="text-xl text-dark mt-1 text-end">(<?php echo esc_html($schedule); ?>)</p>
             <?php endif; ?>
           </li>
         <?php endforeach; ?>

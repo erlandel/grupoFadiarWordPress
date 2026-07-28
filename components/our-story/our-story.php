@@ -75,10 +75,10 @@ function grupofadiar_render_our_story_item($post) {
 }
 ?>
 <section id="ourStory" class="scroll-mt-20 mt-10 w-full bg-[#F4F4F4]">
-  <div class="w-full p-20">
+  <div class="w-full py-15 px-30">
     <div class="flex justify-around items-start gap-20">
-      <div class="w-1/2 text-xl">
-        <h2 class="text-5xl font-black"><?php echo esc_html($title); ?></h2>
+      <div class="w-1/2 text-lg">
+        <h2 class="text-4xl font-black"><?php echo esc_html($title); ?></h2>
         <?php if ($paragraph_1 !== ''): ?>
           <div class="mt-6 text-justify"><?php echo wpautop(wp_kses_post($paragraph_1)); ?></div>
         <?php endif; ?>

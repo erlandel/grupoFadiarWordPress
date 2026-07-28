@@ -48,8 +48,8 @@ $gf_country_lang = gf_current_lang();
             class="flex items-center gap-2 pl-7 pr-3 py-4 outline-none shrink-0 cursor-pointer"
             aria-haspopup="listbox"
             aria-expanded="false">
-      <span data-phone-flag class="text-xl leading-none shrink-0"><?php echo code_to_flag_emoji($default_entry['code']); ?></span>
-      <span data-phone-code class="text-xl text-dark"><?php echo esc_html($default_entry['phoneCode']); ?></span>
+      <span data-phone-flag class="leading-none shrink-0"><?php echo code_to_flag_emoji($default_entry['code']); ?></span>
+      <span data-phone-code class="text-dark"><?php echo esc_html($default_entry['phoneCode']); ?></span>
       <?php echo get_icon('chevron-down', 'h-5 w-5 text-dark transition-transform duration-200 pointer-events-none'); ?>
     </button>
     <span class="h-7 w-px bg-dark/15 shrink-0"></span>
@@ -59,7 +59,7 @@ $gf_country_lang = gf_current_lang();
            name="telefono_numero"
            placeholder="<?php echo esc_attr(gf_e('contact.phone_placeholder')); ?>"
            data-phone-number
-            class="bg-transparent text-xl text-dark placeholder:text-dark/45 outline-none flex-1 min-w-0 pl-4 pr-7 py-4"
+           class="bg-transparent text-dark outline-none flex-1 min-w-0 pl-4 pr-7 py-4"
            autocomplete="tel-national"/>
   </div>
 
@@ -70,21 +70,21 @@ $gf_country_lang = gf_current_lang();
       <input type="text"
              data-phone-search
              placeholder="<?php echo esc_attr(gf_e('contact.phone_country_search')); ?>"
-             class="w-full bg-[#EDEDED] rounded-full px-5 py-2 text-lg text-dark outline-none placeholder:text-dark/45"
+             class="w-full bg-[#EDEDED] rounded-full px-5 py-2 text-dark outline-none"
              autocomplete="off"/>
     </div>
     <div class="flex flex-col">
       <?php foreach ($countries as $c):
         $country_name = $gf_country_lang === 'en' && !empty($c['name_en']) ? $c['name_en'] : $c['name_es'];
       ?>
-        <label class="flex items-center gap-3 py-3 px-6 border-b-3 border-[#EDEDED] last:border-0 cursor-pointer text-xl text-dark hover:bg-gray-200 rounded transition-colors"
+        <label class="flex items-center gap-3 py-3 px-6 border-b-3 border-[#EDEDED] last:border-0 cursor-pointer text-dark hover:bg-gray-200 rounded transition-colors"
                data-country-code="<?php echo esc_attr($c['code']); ?>"
                data-country-dial="<?php echo esc_attr($c['phoneCode']); ?>"
                data-country-name="<?php echo esc_attr($country_name); ?>"
                data-country-emoji="<?php echo esc_attr(code_to_flag_emoji($c['code'])); ?>"
                data-country-lengths="<?php echo esc_attr(implode(',', $c['validLengths'] ?? [6,15])); ?>"
                role="option">
-          <span class="text-xl leading-none shrink-0"><?php echo code_to_flag_emoji($c['code']); ?></span>
+          <span class="leading-none shrink-0"><?php echo code_to_flag_emoji($c['code']); ?></span>
           <span class="font-normal"><?php echo esc_html($country_name); ?></span>
           <span class="ml-auto text-dark/60"><?php echo esc_html($c['phoneCode']); ?></span>
         </label>

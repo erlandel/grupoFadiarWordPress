@@ -2,8 +2,8 @@
 // Configuración de layout para cada producto (fijo)
 $layout_config = array(
   array('wrapper' => 'rounded-r-2xl aspect-11/6 w-full', 'self' => ''),
-  array('wrapper' => 'rounded-2xl aspect-14/7.5 w-full md:w-[90%] md:mr-auto', 'self' => ''),
-  array('wrapper' => 'rounded-2xl aspect-14/7.5  w-full md:w-[90%] md:ml-auto mt-12', 'self' => ''),
+  array('wrapper' => 'rounded-2xl aspect-14/8 w-full md:w-[85%] md:mr-auto', 'self' => ''),
+  array('wrapper' => 'rounded-2xl aspect-14/8  w-full md:w-[85%] md:ml-auto mt-12', 'self' => ''),
   array('wrapper' => 'rounded-l-2xl aspect-11/6 w-full', 'self' => 'self-end when-desk'),
 );
 
@@ -21,8 +21,8 @@ $section_title = gf_get_option('products_section_title', 'Productos', 'Products'
 ?>
 <section class="w-full py-16 overflow-hidden bg-white">
   <div>
-    <h3 class="text-5xl font-black mb-12 ml-6 md:ml-20 text-gray-900"><?php echo esc_html($section_title); ?></h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 items-start w-full">
+    <h3 class="text-4xl font-black mb-8 ml-6 md:ml-30 text-gray-900"><?php echo esc_html($section_title); ?></h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12.5 items-start w-full">
       <?php 
       $count = count($products);
       for ($i = 0; $i < 4; $i++): 
@@ -70,7 +70,7 @@ $section_title = gf_get_option('products_section_title', 'Productos', 'Products'
           
           <?php if ($has_product): ?>
             <div class="absolute bottom-4 right-4 z-10">
-              <a href="<?php echo esc_url($button_url); ?>" class="promo-btn inline-flex items-center gap-2 px-4 py-2 rounded-full text-white font-semibold text-2xl tracking-wide bg-dark transition-transform hover:scale-105">
+              <a href="<?php echo esc_url($button_url); ?>" class="promo-btn inline-flex items-center gap-2 px-4 py-2 rounded-full text-white font-semibold text-lg tracking-wide bg-dark transition-transform hover:scale-105">
                 <?php echo esc_html($button_text); ?>
               </a>
             </div>

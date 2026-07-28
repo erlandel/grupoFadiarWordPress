@@ -7,7 +7,7 @@ $header_classes .= $is_home_page
 ?>
 <header class="<?php echo esc_attr($header_classes); ?>">
   <nav class="w-full flex items-center justify-between py-4 text-sm">
-    <div class="flex items-center justify-between w-full px-10 2xl:px-20">
+    <div class="flex items-center justify-between w-full px-10 xl:px-30">
       <div class="hidden xl:block">
         <a href="<?php echo home_url('/'); ?>">
           <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo.svg" alt="Grupo Fadiar Logo" width="125" height="20" />
@@ -27,12 +27,12 @@ $header_classes .= $is_home_page
         <div class="flex items-center gap-6 ">
           <a href="<?php echo home_url('/contacts/'); ?>"
              class="cursor-pointer p-2 rounded-md flex items-center justify-center transition-colors <?php echo esc_attr(gf_nav_link_classes('contacts')); ?>">
-            <?php echo get_icon('phone', 'w-8 h-8'); ?>
+            <?php echo get_icon('phone', 'w-7 h-7'); ?>
           </a>
           <div class="cursor-pointer search-open">
-            <?php echo get_icon('search', 'w-7 h-7 text-dark'); ?>
+            <?php echo get_icon('search', 'w-6 h-6 text-dark'); ?>
           </div>
-          <?php echo gf_language_switcher('w-7 h-7'); ?>
+          <?php echo gf_language_switcher('w-6 h-6'); ?>
         </div>
       </div>
     </div>
