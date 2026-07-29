@@ -24,7 +24,7 @@ if (post_type_exists('warranty_step')) {
 ?>
 <section id="warrantyInfo" class="scroll-mt-20 mx-30 min-[1920px]:mx-auto  my-15 grid grid-cols-1 md:grid-cols-2 gap-10 max-w-7xl ">
 
-  <div class="bg-[#F4F4F4] p-10 rounded-2xl">
+  <div class="reveal-item bg-[#F4F4F4] p-10 rounded-2xl">
     <h2 class="text-3xl font-bold text-dark mb-6"><?php echo esc_html(gf_get_option('warranty_section_left_title', 'Proceso de reclamación', 'Claims Process')); ?></h2>
     <?php if (!empty($steps)): ?>
       <ol class="text-xl text-dark space-y-4 [&>li]:leading-relaxed">
@@ -46,7 +46,7 @@ if (post_type_exists('warranty_step')) {
     <?php endif; ?>
   </div>
 
-  <div class="bg-[#F4F4F4] p-10 rounded-2xl">
+  <div class="reveal-item bg-[#F4F4F4] p-10 rounded-2xl">
     <h2 class="text-3xl font-bold text-dark mb-6"><?php echo esc_html(gf_get_option('warranty_section_right_title', 'Contactos', 'Contacts')); ?></h2>
     <?php if (!empty($contacts)): ?>
       <ul class="text-xl text-dark space-y-10">

@@ -96,7 +96,7 @@ endif;
       </div>
     <?php endforeach; ?>
     <div class="relative h-full flex items-end text-white mx-20 pb-8 gap-5 ">
-      <div class="flex flex-col gap-y-4 justify-end pb-2">
+      <div class="reveal-item is-visible-item flex flex-col gap-y-4 justify-end pb-2">
           <a href="#" aria-label="Instagram" class="p-2 rounded-full hover:scale-110 transition-colors">
             <?php echo get_icon('instagram', 'w-8 h-8 text-white'); ?>
           </a>
@@ -109,7 +109,7 @@ endif;
         <?php foreach ($slides as $index => $slide): ?>
           <div class="carousel-content <?php echo $index === 0 ? '' : 'hidden'; ?>" data-index="<?php echo $index; ?>">
             <div class="flex gap-4 <?php echo !empty($slide['buttons']) ? 'mb-5' : 'mb-5'; ?>">
-              <div class="flex-1 flex flex-col justify-end items-start">
+              <div class="reveal-item flex-1 flex flex-col justify-end items-start">
                 <?php if ($slide['layout'] === 'simple'): ?>
                   <!-- DISEÑO SIMPLE -->
                   <div >

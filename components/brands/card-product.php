@@ -11,7 +11,7 @@ $args = wp_parse_args($args, array(
   'buttonUrl' => '#',
 ));
 ?>
-<div class="group relative flex flex-col w-73 h-90.5 bg-white/5 rounded-xl p-4 overflow-hidden transform transition-transform duration-300 hover:scale-115">
+<div class="reveal-item--zoom group relative flex flex-col w-73 h-90.5 bg-white/5 rounded-xl p-4 overflow-hidden transform transition-transform duration-300 hover:scale-115">
   <div class="shrink-0 group-hover:opacity-0 transition-opacity duration-300">
     <img src="<?php echo esc_url($args['productImage']); ?>" alt="<?php echo esc_attr($args['productAlt']); ?>" class="w-full h-auto object-cover rounded-lg" />
   </div>

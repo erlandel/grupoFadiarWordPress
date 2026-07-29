@@ -55,25 +55,25 @@ if ($description_2 === '') {
 ?>
 <section class="mt-10 w-full flex flex-col">
   <div class="w-full">
-    <img src="<?php echo esc_url($metrics_image_url); ?>" alt="<?php echo esc_attr($metrics_image_alt); ?>" class="w-full h-auto" />
+    <img src="<?php echo esc_url($metrics_image_url); ?>" alt="<?php echo esc_attr($metrics_image_alt); ?>" class="reveal-item w-full h-auto" />
   </div>
 
 
  <div class="mx-30">
   <div class="flex justify-between  -mt-20 text-center ">
-    <div class="w-56 bg-white  py-6 shadow-xl flex flex-col items-center justify-center">
+    <div class="reveal-item w-56 bg-white  py-6 shadow-xl flex flex-col items-center justify-center">
       <h2 class="text-4xl font-black text-dark"><?php echo esc_html($metrics_value[1]); ?></h2>
       <p class="text-2xl font-bold text-dark mt-2"><?php echo esc_html($metrics_label[1]); ?></p>
     </div>
-    <div class="w-56 bg-white px-5 py-6 shadow-xl flex flex-col items-center justify-center">
+    <div class="reveal-item w-56 bg-white px-5 py-6 shadow-xl flex flex-col items-center justify-center">
       <h2 class="text-4xl font-black text-dark"><?php echo esc_html($metrics_value[2]); ?></h2>
       <p class="text-2xl font-bold text-dark mt-2"><?php echo esc_html($metrics_label[2]); ?></p>
     </div>
-    <div class="w-56 bg-white px-5 py-6 shadow-xl flex flex-col items-center justify-center">
+    <div class="reveal-item w-56 bg-white px-5 py-6 shadow-xl flex flex-col items-center justify-center">
       <h2 class="text-4xl font-black text-dark"><?php echo esc_html($metrics_value[3]); ?></h2>
       <p class="text-2xl font-bold text-dark mt-2"><?php echo esc_html($metrics_label[3]); ?></p>
     </div>
-    <div class="w-56 bg-white px-5 py-6 shadow-xl flex flex-col items-center justify-center">
+    <div class="reveal-item w-56 bg-white px-5 py-6 shadow-xl flex flex-col items-center justify-center">
       <h2 class="text-4xl font-black text-dark"><?php echo esc_html($metrics_value[4]); ?></h2>
       <p class="text-2xl font-bold text-dark mt-2"><?php echo esc_html($metrics_label[4]); ?></p>
     </div>
@@ -84,10 +84,10 @@ if ($description_2 === '') {
   <div class="mt-10 mx-30">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-15 font-open text-dark  text-justify">
       <div>
-        <p ><?php echo esc_html($description_1); ?></p>
+        <p class="reveal-item"><?php echo esc_html($description_1); ?></p>
       </div>
       <div>
-        <p ><?php echo esc_html($description_2); ?></p>
+        <p class="reveal-item"><?php echo esc_html($description_2); ?></p>
       </div>
     </div>
   </div>

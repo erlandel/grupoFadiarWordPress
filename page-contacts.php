@@ -25,7 +25,7 @@ get_header();
   <?php get_template_part('components/contact-info/contact-info'); ?>
 </div>
 
-<div >
+<div>
   <?php get_template_part('components/contact-map/contact-map'); ?>
 </div>
 

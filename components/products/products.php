@@ -18,10 +18,13 @@ $products = get_posts(array(
 
 // Título de la sección desde opciones globales
 $section_title = gf_get_option('products_section_title', 'Productos', 'Products');
+
+// Orden de aparición: producto 1 → 3 → 2 → 4
+$reveal_order_map = array(0, 1, 1, 0);
 ?>
 <section class="w-full py-16 overflow-hidden bg-white">
   <div>
-    <h3 class="text-4xl font-black mb-8 ml-6 md:ml-30 text-gray-900"><?php echo esc_html($section_title); ?></h3>
+    <h3 class="reveal-item text-4xl font-black mb-8 ml-6 md:ml-30 text-gray-900"><?php echo esc_html($section_title); ?></h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12.5 items-start w-full">
       <?php 
       $count = count($products);
@@ -54,7 +57,7 @@ $section_title = gf_get_option('products_section_title', 'Productos', 'Products'
           }
         }
       ?>
-        <div class="relative overflow-hidden shadow-lg <?php echo esc_attr($layout_config[$i]['wrapper']); ?> <?php echo esc_attr($layout_config[$i]['self']); ?>">
+        <div class="reveal-item--zoom relative overflow-hidden shadow-lg <?php echo esc_attr($layout_config[$i]['wrapper']); ?> <?php echo esc_attr($layout_config[$i]['self']); ?>" data-reveal-order="<?php echo $reveal_order_map[$i] ?? $i; ?>">
           <?php if ($has_product && !empty($media_url)): ?>
             <?php if ($media_type === 'video'): ?>
               <video src="<?php echo esc_url($media_url); ?>" class="w-full h-full object-cover" autoplay muted loop playsinline></video>

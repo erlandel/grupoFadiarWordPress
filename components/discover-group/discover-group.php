@@ -46,18 +46,18 @@ $image         = !empty($discover_item['image']) ? $discover_item['image'] : $de
   <div class="flex justify-center w-4/6  ">
     <div>
       <div>
-        <h2 class="text-4xl font-black font-montserrat text-dark ">
+        <h2 class="reveal-item text-4xl font-black font-montserrat text-dark ">
           <span class=""><?php echo esc_html($title); ?></span>
 
         </h2>
-        <p class="text-2xl mt-5 font-bold text-dark"><?php echo esc_html($subtitle); ?></p>
+        <p class="reveal-item text-2xl mt-5 font-bold text-dark"><?php echo esc_html($subtitle); ?></p>
       </div>
       <div class="flex flex-col gap-10 mt-10 text-xl text-gray-800  text-justify ">
-        <p><?php echo esc_html($description_1); ?></p>
-        <p><?php echo esc_html($description_2); ?></p>
+        <p class="reveal-item"><?php echo esc_html($description_1); ?></p>
+        <p class="reveal-item"><?php echo esc_html($description_2); ?></p>
       </div>
       <?php if (!empty($button_text) && !empty($button_url)) : ?>
-      <div class="mt-10">
+      <div class="reveal-item mt-10">
         <button onclick="window.location.href='<?php echo esc_url($button_url); ?>'" class="bg-dark text-white text-2xl px-5 py-1 rounded-xl font-bold cursor-pointer hover:scale-105 transition-transform"><?php echo esc_html($button_text); ?></button>
       </div>
       <?php endif; ?>
@@ -66,8 +66,7 @@ $image         = !empty($discover_item['image']) ? $discover_item['image'] : $de
 
 
 
-
   <div class="flex items-center justify-end w-2/6 mr-10">
-    <img src="<?php echo esc_url($image); ?>" alt="Girl" class="w-100  " />
+    <img src="<?php echo esc_url($image); ?>" alt="Girl" class="reveal-item w-100  " />
   </div>
 </section>

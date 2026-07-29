@@ -7,7 +7,7 @@ $categories = wp_get_post_terms($post_id, 'categoria_noticia');
 $category_label = !empty($categories) ? gf_get_term_name($categories[0]) : '';
 $intro = gf_get_field('intro_noticia', $post_id);
 ?>
-<a href="<?php echo esc_url($permalink); ?>" class="flex flex-col h-full group">
+<a href="<?php echo esc_url($permalink); ?>" class="reveal-item flex flex-col h-full group">
   <!-- Imagen -->
   <div class="relative overflow-hidden rounded-xl aspect-video ">
     <?php if ($thumbnail): ?>

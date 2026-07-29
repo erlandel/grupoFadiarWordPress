@@ -64,6 +64,7 @@ function grupofadiar_assets() {
     wp_enqueue_script('grupofadiar-menu', get_template_directory_uri() . '/assets/js/menu.js', array(), '1.0.4', true);
     wp_enqueue_script('grupofadiar-share', get_template_directory_uri() . '/assets/js/share.js', array(), '1.0.0', true);
     wp_enqueue_script('grupofadiar-support-carousel', get_template_directory_uri() . '/assets/js/support-carousel.js', array(), '2.0.0', true);
+    wp_enqueue_script('grupofadiar-reveal', get_template_directory_uri() . '/assets/js/reveal.js', array(), '1.0.0', true);
 
     wp_enqueue_script('grupofadiar-search', get_template_directory_uri() . '/assets/js/search.js', array(), '1.0.0', true);
     wp_localize_script('grupofadiar-search', 'grupofadiarSearchData', array(

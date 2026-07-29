@@ -13,7 +13,7 @@ $support_header_items = get_posts(array(
   <div class="flex">
     <?php if ($support_header_items): ?>
         <?php foreach ($support_header_items as $item): ?>
-        <div class="px-4 text-center">
+        <div class="reveal-item px-4 text-center">
           <div class="flex justify-center">
             <?php $image = get_the_post_thumbnail_url($item->ID, 'medium'); ?>
             <?php if ($image): ?>

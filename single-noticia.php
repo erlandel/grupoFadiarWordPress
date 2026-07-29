@@ -58,7 +58,7 @@ if (!empty($categories) && !is_wp_error($categories)) {
   $related_query = new WP_Query($related_args);
 }
 ?>
-<div class="mx-30 mt-10">
+<div class="reveal-section mx-30 mt-10">
   <div class="flex text-xl">
     <p><a href="<?php echo home_url('/'); ?>"><?php echo esc_html(gf_e('noticias.breadcrumb_home')); ?></a></p>
     <svg class="h-6 w-6 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
@@ -66,11 +66,11 @@ if (!empty($categories) && !is_wp_error($categories)) {
   </div>
 </div>
 
-<div class="mx-30 mt-10 flex flex-col lg:flex-row gap-10 mb-20">
+<div class="reveal-section mx-30 mt-10 flex flex-col lg:flex-row gap-10 mb-20">
   <div class="lg:w-9/12">
     <?php if ($thumbnail_url): ?>
       <div id="hero-share"
-           class="relative w-full overflow-hidden rounded-xl aspect-video bg-gray-100"
+           class="reveal-item relative w-full overflow-hidden rounded-xl aspect-video bg-gray-100"
            data-share-title="<?php echo esc_attr(gf_get_post_title()); ?>"
            data-share-url="<?php echo esc_attr(get_permalink()); ?>"
            data-share-date="<?php echo esc_attr($fecha ?: get_the_date('d/m/Y')); ?>"
@@ -84,7 +84,7 @@ if (!empty($categories) && !is_wp_error($categories)) {
       </div>
     <?php endif; ?>
 
-    <div class="mt-6">
+    <div class="reveal-item mt-6">
       <?php if ($categories): ?>
         <!-- <span class="inline-block bg-primary text-dark text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4"><?php echo esc_html($categories[0]->name); ?></span> -->
       <?php endif; ?>
@@ -98,12 +98,12 @@ if (!empty($categories) && !is_wp_error($categories)) {
       <?php endif; ?>
     </div>
 
-    <div class="mt-8 text-dark text-xl leading-relaxed space-y-4">
+    <div class="reveal-item mt-8 text-dark text-xl leading-relaxed space-y-4">
       <?php the_field('descripcion'); ?>
     </div>
 
     <?php if ($category_name): ?>
-      <div class="flex items-center justify-between mt-10">
+      <div class="reveal-item flex items-center justify-between mt-10">
         <span class="inline-block w-fit bg-[#F4F4F4] text-[#8C8C8C] tracking-wider px-4 py-3 rounded-full">
           <?php echo esc_html($category_name); ?>
         </span>
@@ -128,7 +128,7 @@ if (!empty($categories) && !is_wp_error($categories)) {
 
   </div>
 
-  <aside class="lg:w-3/12">
+  <aside class="reveal-item lg:w-3/12">
     <?php
     $all_categories = get_terms(array('taxonomy' => 'categoria_noticia', 'hide_empty' => true));
     $first_by_cat = array();
@@ -168,8 +168,8 @@ if (!empty($categories) && !is_wp_error($categories)) {
 </div>
 
 <?php if (isset($related_query) && $related_query->have_posts()): ?>
-  <div class="mx-15  mb-20">
-    <h2 class="text-4xl font-bold text-dark mb-8"><?php echo esc_html(gf_e('noticias.related_title')); ?></h2>
+  <div class="reveal-section mx-15  mb-20">
+    <h2 class="reveal-item text-4xl font-bold text-dark mb-8"><?php echo esc_html(gf_e('noticias.related_title')); ?></h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <?php while ($related_query->have_posts()): $related_query->the_post(); ?>
         <?php get_template_part('components/noticias/card', null, array('post_id' => get_the_ID())); ?>

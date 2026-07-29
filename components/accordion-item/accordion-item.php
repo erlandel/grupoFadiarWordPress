@@ -5,7 +5,7 @@ $leaders         = isset($args['leaders']) ? $args['leaders'] : null;
 $bullets         = isset($args['bullets']) ? $args['bullets'] : null;
 $content_items   = is_array($content) ? $content : array($content);
 ?>
-<div class="accordion-item w-full rounded-lg shadow-xl cursor-pointer transition-all duration-300 bg-white text-dark">
+<div class="reveal-item accordion-item w-full rounded-lg shadow-xl cursor-pointer transition-all duration-300 bg-white text-dark">
   <div class="accordion-header flex justify-between items-center p-6">
     <h3 class="text-3xl font-bold"><?php echo esc_html($title); ?></h3>
     <div class="accordion-icon-down bg-dark p-1 rounded-full">

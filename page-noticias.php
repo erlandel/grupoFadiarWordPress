@@ -27,7 +27,7 @@ $base_url = get_permalink();
 ?>
 
 
-<div class="mx-30 mt-7 mb-20">
+<div class="reveal-section mx-30 mt-7 mb-20">
 
   <!-- Breadcrumb -->
   <div class="flex ">
@@ -38,19 +38,19 @@ $base_url = get_permalink();
 
   <!-- Título -->
   <div class="mt-7">
-    <h1 class="text-3xl md:text-4xl font-bold text-dark">
+    <h1 class="reveal-item text-3xl md:text-4xl font-bold text-dark">
       <?php echo esc_html(gf_get_option('noticias_page_title', 'Noticias', 'News')); ?>
     </h1>
   </div>
 
   <!-- Subtítulo + Filtro -->
   <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mt-5">
-    <p class="text-xl md:text-2xl font-bold text-dark max-w-2xl">
+    <p class="reveal-item text-xl md:text-2xl font-bold text-dark max-w-2xl">
       <?php echo esc_html(gf_get_option('noticias_page_subtitle', 'Mantente al día con las últimas novedades, lanzamientos y eventos de Grupo Fadiar.', 'Stay up to date with the latest news, launches and events from Grupo Fadiar.')); ?>
     </p>
 
     <?php if (!empty($categories) && !is_wp_error($categories)): ?>
-      <button type="button" data-filter-open class="relative flex items-center  gap-2 shrink-0 cursor-pointer group">
+      <button type="button" data-filter-open class="reveal-item relative flex items-center  gap-2 shrink-0 cursor-pointer group">
         <span class="text-2xl font-medium text-dark whitespace-nowrap"><?php echo esc_html(gf_e('noticias.filter_label')); ?></span>
         <svg class="pointer-events-none h-8 w-8 text-dark transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
       </button>
