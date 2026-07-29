@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }, {
     threshold: 0.18,
-    rootMargin: '0px 0px -10% 0px'
+    rootMargin: '0px 0px 0px 0px'
   });
 
   for (var s = 0; s < sections.length; s++) {

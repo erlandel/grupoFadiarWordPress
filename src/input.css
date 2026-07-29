@@ -133,12 +133,31 @@ body {
   transform: translateY(0);
 }
 
+/* ===== Ken Burns effect for hero first slide ===== */
+@keyframes ken-burns {
+  from {
+    transform: scale(1.10);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.ken-burns-image {
+  animation: ken-burns 12s ease-out forwards;
+  will-change: transform;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal-item, .reveal-item--zoom {
     transition: none !important;
     animation: none !important;
     transform: none !important;
     opacity: 1 !important;
+  }
+  .ken-burns-image {
+    animation: none !important;
+    transform: none !important;
   }
 }
 

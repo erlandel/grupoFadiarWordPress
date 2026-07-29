@@ -90,7 +90,7 @@ endif;
   <div class="relative flex-1">
     <?php foreach ($slides as $index => $slide): ?>
       <div class="carousel-slide absolute inset-0 transition-all duration-1000 ease-out <?php echo $index === 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-105'; ?>">
-        <div class="absolute inset-0 bg-center bg-cover"
+        <div class="absolute inset-0 bg-center bg-cover <?php echo $index === 0 ? 'ken-burns-image' : ''; ?>"
              style="background-image: linear-gradient(to top, #010A2D, #7594D000 50%), url(<?php echo esc_url($slide['url']); ?>);">
         </div>
       </div>
@@ -109,23 +109,23 @@ endif;
         <?php foreach ($slides as $index => $slide): ?>
           <div class="carousel-content <?php echo $index === 0 ? '' : 'hidden'; ?>" data-index="<?php echo $index; ?>">
             <div class="flex gap-4 <?php echo !empty($slide['buttons']) ? 'mb-5' : 'mb-5'; ?>">
-              <div class="reveal-item flex-1 flex flex-col justify-end items-start">
+              <div class="flex-1 flex flex-col justify-end items-start">
                 <?php if ($slide['layout'] === 'simple'): ?>
                   <!-- DISEÑO SIMPLE -->
                   <div >
-                    <h2 class="text-5xl md:text-[50px]   <?php echo esc_attr($slide['title_font_class']); ?>" style="<?php echo $slide['title_font_style']; ?>">
+                    <h2 class="reveal-item text-5xl md:text-[50px]   <?php echo esc_attr($slide['title_font_class']); ?>" style="<?php echo $slide['title_font_style']; ?>">
                       <?php echo esc_html($slide['title']); ?>
                     </h2>
                   </div>
                   
                   <?php if (!empty($slide['subtitle'])): ?>
-                    <p class="text-lg font-open mt-1 max-w-3xl">
+                    <p class="reveal-item text-lg font-open mt-1 max-w-3xl">
                       <?php echo esc_html($slide['subtitle']); ?>
                     </p>
                   <?php endif; ?>
 
                   <?php if (!empty($slide['buttons'])): ?>
-                    <div class="flex gap-4 mt-4 ">
+                    <div class="reveal-item flex gap-4 mt-4 ">
                       <?php foreach ($slide['buttons'] as $button): ?>
                         <a href="<?php echo esc_url($button['url']); ?>" class="<?php echo esc_attr($button['class']); ?>"><?php echo esc_html($button['text']); ?></a>
                       <?php endforeach; ?>
@@ -135,23 +135,23 @@ endif;
                 <?php else: ?>
                   <!-- DISEÑO DE MARCA -->
                   <div class=>
-                    <img src="<?php echo esc_url($slide['title']); ?>" alt="<?php echo esc_attr($slide['subtitle']); ?>" class="object-contain h-auto w-auto" style="max-height:80px;" />
+                    <img src="<?php echo esc_url($slide['title']); ?>" alt="<?php echo esc_attr($slide['subtitle']); ?>" class="reveal-item object-contain h-auto w-auto" style="max-height:80px;" />
                   </div>
                   
                   <?php if (!empty($slide['description'])): ?>
-                    <p class="text-4xl pb-4 mt-6 <?php echo esc_attr($slide['description_font_class']); ?>" style="<?php echo $slide['description_font_style']; ?>">
+                    <p class="reveal-item text-4xl pb-4 mt-6 <?php echo esc_attr($slide['description_font_class']); ?>" style="<?php echo $slide['description_font_style']; ?>">
                       <?php echo esc_html($slide['description']); ?>
                     </p>
                   <?php endif; ?>
 
                   <?php if (!empty($slide['subtitle'])): ?>
-                    <p class="text-2xl font-open mt-4  font-bold">
+                    <p class="reveal-item text-2xl font-open mt-4  font-bold">
                       <?php echo esc_html($slide['subtitle']); ?>
                     </p>
                   <?php endif; ?>
 
                   <?php if (!empty($slide['buttons'])): ?>
-                    <div class="flex gap-4 mt-6 ">
+                    <div class="reveal-item flex gap-4 mt-6 ">
                       <?php foreach ($slide['buttons'] as $button): ?>
                         <a href="<?php echo esc_url($button['url']); ?>" class="<?php echo esc_attr($button['class']); ?>"><?php echo esc_html($button['text']); ?></a>
                       <?php endforeach; ?>
