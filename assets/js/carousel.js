@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function resetInterval() {
     clearInterval(interval);
-    interval = setInterval(nextSlide, 5000000);
+    interval = setInterval(nextSlide, 5000);
   }
 
   if (prevBtn) prevBtn.addEventListener('click', prevSlide);
