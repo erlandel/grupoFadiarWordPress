@@ -1802,6 +1802,11 @@ Text Domain: grupofadiar-theme
       grid-column: span 2 / span 2;
     }
   }
+  .md\:mt-12 {
+    @media (width >= 48rem) {
+      margin-top: calc(var(--spacing) * 12);
+    }
+  }
   .md\:mr-auto {
     @media (width >= 48rem) {
       margin-right: auto;
@@ -1832,9 +1837,29 @@ Text Domain: grupofadiar-theme
       width: calc(var(--spacing) * 24);
     }
   }
+  .md\:w-\[\%\] {
+    @media (width >= 48rem) {
+      width: %;
+    }
+  }
+  .md\:w-\[8\%\] {
+    @media (width >= 48rem) {
+      width: 8%;
+    }
+  }
   .md\:w-\[85\%\] {
     @media (width >= 48rem) {
       width: 85%;
+    }
+  }
+  .md\:w-\[88\%\] {
+    @media (width >= 48rem) {
+      width: 88%;
+    }
+  }
+  .md\:w-\[90\%\] {
+    @media (width >= 48rem) {
+      width: 90%;
     }
   }
   .md\:grid-cols-2 {

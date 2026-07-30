@@ -3,8 +3,8 @@
 $layout_config = array(
   array('wrapper' => 'rounded-r-2xl aspect-11/6 w-full', 'self' => ''),
   array('wrapper' => 'rounded-2xl aspect-14/8 w-full md:w-[85%] md:mr-auto', 'self' => ''),
-  array('wrapper' => 'rounded-2xl aspect-14/8  w-full md:w-[85%] md:ml-auto mt-12', 'self' => ''),
-  array('wrapper' => 'rounded-l-2xl aspect-11/6 w-full', 'self' => 'self-end when-desk'),
+  array('wrapper' => 'rounded-2xl aspect-14/8  w-full md:w-[85%] md:ml-auto mt-auto ', 'self' => ''),
+  array('wrapper' => 'rounded-l-2xl aspect-11/6 w-full', 'self' =>  ' self-end when-desk'),
 );
 
 // Obtener productos del CPT (máximo 4)
