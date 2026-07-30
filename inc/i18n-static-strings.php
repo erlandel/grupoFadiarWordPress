@@ -90,5 +90,18 @@ function gf_static_strings() {
         'footer.legal.refunds'       => ['es' => 'Ventas y reembolsos',        'en' => 'Sales and Refunds'],
         'footer.legal.notices'       => ['es' => 'Avisos legales',             'en' => 'Legal Notices'],
         'footer.legal.sitemap'       => ['es' => 'Mapa del sitio',             'en' => 'Sitemap'],
+
+        'social.page_title'          => ['es' => 'Redes Sociales',              'en' => 'Social Networks'],
+        'social.page_description'    => ['es' => 'Configura los enlaces de las redes sociales que aparecen en el footer y el carrusel.', 'en' => 'Set the social media links shown in the footer and carousel.'],
+        'social.saved'               => ['es' => 'Enlace guardado exitosamente.', 'en' => 'Link saved successfully.'],
+        'social.save_button'         => ['es' => 'Guardar',              'en' => 'Save'],
+        'social.network.phone'       => ['es' => 'Teléfono',                    'en' => 'Phone'],
+        'social.network.instagram'   => ['es' => 'Instagram',                   'en' => 'Instagram'],
+        'social.network.facebook'    => ['es' => 'Facebook',                    'en' => 'Facebook'],
+        'social.network.email'       => ['es' => 'Correo electrónico',          'en' => 'Email'],
+        'social.phone_label'         => ['es' => 'Número (con código de país)',  'en' => 'Number (with country code)'],
+        'social.phone_hint'          => ['es' => 'Solo números. El + se añade automáticamente.', 'en' => 'Numbers only. The + is added automatically.'],
+        'social.phone_invalid'       => ['es' => 'Número de teléfono no válido. Debe incluir código de país (ej: 34 612345678).', 'en' => 'Invalid phone number. Must include country code (e.g.: 34 612345678).'],
+        'social.email_invalid'       => ['es' => 'Correo electrónico no válido.', 'en' => 'Invalid email address.'],
     ];
 }

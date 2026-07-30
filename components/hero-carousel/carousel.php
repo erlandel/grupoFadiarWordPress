@@ -97,10 +97,10 @@ endif;
     <?php endforeach; ?>
     <div class="relative h-full flex items-end text-white mx-20 pb-8 gap-5 ">
       <div class="reveal-item flex flex-col gap-y-4 justify-end pb-2">
-          <a href="#" aria-label="Instagram" class="p-2 rounded-full hover:scale-110 transition-colors">
+          <a href="<?php echo esc_url(get_option('social_url_instagram', '#')); ?>" aria-label="Instagram" class="p-2 rounded-full hover:scale-110 transition-colors">
             <?php echo get_icon('instagram', 'w-8 h-8 text-white'); ?>
           </a>
-          <a href="#" aria-label="Facebook" class="p-2 rounded-full hover:scale-110 transition-colors">
+          <a href="<?php echo esc_url(get_option('social_url_facebook', '#')); ?>" aria-label="Facebook" class="p-2 rounded-full hover:scale-110 transition-colors">
             <?php echo get_icon('facebook', 'w-8 h-8 text-white'); ?>
           </a>
 

@@ -42,6 +42,7 @@ require_once get_template_directory() . '/inc/i18n-static-strings.php';
 require_once get_template_directory() . '/inc/rest-lang.php';
 require_once get_template_directory() . '/inc/seed-english-translations.php';
 require_once get_template_directory() . '/inc/search-endpoint.php';
+require_once get_template_directory() . '/inc/admin-page-social.php';
 
 function grupofadiar_setup() {
     add_theme_support('title-tag');
