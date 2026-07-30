@@ -7,7 +7,34 @@ document.addEventListener('DOMContentLoaded', function () {
   const prevBtn = carousel.querySelector('.carousel-prev');
   const nextBtn = carousel.querySelector('.carousel-next');
   let currentIndex = 0;
-  let interval;
+  let timer = null;
+  let onAnimEnd = null;
+  let kenBurnsPlayed = false;
+
+  function clearTimer() {
+    if (timer) { clearInterval(timer); timer = null; }
+    if (onAnimEnd) {
+      const el = document.querySelector('.first-slide-bg');
+      if (el) el.removeEventListener('animationend', onAnimEnd);
+      onAnimEnd = null;
+    }
+  }
+
+  function scheduleAdvance() {
+    clearTimer();
+
+    const active = slides[currentIndex];
+    const burnEl = active && active.querySelector('.first-slide-bg');
+
+    if (currentIndex === 0 && !kenBurnsPlayed && burnEl) {
+      burnEl.classList.add('ken-burns-image');
+      kenBurnsPlayed = true;
+      onAnimEnd = function () { onAnimEnd = null; nextSlide(); };
+      burnEl.addEventListener('animationend', onAnimEnd, { once: true });
+    } else {
+      timer = setInterval(nextSlide, 5000);
+    }
+  }
 
   function showSlide(index) {
     slides.forEach((slide, i) => {
@@ -20,22 +47,15 @@ document.addEventListener('DOMContentLoaded', function () {
       content.classList.toggle('hidden', i !== index);
     });
     currentIndex = index;
-    resetInterval();
+    scheduleAdvance();
   }
 
   function prevSlide() {
-    const newIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
-    showSlide(newIndex);
+    showSlide(currentIndex === 0 ? slides.length - 1 : currentIndex - 1);
   }
 
   function nextSlide() {
-    const newIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
-    showSlide(newIndex);
-  }
-
-  function resetInterval() {
-    clearInterval(interval);
-    interval = setInterval(nextSlide, 5000);
+    showSlide(currentIndex === slides.length - 1 ? 0 : currentIndex + 1);
   }
 
   if (prevBtn) prevBtn.addEventListener('click', prevSlide);

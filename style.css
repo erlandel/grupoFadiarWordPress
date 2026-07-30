@@ -574,9 +574,6 @@ Text Domain: grupofadiar-theme
   .h-screen {
     height: 100vh;
   }
-  .max-h-0 {
-    max-height: 0;
-  }
   .max-h-10 {
     max-height: calc(var(--spacing) * 10);
   }
@@ -1978,16 +1975,6 @@ Text Domain: grupofadiar-theme
       margin-bottom: 0;
     }
   }
-  .\[\&\.is-open\]\:max-h-\[1500px\] {
-    &.is-open {
-      max-height: 1500px;
-    }
-  }
-  .\[\&\.is-open\]\:opacity-100 {
-    &.is-open {
-      opacity: 100%;
-    }
-  }
   .\[\&\>li\]\:leading-relaxed {
     &>li {
       --tw-leading: var(--leading-relaxed);
@@ -2102,7 +2089,7 @@ body {
   }
 }
 .ken-burns-image {
-  animation: ken-burns 12s ease-out forwards;
+  animation: ken-burns 10s ease-out forwards;
   will-change: transform;
 }
 @media (prefers-reduced-motion: reduce) {

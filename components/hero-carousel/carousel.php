@@ -86,17 +86,17 @@ if ($slide_query->have_posts()) :
     wp_reset_postdata();
 endif;
 ?>
-<section id="heroCarousel" class="hero-carousel h-screen w-full flex flex-col overflow-hidden">
+<section id="heroCarousel" class="hero-carousel reveal-section h-screen w-full flex flex-col overflow-hidden">
   <div class="relative flex-1">
     <?php foreach ($slides as $index => $slide): ?>
       <div class="carousel-slide absolute inset-0 transition-all duration-1000 ease-out <?php echo $index === 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-105'; ?>">
-        <div class="absolute inset-0 bg-center bg-cover <?php echo $index === 0 ? 'ken-burns-image' : ''; ?>"
+        <div class="absolute inset-0 bg-center bg-cover <?php echo $index === 0 ? 'first-slide-bg' : ''; ?>"
              style="background-image: linear-gradient(to top, #010A2D, #7594D000 50%), url(<?php echo esc_url($slide['url']); ?>);">
         </div>
       </div>
     <?php endforeach; ?>
     <div class="relative h-full flex items-end text-white mx-20 pb-8 gap-5 ">
-      <div class="reveal-item is-visible-item flex flex-col gap-y-4 justify-end pb-2">
+      <div class="reveal-item flex flex-col gap-y-4 justify-end pb-2">
           <a href="#" aria-label="Instagram" class="p-2 rounded-full hover:scale-110 transition-colors">
             <?php echo get_icon('instagram', 'w-8 h-8 text-white'); ?>
           </a>
@@ -107,7 +107,7 @@ endif;
       </div>
       <div class="flex flex-col w-full">
         <?php foreach ($slides as $index => $slide): ?>
-          <div class="carousel-content <?php echo $index === 0 ? '' : 'hidden'; ?>" data-index="<?php echo $index; ?>">
+          <div class="carousel-content <?php echo $index === 0 ? '' : 'hidden'; ?>" data-index="<?php echo $index; ?>" data-reveal-chunk>
             <div class="flex gap-4 <?php echo !empty($slide['buttons']) ? 'mb-5' : 'mb-5'; ?>">
               <div class="flex-1 flex flex-col justify-end items-start">
                 <?php if ($slide['layout'] === 'simple'): ?>

@@ -91,6 +91,14 @@ document.addEventListener('DOMContentLoaded', function () {
         pairItems[i].style.setProperty('--reveal-delay', delay + 'ms');
       }
     }
+
+    var chunkContainers = section.querySelectorAll('[data-reveal-chunk]');
+    for (var cc = 0; cc < chunkContainers.length; cc++) {
+      var chunkItems = chunkContainers[cc].querySelectorAll('.reveal-item, .reveal-item--zoom');
+      for (var ci = 0; ci < chunkItems.length; ci++) {
+        chunkItems[ci].style.setProperty('--reveal-delay', ci * STAGGER + 'ms');
+      }
+    }
   }
 
   var itemObserver = new IntersectionObserver(function (entries) {
