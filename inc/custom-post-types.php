@@ -308,6 +308,56 @@ function grupofadiar_register_noticia_cpt() {
 }
 add_action('init', 'grupofadiar_register_noticia_cpt', 0);
 
+function grupofadiar_register_blog_cpt() {
+    $labels = array(
+        'name'                  => _x('Blog', 'Post type general name', 'grupofadiar'),
+        'singular_name'         => _x('Artículo', 'Post type singular name', 'grupofadiar'),
+        'menu_name'             => _x('Blog', 'Admin Menu text', 'grupofadiar'),
+        'name_admin_bar'        => _x('Artículo', 'Add New on Toolbar', 'grupofadiar'),
+        'add_new'               => __('Añadir nuevo', 'grupofadiar'),
+        'add_new_item'          => __('Añadir artículo', 'grupofadiar'),
+        'new_item'              => __('Nuevo artículo', 'grupofadiar'),
+        'edit_item'             => __('Editar artículo', 'grupofadiar'),
+        'view_item'             => __('Ver artículo', 'grupofadiar'),
+        'all_items'             => __('Todos los artículos', 'grupofadiar'),
+        'search_items'          => __('Buscar artículos', 'grupofadiar'),
+        'not_found'             => __('No se encontraron artículos.', 'grupofadiar'),
+        'not_found_in_trash'    => __('No se encontraron artículos en la papelera.', 'grupofadiar'),
+        'featured_image'        => _x('Imagen destacada', 'Featured image label', 'grupofadiar'),
+        'set_featured_image'    => _x('Establecer imagen destacada', 'grupofadiar'),
+        'remove_featured_image' => _x('Eliminar imagen destacada', 'grupofadiar'),
+        'use_featured_image'    => _x('Usar como imagen destacada', 'grupofadiar'),
+        'archives'              => _x('Blog', 'Post type archive label', 'grupofadiar'),
+    );
+
+    register_post_type('blog', array(
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => array('slug' => 'blog', 'with_front' => false),
+        'has_archive'        => 'blog',
+        'hierarchical'       => false,
+        'menu_position'      => 10,
+        'menu_icon'          => 'dashicons-welcome-write-blog',
+        'supports'           => array('title', 'thumbnail'),
+        'show_in_rest'       => true,
+    ));
+}
+add_action('init', 'grupofadiar_register_blog_cpt', 0);
+
+function grupofadiar_flush_blog_rewrite_rules() {
+    if (get_option('grupofadiar_blog_rewrite_version') === '1') {
+        return;
+    }
+
+    flush_rewrite_rules();
+    update_option('grupofadiar_blog_rewrite_version', '1');
+}
+add_action('init', 'grupofadiar_flush_blog_rewrite_rules', 99);
+
 function grupofadiar_register_about_us_cpt() {
     $labels = array(
         'name'                  => _x('Grupo Fadiar', 'Post type general name', 'grupofadiar'),

@@ -77,7 +77,7 @@ function gf_is_nav_active($key) {
         case 'about-us':
             return is_page('about-us');
         case 'noticias':
-            return is_page('noticias') || is_singular('noticia');
+            return is_page('noticias') || is_singular('noticia') || is_post_type_archive('blog') || is_singular('blog');
         case 'support-warranty':
             return is_page('support-warranty');
         case 'contacts':

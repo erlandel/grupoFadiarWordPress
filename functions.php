@@ -18,6 +18,7 @@ require_once get_template_directory() . '/inc/admin-page-brands.php';
 require_once get_template_directory() . '/inc/custom-fields-support-home.php';
 require_once get_template_directory() . '/inc/admin-page-support-home.php';
 require_once get_template_directory() . '/inc/custom-fields-noticias.php';
+require_once get_template_directory() . '/inc/custom-fields-blog.php';
 require_once get_template_directory() . '/inc/custom-fields-about-us.php';
 require_once get_template_directory() . '/inc/custom-fields-support-header.php';
 require_once get_template_directory() . '/inc/admin-page-support-header.php';
@@ -54,7 +55,7 @@ add_action('after_setup_theme', 'grupofadiar_setup');
 function grupofadiar_assets() {
     wp_enqueue_style('grupofadiar-google-fonts', 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;700&family=Dancing+Script:wght@400;700&family=Satisfy&display=swap', array(), null);
 
-    wp_enqueue_style('grupofadiar-styles', get_stylesheet_uri(), array('grupofadiar-google-fonts'), '1.0.0');
+    wp_enqueue_style('grupofadiar-styles', get_stylesheet_uri(), array('grupofadiar-google-fonts'), filemtime(get_template_directory() . '/style.css'));
 
     wp_enqueue_script('grupofadiar-carousel', get_template_directory_uri() . '/assets/js/carousel.js', array(), '1.0.0', true);
     wp_enqueue_script('grupofadiar-header-scroll', get_template_directory_uri() . '/assets/js/header-scroll.js', array(), '1.0.0', true);
@@ -62,7 +63,7 @@ function grupofadiar_assets() {
     wp_enqueue_script('grupofadiar-accordion', get_template_directory_uri() . '/assets/js/accordion.js', array(), '1.0.0', true);
     wp_enqueue_script('grupofadiar-products', get_template_directory_uri() . '/assets/js/products.js', array(), '1.0.0', true);
     wp_enqueue_script('grupofadiar-faq', get_template_directory_uri() . '/assets/js/faq.js', array(), '1.0.0', true);
-    wp_enqueue_script('grupofadiar-menu', get_template_directory_uri() . '/assets/js/menu.js', array(), '1.0.4', true);
+    wp_enqueue_script('grupofadiar-menu', get_template_directory_uri() . '/assets/js/menu.js', array(), '1.0.5', true);
     wp_enqueue_script('grupofadiar-share', get_template_directory_uri() . '/assets/js/share.js', array(), '1.0.0', true);
     wp_enqueue_script('grupofadiar-support-carousel', get_template_directory_uri() . '/assets/js/support-carousel.js', array(), '2.0.0', true);
     wp_enqueue_script('grupofadiar-reveal', get_template_directory_uri() . '/assets/js/reveal.js', array(), '1.0.0', true);

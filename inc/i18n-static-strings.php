@@ -11,6 +11,8 @@ function gf_static_strings() {
         'header.menu.brands'      => ['es' => 'Nuestras marcas',           'en' => 'Our Brands'],
         'header.menu.products'    => ['es' => 'Productos',                  'en' => 'Products'],
         'header.menu.news'        => ['es' => 'Noticias',                   'en' => 'News'],
+        'header.menu.current'     => ['es' => 'Actualidad',                 'en' => 'Current Affairs'],
+        'header.menu.blog'        => ['es' => 'Blog',                       'en' => 'Blog'],
         'header.menu.support'     => ['es' => 'Soporte y Garantía',         'en' => 'Support and Warranty'],
         'header.menu.contacts'    => ['es' => 'Contactos',                  'en' => 'Contacts'],
 
@@ -53,6 +55,16 @@ function gf_static_strings() {
         'noticias.sidebar_all'       => ['es' => 'Todas las Noticias',         'en' => 'All News'],
         'noticias.related_title'     => ['es' => 'También te puede interesar', 'en' => 'You may also like'],
         'noticias.none'              => ['es' => 'No hay noticias publicadas aún.', 'en' => 'No news published yet.'],
+
+        'blog.breadcrumb'            => ['es' => 'Blog',                     'en' => 'Blog'],
+        'blog.title'                 => ['es' => 'Blog',                     'en' => 'Blog'],
+        'blog.subtitle'              => ['es' => 'Ideas, tendencias y contenidos para estar al día.', 'en' => 'Ideas, trends and content to keep you up to date.'],
+        'blog.tag'                   => ['es' => 'Blog',                     'en' => 'Blog'],
+        'blog.author'                => ['es' => 'Por',                      'en' => 'By'],
+        'blog.related_title'         => ['es' => 'Sigue leyendo',            'en' => 'Keep reading'],
+        'blog.none'                  => ['es' => 'No hay artículos publicados aún.', 'en' => 'No articles published yet.'],
+        'blog.previous'              => ['es' => 'Página anterior',          'en' => 'Previous page'],
+        'blog.next'                  => ['es' => 'Página siguiente',         'en' => 'Next page'],
 
         'contact.phone_placeholder'  => ['es' => 'Teléfono*',                    'en' => 'Phone*'],
         'contact.phone_country_search' => ['es' => 'Buscar país…',                'en' => 'Search country…'],

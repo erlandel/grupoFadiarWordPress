@@ -1,11 +1,13 @@
 <?php
 $home_url = home_url('/');
+$is_noticias_active = is_post_type_archive('noticias') || is_singular('noticia') || is_page('noticias');
+$is_blog_active = is_post_type_archive('blog') || is_singular('blog');
 $links = array(
   array('href' => $home_url, 'label' => gf_e('header.menu.home'), 'icon' => 'home', 'key' => 'home'),
   array('href' => home_url('/about-us/'), 'label' => gf_e('header.menu.about'), 'key' => 'about-us'),
   array('href' => $home_url . '#ourBrands', 'label' => gf_e('header.menu.brands'), 'key' => ''),
   array('href' => $home_url . '#products', 'label' => gf_e('header.menu.products'), 'key' => ''),
-  array('href' => home_url('/noticias/'), 'label' => gf_e('header.menu.news'), 'key' => 'noticias'),
+  array('type' => 'news'),
   array('href' => home_url('/support-warranty/'), 'label' => gf_e('header.menu.support'), 'key' => 'support-warranty'),
   array('href' => home_url('/contacts/'), 'label' => gf_e('header.menu.contacts'), 'icon' => 'phone', 'key' => 'contacts'),
 );
@@ -26,6 +28,18 @@ $links = array(
       <ul class="flex flex-col space-y-2 font-black">
         <?php foreach ($links as $link): ?>
           <li>
+            <?php if (isset($link['type']) && $link['type'] === 'news'): ?>
+              <details class="group rounded-md <?php echo esc_attr(gf_nav_link_classes('noticias')); ?>">
+                <summary class="flex items-center justify-between gap-4 text-xl cursor-pointer px-4 py-2 list-none">
+                  <span><?php echo esc_html(gf_e('header.menu.news')); ?></span>
+                  <?php echo get_icon('chevron-down', 'w-5 h-5 transition-transform group-open:rotate-180'); ?>
+                </summary>
+                <div class="mx-4 mb-2 overflow-hidden rounded-md bg-white/30 backdrop-blur-md text-lg">
+                  <a href="<?php echo esc_url(home_url('/noticias/')); ?>" class="block px-4 py-3 <?php echo $is_noticias_active ? 'text-secondary font-bold' : 'text-dark hover:bg-dark/10 hover:text-secondary hover:font-bold'; ?>"><?php echo esc_html(gf_e('header.menu.current')); ?></a>
+                  <a href="<?php echo esc_url(get_post_type_archive_link('blog')); ?>" class="block border-t border-dark/10 px-4 py-3 <?php echo $is_blog_active ? 'text-secondary font-bold' : 'text-dark hover:bg-dark/10 hover:text-secondary hover:font-bold'; ?>"><?php echo esc_html(gf_e('header.menu.blog')); ?></a>
+                </div>
+              </details>
+            <?php else: ?>
             <a href="<?php echo esc_url($link['href']); ?>"
                class="flex items-center gap-4 text-xl transition-colors px-4 py-2 rounded-md <?php echo !empty($link['key']) ? esc_attr(gf_nav_link_classes($link['key'])) : 'text-dark hover:text-secondary'; ?>">
                 <?php if (isset($link['icon'])): ?>
@@ -33,7 +47,8 @@ $links = array(
                 <?php endif; ?>
 
                <?php echo isset($link['icon']) ? '' : esc_html($link['label']); ?>
-             </a>
+              </a>
+            <?php endif; ?>
           </li>
         <?php endforeach; ?>
       </ul>

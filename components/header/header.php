@@ -38,5 +38,27 @@ $header_classes .= $is_home_page
     </div>
   </nav>
 </header>
+<?php
+$submenu_background_classes = $is_home_page
+  ? 'bg-white/40 backdrop-blur-sm shadow-lg'
+  : 'bg-white/30 backdrop-blur-md shadow-lg';
+$is_noticias_active = is_singular('noticia') || is_page('noticias');
+$is_blog_active = is_post_type_archive('blog') || is_singular('blog');
+?>
+<div data-news-menu-dropdown class="fixed z-60 hidden min-w-55 overflow-hidden rounded-sm border border-black/10 <?php echo esc_attr($submenu_background_classes); ?>">
+  <a href="<?php echo esc_url(home_url('/noticias/')); ?>" class="group/item flex items-center justify-between gap-3 px-4 py-3 <?php echo $is_noticias_active ? 'text-secondary' : 'text-dark hover:bg-dark/10 hover:text-secondary'; ?>">
+    <span class="text-lg font-bold"><?php echo esc_html(gf_e('header.menu.current')); ?></span>
+    <span class="flex h-5 w-5 items-center justify-center rounded-full border-2 <?php echo $is_noticias_active ? 'border-secondary bg-secondary/20' : 'border-dark group-hover/item:border-secondary'; ?>">
+      <span class="h-3 w-3 rounded-full <?php echo $is_noticias_active ? 'bg-secondary' : ''; ?>"></span>
+    </span>
+  </a>
+  <div class="mx-2 border-t border-black/10"></div>
+  <a href="<?php echo esc_url(get_post_type_archive_link('blog')); ?>" class="group/item flex items-center justify-between gap-3 px-4 py-3 <?php echo $is_blog_active ? 'text-secondary' : 'text-dark hover:bg-dark/10 hover:text-secondary'; ?>">
+    <span class="text-lg font-bold"><?php echo esc_html(gf_e('header.menu.blog')); ?></span>
+    <span class="flex h-5 w-5 items-center justify-center rounded-full border-2 <?php echo $is_blog_active ? 'border-secondary bg-secondary/10' : 'border-dark group-hover/item:border-secondary'; ?>">
+      <span class="h-3 w-3 rounded-full <?php echo $is_blog_active ? 'bg-secondary' : ''; ?>"></span>
+    </span>
+  </a>
+</div>
 <?php get_template_part('components/header/menu-mobile'); ?>
 <?php get_template_part('components/search/search-overlay'); ?>

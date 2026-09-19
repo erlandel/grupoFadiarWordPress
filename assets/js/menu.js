@@ -1,6 +1,60 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const menuLinks = document.querySelectorAll('.font-bold.text-lg .flex li a');
+  const menuLinks = document.querySelectorAll('.desktop-primary-links > li > a');
+  const newsMenuTrigger = document.querySelector('[data-news-menu-trigger]');
+  const newsMenuDropdown = document.querySelector('[data-news-menu-dropdown]');
   const anchorSections = ['ourBrands', 'products'];
+
+  if (newsMenuTrigger && newsMenuDropdown) {
+    let closeTimer;
+    const newsMenuIcon = newsMenuTrigger.querySelector('svg');
+
+    function positionNewsMenu() {
+      const rect = newsMenuTrigger.getBoundingClientRect();
+      newsMenuDropdown.style.left = rect.left + 'px';
+      newsMenuDropdown.style.top = rect.bottom + 8 + 'px';
+    }
+
+    function openNewsMenu() {
+      window.clearTimeout(closeTimer);
+      positionNewsMenu();
+      newsMenuDropdown.classList.remove('hidden');
+      newsMenuTrigger.setAttribute('aria-expanded', 'true');
+      if (newsMenuIcon) newsMenuIcon.classList.add('rotate-180');
+    }
+
+    function closeNewsMenu() {
+      newsMenuDropdown.classList.add('hidden');
+      newsMenuTrigger.setAttribute('aria-expanded', 'false');
+      if (newsMenuIcon) newsMenuIcon.classList.remove('rotate-180');
+    }
+
+    function scheduleNewsMenuClose() {
+      window.clearTimeout(closeTimer);
+      closeTimer = window.setTimeout(closeNewsMenu, 150);
+    }
+
+    newsMenuTrigger.addEventListener('mouseenter', openNewsMenu);
+    newsMenuTrigger.addEventListener('mouseleave', scheduleNewsMenuClose);
+    newsMenuDropdown.addEventListener('mouseenter', function () { window.clearTimeout(closeTimer); });
+    newsMenuDropdown.addEventListener('mouseleave', scheduleNewsMenuClose);
+    newsMenuTrigger.addEventListener('click', function () {
+      if (newsMenuDropdown.classList.contains('hidden')) openNewsMenu();
+      else closeNewsMenu();
+    });
+
+    document.addEventListener('click', function (event) {
+      if (!newsMenuTrigger.contains(event.target) && !newsMenuDropdown.contains(event.target)) closeNewsMenu();
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeNewsMenu();
+    });
+    window.addEventListener('resize', function () {
+      if (!newsMenuDropdown.classList.contains('hidden')) positionNewsMenu();
+    });
+    window.addEventListener('scroll', function () {
+      if (!newsMenuDropdown.classList.contains('hidden')) positionNewsMenu();
+    }, { passive: true });
+  }
 
   // TranslatePress usa /en/ (u otro slug): detectar home por body class, no solo por pathname.
   const isFrontPage =
