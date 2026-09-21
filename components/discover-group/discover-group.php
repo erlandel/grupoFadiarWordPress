@@ -41,24 +41,24 @@ $button_text   = !empty($discover_item['button_text']) ? $discover_item['button_
 $button_url    = !empty($discover_item['button_url']) ? process_url($discover_item['button_url']) : $default_button_url;
 $image         = !empty($discover_item['image']) ? $discover_item['image'] : $default_image;
 ?>
-<section id="discoverGroup" class="scroll-mt-20 flex justify-center mx-30 py-10  gap-20">
+<section id="discoverGroup" class="scroll-mt-20 flex flex-col mx-8 py-6 gap-2 xl:flex-row xl:justify-center xl:mx-30 xl:py-10 xl:gap-20">
 
-  <div class="flex justify-center w-4/6  ">
-    <div>
+  <div class="flex justify-center w-full xl:w-4/6">
+    <div class="w-full  xl:px-0">
       <div>
-        <h2 class="reveal-item text-4xl font-black font-montserrat text-dark ">
+        <h2 class="reveal-item text-center text-xl leading-tight font-black font-montserrat text-dark xl:text-left xl:text-4xl xl:leading-[1.2]">
           <span class=""><?php echo esc_html($title); ?></span>
 
         </h2>
-        <p class="reveal-item text-2xl mt-5 font-bold text-dark"><?php echo esc_html($subtitle); ?></p>
+        <p class="reveal-item  leading-tight mt-4 font-bold text-dark xl:text-2xl xl:mt-5 xl:leading-[1.2]"><?php echo esc_html($subtitle); ?></p>
       </div>
-      <div class="flex flex-col gap-10 mt-10 text-xl text-gray-800  text-justify ">
+      <div class="flex flex-col gap-4 mt-5 leading-tight text-gray-800 text-justify xl:gap-10 xl:mt-10 xl:text-xl xl:leading-[1.4]">
         <p class="reveal-item"><?php echo esc_html($description_1); ?></p>
         <p class="reveal-item"><?php echo esc_html($description_2); ?></p>
       </div>
       <?php if (!empty($button_text) && !empty($button_url)) : ?>
-      <div class="reveal-item mt-10">
-        <button onclick="window.location.href='<?php echo esc_url($button_url); ?>'" class="bg-dark text-white text-2xl px-5 py-1 rounded-xl font-bold cursor-pointer hover:scale-105 transition-transform"><?php echo esc_html($button_text); ?></button>
+      <div class="reveal-item mt-5 xl:mt-10">
+        <button onclick="window.location.href='<?php echo esc_url($button_url); ?>'" class="bg-dark text-white text-xs px-3 py-1 rounded font-bold cursor-pointer hover:scale-105 transition-transform xl:text-2xl xl:px-5 xl:rounded-xl"><?php echo esc_html($button_text); ?></button>
       </div>
       <?php endif; ?>
     </div>
@@ -66,7 +66,7 @@ $image         = !empty($discover_item['image']) ? $discover_item['image'] : $de
 
 
 
-  <div class="flex items-center justify-end w-2/6 mr-10">
-    <img src="<?php echo esc_url($image); ?>" alt="Girl" class="reveal-item w-100  " />
+  <div class="flex items-center justify-start w-full xl:justify-end xl:w-2/6 xl:mr-10">
+    <img src="<?php echo esc_url($image); ?>" alt="Girl" class="reveal-item w-full max-w-86 xl:w-100 xl:max-w-none" />
   </div>
 </section>

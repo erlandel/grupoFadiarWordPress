@@ -63,6 +63,7 @@ function grupofadiar_assets() {
     wp_enqueue_script('grupofadiar-menu-mobile', get_template_directory_uri() . '/assets/js/menu-mobile.js', array(), '1.0.1', true);
     wp_enqueue_script('grupofadiar-accordion', get_template_directory_uri() . '/assets/js/accordion.js', array(), '1.0.0', true);
     wp_enqueue_script('grupofadiar-products', get_template_directory_uri() . '/assets/js/products.js', array(), '1.0.0', true);
+    wp_enqueue_script('grupofadiar-brands-carousel', get_template_directory_uri() . '/assets/js/brands-carousel.js', array(), filemtime(get_template_directory() . '/assets/js/brands-carousel.js'), true);
     wp_enqueue_script('grupofadiar-faq', get_template_directory_uri() . '/assets/js/faq.js', array(), '1.0.0', true);
     wp_enqueue_script('grupofadiar-menu', get_template_directory_uri() . '/assets/js/menu.js', array(), '1.0.5', true);
     wp_enqueue_script('grupofadiar-share', get_template_directory_uri() . '/assets/js/share.js', array(), '1.0.0', true);

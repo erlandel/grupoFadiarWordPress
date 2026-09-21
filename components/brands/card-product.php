@@ -11,20 +11,24 @@ $args = wp_parse_args($args, array(
   'buttonUrl' => '#',
 ));
 ?>
-<div class="reveal-item--zoom group relative flex flex-col w-73 h-90.5 bg-white/5 rounded-xl p-4 overflow-hidden transform transition-transform duration-300 hover:scale-115">
-  <div class="shrink-0 group-hover:opacity-0 transition-opacity duration-300">
-    <img src="<?php echo esc_url($args['productImage']); ?>" alt="<?php echo esc_attr($args['productAlt']); ?>" class="w-full h-auto object-cover rounded-lg" />
-  </div>
-  <div class="flex flex-col justify-center items-center grow group-hover:opacity-0 transition-opacity duration-300">
-    <img src="<?php echo esc_url($args['brandImage']); ?>" alt="<?php echo esc_attr($args['brandAlt']); ?>" class="max-h-10 w-auto h-auto object-contain" />
-  </div>
-  <div class="absolute inset-0 bg-white/1 flex flex-col items-center p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl">
-    <div class="flex mb-4">
-      <img src="<?php echo esc_url($args['brandImage']); ?>" alt="<?php echo esc_attr($args['brandAlt']); ?>" class="max-h-10 w-auto h-auto object-contain" />
+<div class="brands-card reveal-item--zoom group relative h-86 w-70 shrink-0 rounded-xl transform transition-transform duration-300 hover:scale-115 md:h-90.5 md:w-73 xl:shrink">
+  <div class="brands-card-inner relative h-full w-full rounded-xl bg-white/5">
+    <div class="brands-card-front absolute inset-0 flex h-full flex-col overflow-hidden rounded-xl p-4 transition-opacity duration-300 group-hover:opacity-0">
+      <div class="shrink-0">
+        <img src="<?php echo esc_url($args['productImage']); ?>" alt="<?php echo esc_attr($args['productAlt']); ?>" class="w-full h-auto object-cover rounded-lg" />
+      </div>
+      <div class="flex flex-col justify-center items-center grow">
+        <img src="<?php echo esc_url($args['brandImage']); ?>" alt="<?php echo esc_attr($args['brandAlt']); ?>" class="max-h-10 w-auto h-auto object-contain" />
+      </div>
     </div>
-    <p class="text-white text-lg leading-relaxed overflow-y-auto max-h-50 scrollbar-custom"><?php echo esc_html($args['description']); ?></p>
-    <a href="<?php echo esc_url($args['buttonUrl']); ?>" class="mt-auto w-full flex justify-end items-center italic text-xl text-white cursor-pointer hover:opacity-80 transition-opacity">
-      <?php echo esc_html($args['buttonText']); ?><?php echo get_icon('chevron-right', 'w-8 h-8'); ?>
-    </a>
+    <div class="brands-card-content absolute inset-0 flex flex-col items-center overflow-hidden rounded-xl bg-white/1 p-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+      <div class="flex mb-4">
+        <img src="<?php echo esc_url($args['brandImage']); ?>" alt="<?php echo esc_attr($args['brandAlt']); ?>" class="max-h-10 w-auto h-auto object-contain" />
+      </div>
+      <p class="text-white text-lg leading-relaxed overflow-y-auto max-h-50 scrollbar-custom"><?php echo esc_html($args['description']); ?></p>
+      <a href="<?php echo esc_url($args['buttonUrl']); ?>" class="mt-auto w-full flex justify-end items-center italic text-xl text-white cursor-pointer hover:opacity-80 transition-opacity">
+        <?php echo esc_html($args['buttonText']); ?><?php echo get_icon('chevron-right', 'w-8 h-8'); ?>
+      </a>
+    </div>
   </div>
 </div>

@@ -132,6 +132,66 @@ Text Domain: grupofadiar-theme
   }
 }
 
+@media (max-width: 1279px) {
+  .brands-carousel {
+    touch-action: pan-y;
+  }
+
+  .brands-carousel-track {
+    user-select: none;
+  }
+
+  .brands-card img {
+    -webkit-user-drag: none;
+  }
+
+  .brands-carousel .reveal-item--zoom,
+  .brands-carousel .reveal-item--zoom.is-visible-item {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .brands-card {
+    perspective: 1000px;
+  }
+
+  .brands-card-inner {
+    transform-style: preserve-3d;
+    transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .brands-card-front,
+  .brands-card-content {
+    transform: translateZ(1px);
+  }
+
+  .brands-card-front,
+  .brands-card-content {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .brands-card-content {
+    opacity: 1;
+    pointer-events: none;
+    transform: rotateY(180deg);
+  }
+
+  .brands-card.is-expanded .brands-card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .brands-card.is-expanded .brands-card-front {
+    pointer-events: none;
+  }
+
+  .brands-card.is-expanded .brands-card-content {
+    pointer-events: auto;
+  }
+
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
