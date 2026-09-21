@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var currentQuery = '';
   var isLoadingMore = false;
   var perPage = 10;
+  var visualViewport = window.visualViewport;
 
   var suggestionHint = overlay.querySelector('.search-suggestion-hint');
   var affinityMap = {
@@ -98,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
           f.classList.add('is-suggested');
         }
       });
-      if (suggestionHint) {
+      if (suggestionHint && window.matchMedia('(min-width: 768px)').matches) {
         var filterName = '';
         filters.forEach(function (f) {
           if (f.getAttribute('data-filter') === bestFilter) {
@@ -117,13 +118,21 @@ document.addEventListener('DOMContentLoaded', function () {
     if (suggestionHint) suggestionHint.classList.add('hidden');
   }
 
-  function openSearch() {
+  function updatePanelPosition() {
     var header = document.querySelector('.site-header');
     var headerHeight = header ? header.getBoundingClientRect().height : 80;
     var headerBottom = header ? header.getBoundingClientRect().bottom : 0;
+    var panelTop = headerBottom + 8;
+    var viewportHeight = visualViewport ? visualViewport.height : window.innerHeight;
+
     panelWrapper.style.setProperty('--header-h', headerHeight + 'px');
     backdrop.style.top = headerBottom + 'px';
-    panelWrapper.style.top = (headerBottom + 8) + 'px';
+    panelWrapper.style.top = panelTop + 'px';
+    panelWrapper.style.setProperty('--search-panel-height', Math.max(0, viewportHeight - panelTop - 8) + 'px');
+  }
+
+  function openSearch() {
+    updatePanelPosition();
     overlay.classList.remove('hidden');
     setTimeout(function () {
       input.focus();
@@ -307,7 +316,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     data.results.forEach(function (item) {
       var card = document.createElement('a');
-      card.className = 'flex items-start gap-4 p-4 rounded-xl transition-colors duration-200 hover:bg-dark/5 group cursor-pointer';
+      card.className = 'flex items-start gap-3 md:gap-4 p-3 md:p-4 rounded-xl transition-colors duration-200 hover:bg-dark/5 group cursor-pointer';
 
       if (item.external_url) {
         card.setAttribute('target', '_blank');
@@ -319,13 +328,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
       var thumbnailHtml = '';
       if (item.thumbnail) {
-        thumbnailHtml = '<div class="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden bg-dark/5"><img src="' + escapeHtml(item.thumbnail) + '" alt="' + escapeHtml(decodeEntities(item.title)) + '" class="w-full h-full object-cover" /></div>';
+        thumbnailHtml = '<div class="flex-shrink-0 w-16 h-16 md:w-24 md:h-24 rounded-lg overflow-hidden bg-dark/5"><img src="' + escapeHtml(item.thumbnail) + '" alt="' + escapeHtml(decodeEntities(item.title)) + '" class="w-full h-full object-cover" /></div>';
       } else if (item.type === 'producto') {
-        thumbnailHtml = '<div class="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden bg-dark/5 flex items-center justify-center text-dark/20">' + getIconPlaceholder() + '</div>';
+        thumbnailHtml = '<div class="flex-shrink-0 w-16 h-16 md:w-24 md:h-24 rounded-lg overflow-hidden bg-dark/5 flex items-center justify-center text-dark/20">' + getIconPlaceholder() + '</div>';
       }
 
       if (item.type === 'producto') {
-        card.className = 'flex items-center gap-4 p-4 rounded-xl transition-colors duration-200 hover:bg-dark/5 group cursor-pointer';
+        card.className = 'flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl transition-colors duration-200 hover:bg-dark/5 group cursor-pointer';
         card.innerHTML = thumbnailHtml +
           '<div class="flex-1 min-w-0">' +
             '<span class="text-sm font-bold text-dark">' + escapeHtml(decodeEntities(item.excerpt || (window.gfLang === 'en' ? 'View product' : 'Ver producto'))) + ' →</span>' +
@@ -375,6 +384,16 @@ document.addEventListener('DOMContentLoaded', function () {
       closeSearch();
     }
   });
+
+  window.addEventListener('resize', function () {
+    if (!overlay.classList.contains('hidden')) updatePanelPosition();
+  });
+
+  if (visualViewport) {
+    visualViewport.addEventListener('resize', function () {
+      if (!overlay.classList.contains('hidden')) updatePanelPosition();
+    });
+  }
 
   input.addEventListener('input', function () {
     clearTimeout(debounceTimer);

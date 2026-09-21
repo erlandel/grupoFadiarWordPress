@@ -9,10 +9,10 @@ $is_noticias_active = is_post_type_archive('noticias') || is_singular('noticia')
 $is_blog_active = is_post_type_archive('blog') || is_singular('blog');
 $is_news_section_active = $is_noticias_active || $is_blog_active;
 $links = array(
-  array('href' => $home_url, 'label' => gf_e('header.menu.home'), 'icon' => 'home', 'key' => 'home'),
+  array('href' => $home_url, 'label' => gf_e('header.menu.home'), 'icon' => 'home', 'key' => 'home', 'mobile_nav' => 'home'),
   array('href' => home_url('/about-us/'), 'label' => gf_e('header.menu.about'), 'key' => 'about-us'),
-  array('href' => $home_url . '#ourBrands', 'label' => gf_e('header.menu.brands'), 'key' => ''),
-  array('href' => $home_url . '#products', 'label' => gf_e('header.menu.products'), 'key' => ''),
+  array('href' => $home_url . '#ourBrands', 'label' => gf_e('header.menu.brands'), 'key' => '', 'mobile_nav' => 'ourBrands'),
+  array('href' => $home_url . '#products', 'label' => gf_e('header.menu.products'), 'key' => '', 'mobile_nav' => 'products'),
   array('type' => 'news'),
   array('href' => home_url('/support-warranty/'), 'label' => gf_e('header.menu.support'), 'key' => 'support-warranty'),
   array('href' => home_url('/contacts/'), 'label' => gf_e('header.menu.contacts'), 'icon' => 'phone', 'key' => 'contacts'),
@@ -31,22 +31,19 @@ $links = array(
   <div class="h-px bg-black mt-4"></div>
   <div class="mt-4">
     <nav>
-      <ul class="flex flex-col space-y-2 font-black">
+      <ul class="flex flex-col space-y-2 font-bold">
         <?php foreach ($links as $link): ?>
           <li>
             <?php if (isset($link['type']) && $link['type'] === 'news'): ?>
-              <details class="group rounded-md <?php echo $is_news_section_active ? esc_attr($mobile_active_link_classes) : 'text-dark hover:text-secondary'; ?>">
-                <summary class="flex items-center gap-2 text-xl cursor-pointer px-4 py-2 list-none">
+              <details class="group rounded-md <?php echo $is_news_section_active ? esc_attr($mobile_active_link_classes) : 'text-dark hover:text-secondary'; ?>" data-mobile-news-menu>
+                <summary class="flex items-center gap-2 text-xl cursor-pointer px-4 py-2 list-none" data-mobile-news-menu-trigger>
                   <span><?php echo esc_html(gf_e('header.menu.news')); ?></span>
                   <?php echo get_icon('chevron-down-bold', 'w-5 h-5 shrink-0 transition-transform group-open:rotate-180'); ?>
                 </summary>
-                <div class="mx-4 mb-2 overflow-hidden rounded-md <?php echo esc_attr($mobile_menu_background_classes); ?> text-lg">
-                  <a href="<?php echo esc_url(home_url('/noticias/')); ?>" class="block px-4 py-3 <?php echo $is_noticias_active ? esc_attr($mobile_active_link_classes) . ' font-bold' : 'text-dark hover:bg-dark/10 hover:text-secondary hover:font-bold'; ?>"><?php echo esc_html(gf_e('header.menu.current')); ?></a>
-                  <a href="<?php echo esc_url(get_post_type_archive_link('blog')); ?>" class="block border-t border-dark/10 px-4 py-3 <?php echo $is_blog_active ? esc_attr($mobile_active_link_classes) . ' font-bold' : 'text-dark hover:bg-dark/10 hover:text-secondary hover:font-bold'; ?>"><?php echo esc_html(gf_e('header.menu.blog')); ?></a>
-                </div>
               </details>
             <?php else: ?>
-            <a href="<?php echo esc_url($link['href']); ?>"
+             <a href="<?php echo esc_url($link['href']); ?>"
+                <?php if (isset($link['mobile_nav'])): ?>data-mobile-nav-link="<?php echo esc_attr($link['mobile_nav']); ?>"<?php endif; ?>
                 class="flex items-center gap-4 text-xl transition-colors px-4 py-2 rounded-md <?php echo !empty($link['key']) && gf_is_nav_active($link['key']) ? esc_attr($mobile_active_link_classes) : 'text-dark hover:text-secondary'; ?>">
                 <?php if (isset($link['icon'])): ?>
                   <?php echo get_icon($link['icon'], $link['icon'] === 'phone' ? 'w-7.5 h-7.5' : 'w-6 h-6'); ?>
@@ -60,4 +57,19 @@ $links = array(
       </ul>
     </nav>
   </div>
+</div>
+<div data-mobile-news-menu-dropdown class="fixed z-150 hidden min-w-55 overflow-hidden rounded-sm border border-black/10 <?php echo esc_attr($mobile_menu_background_classes); ?>">
+  <a href="<?php echo esc_url(home_url('/noticias/')); ?>" class="group/item flex items-center justify-between gap-3 px-4 py-3 <?php echo $is_noticias_active ? 'text-secondary' : 'text-dark hover:bg-dark/10 hover:text-secondary'; ?>">
+    <span class="text-lg font-bold"><?php echo esc_html(gf_e('header.menu.current')); ?></span>
+    <span class="flex h-5 w-5 items-center justify-center rounded-full border-2 <?php echo $is_noticias_active ? 'border-secondary bg-secondary/20' : 'border-dark group-hover/item:border-secondary'; ?>">
+      <span class="h-3 w-3 rounded-full <?php echo $is_noticias_active ? 'bg-secondary' : ''; ?>"></span>
+    </span>
+  </a>
+  <div class="mx-2 border-t border-black/10"></div>
+  <a href="<?php echo esc_url(get_post_type_archive_link('blog')); ?>" class="group/item flex items-center justify-between gap-3 px-4 py-3 <?php echo $is_blog_active ? 'text-secondary' : 'text-dark hover:bg-dark/10 hover:text-secondary'; ?>">
+    <span class="text-lg font-bold"><?php echo esc_html(gf_e('header.menu.blog')); ?></span>
+    <span class="flex h-5 w-5 items-center justify-center rounded-full border-2 <?php echo $is_blog_active ? 'border-secondary bg-secondary/10' : 'border-dark group-hover/item:border-secondary'; ?>">
+      <span class="h-3 w-3 rounded-full <?php echo $is_blog_active ? 'bg-secondary' : ''; ?>"></span>
+    </span>
+  </a>
 </div>

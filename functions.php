@@ -60,7 +60,7 @@ function grupofadiar_assets() {
 
     wp_enqueue_script('grupofadiar-carousel', get_template_directory_uri() . '/assets/js/carousel.js', array(), '1.0.0', true);
     wp_enqueue_script('grupofadiar-header-scroll', get_template_directory_uri() . '/assets/js/header-scroll.js', array(), '1.0.0', true);
-    wp_enqueue_script('grupofadiar-menu-mobile', get_template_directory_uri() . '/assets/js/menu-mobile.js', array(), '1.0.0', true);
+    wp_enqueue_script('grupofadiar-menu-mobile', get_template_directory_uri() . '/assets/js/menu-mobile.js', array(), '1.0.1', true);
     wp_enqueue_script('grupofadiar-accordion', get_template_directory_uri() . '/assets/js/accordion.js', array(), '1.0.0', true);
     wp_enqueue_script('grupofadiar-products', get_template_directory_uri() . '/assets/js/products.js', array(), '1.0.0', true);
     wp_enqueue_script('grupofadiar-faq', get_template_directory_uri() . '/assets/js/faq.js', array(), '1.0.0', true);
@@ -69,7 +69,7 @@ function grupofadiar_assets() {
     wp_enqueue_script('grupofadiar-support-carousel', get_template_directory_uri() . '/assets/js/support-carousel.js', array(), '2.0.0', true);
     wp_enqueue_script('grupofadiar-reveal', get_template_directory_uri() . '/assets/js/reveal.js', array(), filemtime(get_template_directory() . '/assets/js/reveal.js'), true);
 
-    wp_enqueue_script('grupofadiar-search', get_template_directory_uri() . '/assets/js/search.js', array(), '1.0.0', true);
+    wp_enqueue_script('grupofadiar-search', get_template_directory_uri() . '/assets/js/search.js', array(), '1.0.1', true);
     wp_localize_script('grupofadiar-search', 'grupofadiarSearchData', array(
         'restUrl' => rest_url('grupofadiar/v1/search'),
     ));
