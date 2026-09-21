@@ -343,6 +343,7 @@ function grupofadiar_register_blog_cpt() {
         'menu_position'      => 10,
         'menu_icon'          => 'dashicons-welcome-write-blog',
         'supports'           => array('title', 'thumbnail'),
+        'taxonomies'         => array('categoria_noticia'),
         'show_in_rest'       => true,
     ));
 }
@@ -605,9 +606,14 @@ function grupofadiar_register_categoria_noticia_taxonomy() {
         'show_in_rest'      => true,
     );
 
-    register_taxonomy('categoria_noticia', array('noticia'), $args);
+    register_taxonomy('categoria_noticia', array('noticia', 'blog'), $args);
 }
 add_action('init', 'grupofadiar_register_categoria_noticia_taxonomy', 0);
+
+function grupofadiar_hide_blog_category_metabox() {
+    remove_meta_box('categoria_noticiadiv', 'blog', 'side');
+}
+add_action('add_meta_boxes_blog', 'grupofadiar_hide_blog_category_metabox');
 
 add_action('categoria_noticia_add_form_fields', 'gf_categoria_noticia_en_field_add', 10);
 add_action('categoria_noticia_edit_form_fields', 'gf_categoria_noticia_en_field_edit', 10, 2);

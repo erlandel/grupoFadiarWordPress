@@ -19,6 +19,7 @@ require_once get_template_directory() . '/inc/custom-fields-support-home.php';
 require_once get_template_directory() . '/inc/admin-page-support-home.php';
 require_once get_template_directory() . '/inc/custom-fields-noticias.php';
 require_once get_template_directory() . '/inc/custom-fields-blog.php';
+require_once get_template_directory() . '/inc/blog-content-builder.php';
 require_once get_template_directory() . '/inc/custom-fields-about-us.php';
 require_once get_template_directory() . '/inc/custom-fields-support-header.php';
 require_once get_template_directory() . '/inc/admin-page-support-header.php';
