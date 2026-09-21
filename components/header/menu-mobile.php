@@ -12,8 +12,8 @@ $links = array(
   array('href' => home_url('/contacts/'), 'label' => gf_e('header.menu.contacts'), 'icon' => 'phone', 'key' => 'contacts'),
 );
 ?>
-<div class="menu-mobile-overlay fixed inset-0 z-40 bg-black/20 hidden" style="display:none;"></div>
-<div class="menu-mobile-panel fixed top-0 left-0 w-80 h-auto bg-white/30 backdrop-blur-2xl z-150 p-4 shadow-2xl rounded-xl m-2 hidden" style="display:none;">
+<div class="menu-mobile-overlay fixed inset-0 z-40 bg-black/20 hidden"></div>
+<div class="menu-mobile-panel fixed top-0 left-0 w-80 h-auto bg-white/30 backdrop-blur-2xl z-150 p-4 shadow-2xl rounded-xl m-2 hidden">
   <div class="flex items-center justify-between">
     <a href="<?php echo esc_url($home_url); ?>">
       <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo.svg" alt="Grupo Fadiar Logo" width="130" height="20" />
