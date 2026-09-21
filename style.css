@@ -1067,6 +1067,9 @@ Text Domain: grupofadiar-theme
   .border-l-dark {
     border-left-color: #010A2D;
   }
+  .bg-\[\#EBE8E8\] {
+    background-color: #EBE8E8;
+  }
   .bg-\[\#EDEDED\] {
     background-color: #EDEDED;
   }
@@ -1448,6 +1451,9 @@ Text Domain: grupofadiar-theme
   }
   .text-\[\#010A2D\] {
     color: #010A2D;
+  }
+  .text-\[\#727272\] {
+    color: #727272;
   }
   .text-\[\#DBAB23\] {
     color: #DBAB23;

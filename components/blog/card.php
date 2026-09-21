@@ -1,5 +1,6 @@
 <?php
 $post_id = isset($args['post_id']) ? $args['post_id'] : get_the_ID();
+$show_date = empty($args['hide_date']);
 $title = gf_get_post_title($post_id);
 $permalink = get_permalink($post_id);
 $main_image = get_field('imagen_principal_blog', $post_id);
@@ -34,9 +35,9 @@ $category_label = $category ? gf_get_term_name($category) : '';
   <div class="pt-4 flex flex-col flex-1">
     <div class="flex items-center justify-between gap-4 text-sm text-[#8C8C8C]">
       <?php if ($category_label): ?>
-        <span class="inline-block w-fit bg-[#F4F4F4] tracking-wider px-3 py-2 rounded-full"><?php echo esc_html($category_label); ?></span>
+        <span class="inline-block w-fit bg-[#EBE8E8] text-[#727272] tracking-wider px-3 py-2 rounded-full"><?php echo esc_html($category_label); ?></span>
       <?php endif; ?>
-      <?php if ($date): ?><time><?php echo esc_html($date); ?></time><?php endif; ?>
+      <?php if ($show_date && $date): ?><time><?php echo esc_html($date); ?></time><?php endif; ?>
     </div>
     <h2 class="text-2xl font-bold text-dark leading-tight mt-4 group-hover:underline"><?php echo esc_html($title); ?></h2>
     <?php if ($intro): ?><p class="text-[#4A4A4A] leading-relaxed mt-3 line-clamp-3"><?php echo esc_html($intro); ?></p><?php endif; ?>

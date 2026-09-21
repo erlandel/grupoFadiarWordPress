@@ -28,8 +28,33 @@ if (!empty($category_terms) && !is_wp_error($category_terms)) {
 }
 $category_label = $category ? gf_get_term_name($category) : '';
 
-// Artículos recomendados al final de la página.
-$related = new WP_Query(array('post_type' => 'blog', 'posts_per_page' => 3, 'post__not_in' => array($post_id)));
+// Artículos recomendados: primero los de la misma categoría.
+$related_posts = array();
+$related_exclusions = array($post_id);
+if ($category && !empty($category->term_id)) {
+  $related_posts = get_posts(array(
+    'post_type' => 'blog',
+    'posts_per_page' => 3,
+    'post__not_in' => $related_exclusions,
+    'orderby' => 'date',
+    'order' => 'DESC',
+    'tax_query' => array(array(
+      'taxonomy' => 'categoria_noticia',
+      'field' => 'term_id',
+      'terms' => $category->term_id,
+    )),
+  ));
+  $related_exclusions = array_merge($related_exclusions, wp_list_pluck($related_posts, 'ID'));
+}
+if (count($related_posts) < 3) {
+  $related_posts = array_merge($related_posts, get_posts(array(
+    'post_type' => 'blog',
+    'posts_per_page' => 3 - count($related_posts),
+    'post__not_in' => $related_exclusions,
+    'orderby' => 'date',
+    'order' => 'DESC',
+  )));
+}
 ?>
 <main>
   <!-- Ruta de navegación. -->
@@ -129,13 +154,15 @@ $related = new WP_Query(array('post_type' => 'blog', 'posts_per_page' => 3, 'pos
   </article>
 
   <!-- Artículos relacionados. -->
-  <?php if ($related->have_posts()): ?>
-    <section class="reveal-section mx-6 md:mx-15 xl:mx-70 mb-20">
-      <h2 class="reveal-item text-3xl md:text-4xl font-bold text-dark mb-8"><?php echo esc_html(gf_e('blog.related_title')); ?></h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <?php while ($related->have_posts()): $related->the_post(); ?>
-          <?php get_template_part('components/blog/card', null, array('post_id' => get_the_ID())); ?>
-        <?php endwhile; wp_reset_postdata(); ?>
+  <?php if ($related_posts): ?>
+    <section class="reveal-section bg-[#F4F4F4] py-16">
+      <div class="mx-6 md:mx-15 xl:mx-30">
+        <h2 class="reveal-item text-xl font-bold text-dark md:text-2xl"><?php echo esc_html(gf_e('blog.related_title')); ?></h2>
+        <div class="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <?php foreach ($related_posts as $related_post): ?>
+            <?php get_template_part('components/blog/card', null, array('post_id' => $related_post->ID, 'hide_date' => true)); ?>
+          <?php endforeach; ?>
+        </div>
       </div>
     </section>
   <?php endif; ?>
