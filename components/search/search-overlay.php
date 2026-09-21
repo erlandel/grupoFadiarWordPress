@@ -46,12 +46,12 @@
         <div class="search-empty hidden max-md:hidden text-center py-10 text-dark/50 text-lg">
           <p><?php gf_render_e('search.empty'); ?></p>
         </div>
-        <div class="search-loading hidden  justify-center py-10">
+        <div class="search-loading hidden justify-center py-10">
           <?php echo get_icon('spinner', 'w-8 h-8 text-dark animate-spin'); ?>
         </div>
         <div class="search-results-list space-y-4"></div>
         <div class="search-sentinel h-4"></div>
-        <div class="search-loader-more hidden flex justify-center py-4">
+        <div class="search-loader-more hidden justify-center py-4">
           <?php echo get_icon('spinner', 'w-6 h-6 text-dark/50 animate-spin'); ?>
         </div>
         <div class="search-no-results hidden text-center py-10 text-dark/50 text-lg">

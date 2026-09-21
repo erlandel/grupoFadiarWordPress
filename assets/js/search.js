@@ -50,7 +50,10 @@ document.addEventListener('DOMContentLoaded', function () {
   var scrollObserver = new IntersectionObserver(function (entries) {
     if (entries[0].isIntersecting && hasMorePages() && !isLoadingMore) {
       isLoadingMore = true;
-      if (loaderMore) loaderMore.classList.remove('hidden');
+      if (loaderMore) {
+        loaderMore.classList.remove('hidden');
+        loaderMore.classList.add('flex');
+      }
       currentPage++;
       fetchResults(true);
     }
@@ -158,14 +161,20 @@ document.addEventListener('DOMContentLoaded', function () {
   function clearResults() {
     resultsList.innerHTML = '';
     hideAllStates();
-    if (loaderMore) loaderMore.classList.add('hidden');
+    if (loaderMore) {
+      loaderMore.classList.add('hidden');
+      loaderMore.classList.remove('flex');
+    }
     stopObserving();
   }
 
   function hideAllStates() {
     if (emptyState) emptyState.classList.add('hidden');
     if (noResults) noResults.classList.add('hidden');
-    if (loading) loading.classList.add('hidden');
+    if (loading) {
+      loading.classList.add('hidden');
+      loading.classList.remove('flex');
+    }
   }
 
   function showEmptyState() {
@@ -175,7 +184,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function showLoading() {
     hideAllStates();
-    if (loading) loading.classList.remove('hidden');
+    if (loading) {
+      loading.classList.remove('hidden');
+      loading.classList.add('flex');
+    }
   }
 
   function showNoResults(query) {
@@ -184,7 +196,10 @@ document.addEventListener('DOMContentLoaded', function () {
       noResults.classList.remove('hidden');
       if (queryText) queryText.textContent = query;
     }
-    if (loaderMore) loaderMore.classList.add('hidden');
+    if (loaderMore) {
+      loaderMore.classList.add('hidden');
+      loaderMore.classList.remove('flex');
+    }
   }
 
   function stopObserving() {
@@ -237,7 +252,10 @@ document.addEventListener('DOMContentLoaded', function () {
         hideAllStates();
         resultsList.innerHTML = '<div class="text-center py-10 text-dark/50 text-lg"><p>' + escapeHtml(strings['search.error'] || 'Error al buscar. Intenta de nuevo.') + '</p></div>';
         isLoadingMore = false;
-        if (loaderMore) loaderMore.classList.add('hidden');
+        if (loaderMore) {
+          loaderMore.classList.add('hidden');
+          loaderMore.classList.remove('flex');
+        }
       });
   }
 
@@ -292,7 +310,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function renderResults(data, append) {
     hideAllStates();
-    if (loaderMore) loaderMore.classList.add('hidden');
+    if (loaderMore) {
+      loaderMore.classList.add('hidden');
+      loaderMore.classList.remove('flex');
+    }
 
     if (!data || !data.results || data.results.length === 0) {
       if (append) {
@@ -328,9 +349,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
       var thumbnailHtml = '';
       if (item.thumbnail) {
-        thumbnailHtml = '<div class="flex-shrink-0 w-16 h-16 md:w-24 md:h-24 rounded-lg overflow-hidden bg-dark/5"><img src="' + escapeHtml(item.thumbnail) + '" alt="' + escapeHtml(decodeEntities(item.title)) + '" class="w-full h-full object-cover" /></div>';
+        thumbnailHtml = '<div class="shrink-0 w-16 h-16 md:w-24 md:h-24 rounded-lg overflow-hidden bg-dark/5"><img src="' + escapeHtml(item.thumbnail) + '" alt="' + escapeHtml(decodeEntities(item.title)) + '" class="w-full h-full object-cover" /></div>';
       } else if (item.type === 'producto') {
-        thumbnailHtml = '<div class="flex-shrink-0 w-16 h-16 md:w-24 md:h-24 rounded-lg overflow-hidden bg-dark/5 flex items-center justify-center text-dark/20">' + getIconPlaceholder() + '</div>';
+        thumbnailHtml = '<div class="shrink-0 w-16 h-16 md:w-24 md:h-24 rounded-lg overflow-hidden bg-dark/5 flex items-center justify-center text-dark/20">' + getIconPlaceholder() + '</div>';
       }
 
       if (item.type === 'producto') {
