@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
   }, {
-    threshold: 0.18,
+    threshold: 0.01,
     rootMargin: '0px 0px 0px 0px'
   });
 
