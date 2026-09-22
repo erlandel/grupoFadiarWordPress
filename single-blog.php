@@ -70,8 +70,8 @@ if (count($related_posts) < 3) {
     <header>
 
       <!-- Título, introducción y separador. -->
-      <h1 class="reveal-item mx-6 md:mx-15 xl:mx-70 text-3xl md:text-4xl font-bold text-dark leading-tight mt-5"><?php echo esc_html($title); ?></h1>
-      <?php if ($intro): ?><p class="reveal-item mx-6 md:mx-15 xl:mx-70 text-xl text-dark leading-relaxed mt-5"><?php echo esc_html($intro); ?></p><?php endif; ?>
+      <h1 class="reveal-item mx-6 md:mx-15 xl:mx-70 text-2xl md:text-4xl font-bold text-dark leading-tight mt-5"><?php echo esc_html($title); ?></h1>
+      <?php if ($intro): ?><p class="reveal-item mx-6 md:mx-15 xl:mx-70 text-lg xl:text-xl text-dark leading-relaxed mt-5"><?php echo esc_html($intro); ?></p><?php endif; ?>
 
       <div class="reveal-item mx-6 md:mx-15 xl:mx-70 h-1 bg-[#F4F4F4] mt-5"></div>
 
@@ -95,7 +95,7 @@ if (count($related_posts) < 3) {
         class="absolute inset-0 h-full w-full object-cover"
       />
       <?php if ($category_label): ?>
-        <span class="absolute bottom-6 left-6 z-10 rounded-full bg-[#F4F4F499] px-4 py-3 text-[#8C8C8C] md:left-15 xl:left-30">
+        <span class="absolute bottom-6 left-6 z-10 rounded-full bg-[#F4F4F499] px-4 py-3 text-black md:left-15 xl:left-30">
           <?php echo esc_html($category_label); ?>
         </span>
       <?php endif; ?>
@@ -122,7 +122,7 @@ if (count($related_posts) < 3) {
 
       <?php if ($block_type === 'title' && $block_value !== ''): ?>
         <!-- Título interno. -->
-        <h2 class="reveal-item mt-10 text-2xl font-bold leading-tight md:text-3xl"><?php echo esc_html($block_value); ?></h2>
+        <h2 class="reveal-item mt-10 text-xl font-bold leading-tight md:text-3xl"><?php echo esc_html($block_value); ?></h2>
       <?php elseif ($block_type === 'content' && $block_value !== ''): ?>
         <!-- Texto enriquecido: negritas, enlaces y listas. -->
         <div class="reveal-item mt-6"><?php echo wpautop(wp_kses_post($block_value)); ?></div>
@@ -138,10 +138,10 @@ if (count($related_posts) < 3) {
         </div>
       <?php elseif ($block_type === 'quote' && $block_value !== ''): ?>
         <!-- Frase destacada y su autor o fuente. -->
-        <blockquote class="reveal-item mt-12 border-l-4 border-secondary pl-9 font-montserrat text-3xl leading-[1.3] font-bold italic text-dark">
+        <blockquote class="reveal-item mt-12 border-l-4 border-secondary pl-3 sm:pl-9 font-montserrat text-xl sm:text-3xl leading-[1.3] font-bold italic text-dark">
           <p class="m-0">&ldquo;<?php echo esc_html($block_value); ?>&rdquo;</p>
           <?php if ($block_author !== ''): ?>
-            <cite class="mt-6 block text-base font-bold tracking-[0.25em] uppercase not-italic text-[#DBAB23]"><?php echo esc_html($block_author); ?></cite>
+            <cite class="mt-6 block text-sm sm:text-base font-bold tracking-[0.25em] uppercase not-italic text-[#DBAB23]"><?php echo esc_html($block_author); ?></cite>
           <?php endif; ?>
         </blockquote>
       <?php endif; ?>
@@ -155,7 +155,7 @@ if (count($related_posts) < 3) {
 
   <!-- Artículos relacionados. -->
   <?php if ($related_posts): ?>
-    <section class="reveal-section bg-[#F4F4F4] py-10">
+    <section class="reveal-section bg-[#F4F4F4] pb-10 sm:py-10">
       <div class="mx-6 md:mx-15 xl:mx-30">
         <h2 class="reveal-item text-xl font-bold text-dark md:text-2xl"><?php echo esc_html(gf_e('blog.related_title')); ?></h2>
         <div class="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">

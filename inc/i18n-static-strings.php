@@ -48,6 +48,7 @@ function gf_static_strings() {
         'noticias.breadcrumb_home'   => ['es' => 'Inicio',                     'en' => 'Home'],
         'noticias.breadcrumb'        => ['es' => 'Noticias',                   'en' => 'News'],
         'noticias.filter_label'      => ['es' => 'Filtrar por:',               'en' => 'Filter by:'],
+        'noticias.category_label'    => ['es' => 'Categoría',                  'en' => 'Category'],
         'noticias.filter_categories' => ['es' => 'Categorías',                 'en' => 'Categories'],
         'noticias.filter_close'      => ['es' => 'Cerrar',                     'en' => 'Close'],
         'noticias.filter_all'        => ['es' => 'Todas las categorías',       'en' => 'All categories'],
@@ -63,6 +64,10 @@ function gf_static_strings() {
         'blog.author'                => ['es' => 'Por',                      'en' => 'By'],
         'blog.related_title'         => ['es' => 'Sigue leyendo',            'en' => 'Keep reading'],
         'blog.none'                  => ['es' => 'No hay artículos publicados aún.', 'en' => 'No articles published yet.'],
+        'blog.filter_label'          => ['es' => 'Filtrar por:',              'en' => 'Filter by:'],
+        'blog.filter_categories'     => ['es' => 'Categorías',                'en' => 'Categories'],
+        'blog.filter_all'            => ['es' => 'Todas las categorías',      'en' => 'All categories'],
+        'blog.filter_close'          => ['es' => 'Cerrar',                    'en' => 'Close'],
         'blog.previous'              => ['es' => 'Página anterior',          'en' => 'Previous page'],
         'blog.next'                  => ['es' => 'Página siguiente',         'en' => 'Next page'],
 

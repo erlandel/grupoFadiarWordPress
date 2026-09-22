@@ -24,6 +24,22 @@ if ($current_category > 0) {
 $query = new WP_Query($args);
 $categories = get_terms(array('taxonomy' => 'categoria_noticia', 'hide_empty' => true));
 $base_url = get_permalink();
+$modal_options = array(
+  array(
+    'value' => '',
+    'label' => gf_e('noticias.filter_all'),
+    'url'   => $base_url,
+  ),
+);
+if (!empty($categories) && !is_wp_error($categories)) {
+  foreach ($categories as $cat) {
+    $modal_options[] = array(
+      'value' => (string) $cat->term_id,
+      'label' => gf_get_term_name($cat),
+      'url'   => add_query_arg('categoria', $cat->term_id, $base_url),
+    );
+  }
+}
 ?>
 
 
@@ -50,95 +66,17 @@ $base_url = get_permalink();
     </p>
 
     <?php if (!empty($categories) && !is_wp_error($categories)): ?>
-      <button type="button" data-filter-open class="reveal-item relative flex w-fit shrink-0 self-end cursor-pointer items-center gap-2 group md:self-auto">
-        <span class="whitespace-nowrap text-base font-medium text-dark md:text-lg xl:text-2xl"><?php echo esc_html(gf_e('noticias.filter_label')); ?></span>
-        <svg class="pointer-events-none h-5 w-5 text-dark transition-transform duration-200 md:h-6 md:w-6 xl:h-8 xl:w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-      </button>
-
-      <div data-filter-modal class="fixed inset-0 z-100 hidden items-center justify-center bg-black/40 p-4">
-        <div class="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-x-hidden overflow-y-auto rounded-xl bg-[#F8F8F8] shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="filter-modal-title">
-          <div class="flex items-center justify-between px-5 pb-3 pt-5 md:px-6 md:pb-4 md:pt-6">
-            <h2 id="filter-modal-title" class="text-xl font-bold text-dark md:text-2xl"><?php echo esc_html(gf_e('noticias.filter_categories')); ?></h2>
-            <button type="button" data-filter-close class="text-dark hover:opacity-70 transition-opacity cursor-pointer" aria-label="<?php echo esc_attr(gf_e('noticias.filter_close')); ?>">
-              <svg class="h-6 w-6 md:h-7 md:w-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-            </button>
-          </div>
-
-          <form method="get" action="<?php echo esc_url($base_url); ?>" class="px-5 pb-5 md:px-6 md:pb-6" data-filter-form>
-            <div class="flex flex-col ">
-              <label class="-mx-2 flex cursor-pointer items-center gap-3 rounded border-b-3 border-[#EDEDED] px-2 py-3 text-base text-dark transition-colors hover:bg-gray-200 md:gap-4 md:py-4 md:text-xl">
-                <input type="radio" name="categoria" value="" <?php checked($current_category, 0); ?> class="h-5 w-5 accent-dark cursor-pointer shrink-0">
-                <span class="<?php echo $current_category == 0 ? 'font-bold' : 'font-normal'; ?>"><?php echo esc_html(gf_e('noticias.filter_all')); ?></span>
-              </label>
-              <?php foreach ($categories as $cat): ?>
-                <label class="-mx-2 flex cursor-pointer items-center gap-3 rounded border-b-3 border-[#EDEDED] px-2 py-3 text-base text-dark transition-colors hover:bg-gray-200 last:border-0 md:gap-4 md:py-4 md:text-xl">
-                  <input type="radio" name="categoria" value="<?php echo esc_attr($cat->term_id); ?>" <?php checked($current_category, $cat->term_id); ?> class="h-4 w-4 accent-dark cursor-pointer shrink-0">
-                  <span class="<?php echo $current_category == $cat->term_id ? 'font-bold' : 'font-normal'; ?>"><?php echo esc_html(gf_get_term_name($cat)); ?></span>
-                </label>
-              <?php endforeach; ?>
-            </div>
-          </form>
-        </div>
-      </div>
+      <?php get_template_part('components/modalCategory/modalCategory', null, array(
+        'prefix' => 'filter',
+        'instance_id' => 'noticias-filter',
+        'trigger_label' => gf_e('noticias.filter_label'),
+        'modal_title' => gf_e('noticias.filter_categories'),
+        'close_label' => gf_e('noticias.filter_close'),
+        'selected_value' => $current_category > 0 ? (string) $current_category : '',
+        'options' => $modal_options,
+      )); ?>
     <?php endif; ?>
   </div>
-
-  <script>
-    (function () {
-      const modal = document.querySelector('[data-filter-modal]');
-      const opener = document.querySelector('[data-filter-open]');
-      if (!modal || !opener) return;
-
-      const arrowIcon = opener.querySelector('svg');
-      const closers = modal.querySelectorAll('[data-filter-close]');
-
-      const open = () => {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-        if (arrowIcon) arrowIcon.classList.add('rotate-180');
-      };
-
-      const close = () => {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        document.body.style.overflow = '';
-        if (arrowIcon) arrowIcon.classList.remove('rotate-180');
-      };
-
-      opener.addEventListener('click', open);
-      closers.forEach((btn) => btn.addEventListener('click', close));
-
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) close();
-      });
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !modal.classList.contains('hidden')) close();
-      });
-
-      const form = document.querySelector('[data-filter-form]');
-      const radios = form.querySelectorAll('input[type="radio"]');
-
-      radios.forEach((radio) => {
-        radio.addEventListener('click', function () {
-          if (this.dataset.wasChecked === 'true') {
-            this.checked = false;
-            this.dataset.wasChecked = 'false';
-            form.submit();
-          }
-        });
-
-        radio.addEventListener('change', function () {
-          radios.forEach((r) => { r.dataset.wasChecked = 'false'; });
-          if (this.checked) {
-            this.dataset.wasChecked = 'true';
-            form.submit();
-          }
-        });
-      });
-    })();
-  </script>
 
   <!-- Grid de noticias -->
   <?php if ($query->have_posts()): ?>

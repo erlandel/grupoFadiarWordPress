@@ -349,6 +349,18 @@ function grupofadiar_register_blog_cpt() {
 }
 add_action('init', 'grupofadiar_register_blog_cpt', 0);
 
+function grupofadiar_blog_archive_template($template) {
+    if (is_post_type_archive('blog')) {
+        $blog_template = locate_template('page-blog.php');
+        if ($blog_template) {
+            return $blog_template;
+        }
+    }
+
+    return $template;
+}
+add_filter('archive_template', 'grupofadiar_blog_archive_template');
+
 function grupofadiar_flush_blog_rewrite_rules() {
     if (get_option('grupofadiar_blog_rewrite_version') === '1') {
         return;
