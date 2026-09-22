@@ -1,10 +1,10 @@
 <?php
 // Configuración de layout para cada producto (fijo)
 $layout_config = array(
-  array('wrapper' => 'rounded-r-2xl aspect-11/6 w-full', 'self' => ''),
-  array('wrapper' => 'rounded-2xl aspect-14/8 w-full md:w-[85%] md:mr-auto', 'self' => ''),
-  array('wrapper' => 'rounded-2xl aspect-14/8  w-full md:w-[85%] md:ml-auto mt-auto ', 'self' => ''),
-  array('wrapper' => 'rounded-l-2xl aspect-11/6 w-full', 'self' =>  ' self-end when-desk'),
+  array('wrapper' => 'rounded-2xl aspect-[3/4] w-[78vw] max-w-72 shrink-0 snap-center md:rounded-r-2xl md:rounded-l-none md:aspect-11/6 md:w-full md:max-w-none', 'self' => ''),
+  array('wrapper' => 'rounded-2xl aspect-[3/4] w-[78vw] max-w-72 shrink-0 snap-center md:aspect-14/8 md:w-[85%] md:max-w-none md:mr-auto', 'self' => ''),
+  array('wrapper' => 'rounded-2xl aspect-[3/4] w-[78vw] max-w-72 shrink-0 snap-center md:aspect-14/8 md:w-[85%] md:max-w-none md:ml-auto md:mt-auto', 'self' => ''),
+  array('wrapper' => 'rounded-2xl aspect-[3/4] w-[78vw] max-w-72 shrink-0 snap-center md:rounded-l-2xl md:rounded-r-none md:aspect-11/6 md:w-full md:max-w-none', 'self' => 'md:self-end when-desk'),
 );
 
 // Obtener productos del CPT (máximo 4)
@@ -22,10 +22,11 @@ $section_title = gf_get_option('products_section_title', 'Productos', 'Products'
 // Orden de aparición: producto 1 → 3 → 2 → 4
 $reveal_order_map = array(0, 1, 1, 0);
 ?>
-<section class="w-full py-16 overflow-hidden bg-white">
+<section class="w-full overflow-hidden bg-white py-12 md:py-16">
   <div>
-    <h3 class="reveal-item text-4xl font-black mb-8 ml-6 md:ml-30 text-gray-900"><?php echo esc_html($section_title); ?></h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12.5 items-start w-full">
+    <h3 class="reveal-item mb-8 ml-6 text-3xl font-black text-gray-900 md:ml-30 md:text-4xl"><?php echo esc_html($section_title); ?></h3>
+    <div class="products-carousel flex items-start overflow-hidden px-6 pb-4 md:grid md:w-full md:grid-cols-2 md:items-start md:gap-x-12.5 md:overflow-visible md:px-0 md:pb-0" aria-label="<?php echo esc_attr($section_title); ?>">
+      <div class="products-carousel-track flex w-max items-start gap-5 pr-6 will-change-transform md:contents md:gap-0 md:pr-0 md:will-change-auto">
       <?php 
       $count = count($products);
       for ($i = 0; $i < 4; $i++): 
@@ -59,11 +60,17 @@ $reveal_order_map = array(0, 1, 1, 0);
       ?>
         <div class="reveal-item--zoom relative overflow-hidden shadow-lg <?php echo esc_attr($layout_config[$i]['wrapper']); ?> <?php echo esc_attr($layout_config[$i]['self']); ?>" data-reveal-order="<?php echo $reveal_order_map[$i] ?? $i; ?>">
           <?php if ($has_product && !empty($media_url)): ?>
-            <?php if ($media_type === 'video'): ?>
-              <video src="<?php echo esc_url($media_url); ?>" class="w-full h-full object-cover" autoplay muted loop playsinline></video>
-            <?php else: ?>
-              <img src="<?php echo esc_url($media_url); ?>" alt="<?php echo esc_attr(gf_get_post_title($product->ID)); ?>" class="w-full h-full object-cover" loading="<?php echo $i < 2 ? 'eager' : 'lazy'; ?>" />
-            <?php endif; ?>
+            <div class="relative h-full w-full">
+              <?php if ($media_type === 'video'): ?>
+                <video src="<?php echo esc_url($media_url); ?>" class="product-video h-full w-full object-cover" autoplay muted loop playsinline preload="metadata"></video>
+                <button type="button" class="product-video-toggle absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/70 p-4 text-white md:hidden" aria-label="Reproducir video" aria-pressed="false">
+                  <?php echo get_icon('play', 'product-video-play h-8 w-8 fill-current text-white'); ?>
+                  <?php echo get_icon('pause', 'product-video-pause hidden h-8 w-8 fill-current text-white'); ?>
+                </button>
+              <?php else: ?>
+                <img src="<?php echo esc_url($media_url); ?>" alt="<?php echo esc_attr(gf_get_post_title($product->ID)); ?>" class="h-full w-full object-cover" loading="<?php echo $i < 2 ? 'eager' : 'lazy'; ?>" />
+              <?php endif; ?>
+            </div>
           <?php else: ?>
             <!-- Placeholder cuando no hay producto -->
             <div class="w-full h-full bg-gray-200 flex items-center justify-center">
@@ -73,13 +80,14 @@ $reveal_order_map = array(0, 1, 1, 0);
           
           <?php if ($has_product): ?>
             <div class="absolute bottom-4 right-4 z-10">
-              <a href="<?php echo esc_url($button_url); ?>" class="promo-btn inline-flex items-center gap-2 px-4 py-2 rounded-full text-white font-semibold text-lg tracking-wide bg-dark transition-transform hover:scale-105">
+              <a href="<?php echo esc_url($button_url); ?>" class="promo-btn inline-flex items-center gap-2 rounded-full bg-dark px-3 py-1 text-base font-semibold tracking-wide text-white transition-transform hover:scale-105 md:px-4 md:py-2 md:text-lg">
                 <?php echo esc_html($button_text); ?>
               </a>
             </div>
           <?php endif; ?>
         </div>
       <?php endfor; ?>
+      </div>
     </div>
   </div>
 </section>

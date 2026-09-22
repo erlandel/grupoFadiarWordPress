@@ -20,7 +20,7 @@ $brands_query = new WP_Query(array(
 ));
 ?>
 
-<section class="w-full overflow-hidden bg-linear-to-r from-[#1D3D75] to-[#010A2D] py-12 xl:overflow-visible xl:py-16">
+<section class="w-full overflow-hidden bg-linear-to-r from-[#1D3D75] to-dark py-12 xl:overflow-visible xl:py-16">
     <div class="flex items-center justify-center text-white font-bold">
         <div class="px-4 xl:px-0">
             <h2 class="reveal-item text-secondary text-center  xl:text-2xl"><?php echo esc_html($section_title); ?></h2>
