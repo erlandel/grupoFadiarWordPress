@@ -9,7 +9,7 @@ $intro = gf_get_field('intro_noticia', $post_id);
 ?>
 <a href="<?php echo esc_url($permalink); ?>" class="reveal-item flex flex-col h-full group">
   <!-- Imagen -->
-  <div class="relative overflow-hidden rounded-xl aspect-video ">
+  <div class="relative aspect-video overflow-hidden rounded-xl">
     <?php if ($thumbnail): ?>
       <img
         src="<?php echo esc_url($thumbnail); ?>"
@@ -24,20 +24,20 @@ $intro = gf_get_field('intro_noticia', $post_id);
   </div>
 
   <!-- Categoría -->
-  <span class="inline-block w-fit bg-[#F4F4F4] text-[#8C8C8C]  tracking-wider  px-4 py-3 rounded-full mt-4">
+  <span class="mt-4 inline-block w-fit rounded-full bg-[#F4F4F4] px-3 py-2 text-sm tracking-wider text-[#8C8C8C] md:px-4 md:py-3 md:text-base">
     <?php echo $category_label ? esc_html($category_label) : 'Categoría'; ?>
   </span>
 
   <!-- Contenido -->
-  <div class="pt-3 flex flex-col flex-1">
-    <h3 class="text-2xl font-bold text-dark leading-tight group-hover:underline">
+  <div class="flex flex-1 flex-col pt-3">
+    <h3 class="text-2xl font-bold leading-tight text-dark group-hover:underline">
       <?php echo esc_html($title); ?>
     </h3>
     <?php if ($intro): ?>
-      <p class=" text-[#4A4A4A] leading-relaxed mt-3 line-clamp-3">
+      <p class="mt-3 line-clamp-3 text-sm leading-relaxed text-[#4A4A4A] md:text-base">
         <?php echo esc_html($intro); ?>
       </p>
     <?php endif; ?>
   </div>
-  <div class="w-full border-t-4 border-[#F4F4F4] mt-5"></div>
+  <div class="mt-5 w-full border-t-2 border-[#F4F4F4] xl:border-t-4"></div>
 </a>
