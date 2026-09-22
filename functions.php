@@ -84,6 +84,17 @@ function grupofadiar_assets() {
     }
     wp_localize_script('grupofadiar-search', 'gfStrings', $lang_strings);
     wp_add_inline_script('grupofadiar-search', 'window.gfLang = "' . esc_js($lang) . '";', 'before');
+
+    // La página de contactos necesita la lógica de sus selectores y validaciones.
+    if (is_page_template('page-contacts.php')) {
+        wp_enqueue_script(
+            'grupofadiar-contact-form',
+            get_template_directory_uri() . '/assets/js/contact-form.js',
+            array('grupofadiar-search'),
+            filemtime(get_template_directory() . '/assets/js/contact-form.js'),
+            true
+        );
+    }
 }
 add_action('wp_enqueue_scripts', 'grupofadiar_assets');
 

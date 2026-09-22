@@ -5,7 +5,7 @@ $zoom = 15;
 $map_src = "https://maps.google.com/maps?q={$lat},{$lng}&z={$zoom}&output=embed";
 ?>
 
-<div class="bg-white  shadow-lg overflow-hidden aspect-6/2">
+<div class="aspect-[4/3] overflow-hidden bg-white shadow-lg sm:aspect-[3/2] xl:aspect-6/2">
   <iframe
     src="<?php echo esc_url($map_src); ?>"
     width="100%"

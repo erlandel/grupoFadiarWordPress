@@ -22,12 +22,12 @@ if (post_type_exists('warranty_step')) {
 }
 
 ?>
-<section id="warrantyInfo" class="scroll-mt-20 mx-30 min-[1920px]:mx-auto  my-15 grid grid-cols-1 md:grid-cols-2 gap-10 max-w-7xl ">
+<section id="warrantyInfo" class="scroll-mt-20 mx-0 my-10 grid max-w-7xl grid-cols-1 gap-6 sm:my-12 sm:gap-8 xl:mx-30 xl:my-15 xl:grid-cols-2 xl:gap-10 min-[1920px]:mx-auto">
 
-  <div class="reveal-item bg-[#F4F4F4] p-10 rounded-2xl">
-    <h2 class="text-3xl font-bold text-dark mb-6"><?php echo esc_html(gf_get_option('warranty_section_left_title', 'Proceso de reclamación', 'Claims Process')); ?></h2>
+  <div class="reveal-item rounded-2xl bg-[#F4F4F4] p-6 sm:p-8 xl:p-10">
+    <h2 class="mb-5 text-2xl font-bold text-dark sm:mb-6 sm:text-3xl"><?php echo esc_html(gf_get_option('warranty_section_left_title', 'Proceso de reclamación', 'Claims Process')); ?></h2>
     <?php if (!empty($steps)): ?>
-      <ol class="text-xl text-dark space-y-4 [&>li]:leading-relaxed">
+      <ol class="space-y-4 text-base text-dark sm:text-lg xl:text-xl [&>li]:leading-snug sm:[&>li]:leading-relaxed">
         <?php foreach ($steps as $step):
           $step_number = get_field('ws_step_number', $step->ID);
           if (empty($step_number)) {
@@ -46,25 +46,25 @@ if (post_type_exists('warranty_step')) {
     <?php endif; ?>
   </div>
 
-  <div class="reveal-item bg-[#F4F4F4] p-10 rounded-2xl">
-    <h2 class="text-3xl font-bold text-dark mb-6"><?php echo esc_html(gf_get_option('warranty_section_right_title', 'Contactos', 'Contacts')); ?></h2>
+  <div class="reveal-item rounded-2xl bg-[#F4F4F4] p-6 sm:p-8 xl:p-10">
+    <h2 class="mb-5 text-2xl font-bold text-dark sm:mb-6 sm:text-3xl"><?php echo esc_html(gf_get_option('warranty_section_right_title', 'Contactos', 'Contacts')); ?></h2>
     <?php if (!empty($contacts)): ?>
-      <ul class="text-xl text-dark space-y-10">
+      <ul class="space-y-7 text-base text-dark sm:space-y-8 sm:text-lg xl:space-y-10 xl:text-xl">
         <?php foreach ($contacts as $contact):
           $label    = gf_get_field('wc_label', $contact->ID);
           $phone    = get_field('wc_phone', $contact->ID);
           $schedule = gf_get_field('wc_schedule', $contact->ID);
         ?>
           <li id="warranty-contact-<?php echo esc_attr($contact->post_name); ?>" class="scroll-mt-24">
-            <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
-              <span class="font-bold inline-block w-72"><span class="mr-2">•</span><?php echo esc_html($label); ?></span>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-2 sm:gap-x-6">
+              <span class="font-bold xl:inline-block xl:w-72"><span class="mr-2">•</span><?php echo esc_html($label); ?></span>
               <span class="flex items-center gap-2">
-                <?php echo get_icon('phone', 'h-7.5 w-7.5 text-dark shrink-0'); ?>
+                <?php echo get_icon('phone', 'h-5 w-5 text-dark shrink-0 sm:h-6 sm:w-6 xl:h-7.5 xl:w-7.5'); ?>
                 <span><?php echo esc_html($phone); ?></span>
               </span>
             </div>
             <?php if (!empty($schedule)): ?>
-              <p class="text-xl text-dark mt-1 text-end">(<?php echo esc_html($schedule); ?>)</p>
+              <p class="mt-1 text-base text-dark sm:text-lg xl:text-xl sm:text-end">(<?php echo esc_html($schedule); ?>)</p>
             <?php endif; ?>
           </li>
         <?php endforeach; ?>

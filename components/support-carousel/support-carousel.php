@@ -51,10 +51,10 @@ if (empty($cards)) {
       .support-carousel-track { animation: none; }
     }
   </style>
-  <div class="carousel-track support-carousel-track relative flex gap-10 will-change-transform" style="width: max-content;">
-    <div class="carousel-set flex gap-10">
+  <div class="carousel-track support-carousel-track relative flex gap-4 sm:gap-6 xl:gap-10 will-change-transform" style="width: max-content;">
+    <div class="carousel-set flex gap-4 sm:gap-6 xl:gap-10">
       <?php foreach ($cards as $i => $card) : ?>
-        <div class="carousel-card shrink-0 w-96 h-120 rounded-3xl overflow-hidden bg-[#F4F4F4]" style="margin-top: <?php echo $i % 2 === 0 ? 80 : 0; ?>px;">
+        <div class="carousel-card h-64 w-48 shrink-0 overflow-hidden rounded-2xl bg-[#F4F4F4] sm:h-80 sm:w-60 sm:rounded-3xl md:h-96 md:w-72 xl:h-120 xl:w-96 <?php echo $i % 2 === 0 ? 'mt-8 xl:mt-20' : ''; ?>">
           <img
             src="<?php echo esc_url($card['url']); ?>"
             alt="<?php echo esc_attr($card['alt']); ?>"
@@ -66,9 +66,9 @@ if (empty($cards)) {
         </div>
       <?php endforeach; ?>
     </div>
-    <div class="carousel-set flex gap-10" aria-hidden="true">
+    <div class="carousel-set flex gap-4 sm:gap-6 xl:gap-10" aria-hidden="true">
       <?php foreach ($cards as $i => $card) : ?>
-        <div class="carousel-card shrink-0 w-96 h-120 rounded-3xl overflow-hidden bg-[#F4F4F4]" style="margin-top: <?php echo $i % 2 === 0 ? 80 : 0; ?>px;">
+        <div class="carousel-card h-64 w-48 shrink-0 overflow-hidden rounded-2xl bg-[#F4F4F4] sm:h-80 sm:w-60 sm:rounded-3xl md:h-96 md:w-72 xl:h-120 xl:w-96 <?php echo $i % 2 === 0 ? 'mt-8 xl:mt-20' : ''; ?>">
           <img
             src="<?php echo esc_url($card['url']); ?>"
             alt=""

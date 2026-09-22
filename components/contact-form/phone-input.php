@@ -45,10 +45,10 @@ $gf_country_lang = gf_current_lang();
         data-phone-lengths="<?php echo esc_attr(implode(',', $default_entry['validLengths'] ?? [6,15])); ?>">
     <button type="button"
             data-phone-trigger
-            class="flex items-center gap-2 pl-7 pr-3 py-4 outline-none shrink-0 cursor-pointer"
+             class="flex shrink-0 cursor-pointer items-center gap-1.5 px-4 py-3.5 text-sm outline-none sm:gap-2 sm:px-6 sm:py-4 sm:text-base xl:pl-7 xl:pr-3 xl:py-4"
             aria-haspopup="listbox"
             aria-expanded="false">
-      <span data-phone-flag class="leading-none shrink-0"><?php echo code_to_flag_emoji($default_entry['code']); ?></span>
+      <span data-phone-flag class="shrink-0 text-lg leading-none sm:text-xl xl:text-2xl"><?php echo code_to_flag_emoji($default_entry['code']); ?></span>
       <span data-phone-code class="text-dark"><?php echo esc_html($default_entry['phoneCode']); ?></span>
       <?php echo get_icon('chevron-down', 'h-5 w-5 text-dark transition-transform duration-200 pointer-events-none'); ?>
     </button>
@@ -59,12 +59,12 @@ $gf_country_lang = gf_current_lang();
            name="telefono_numero"
            placeholder="<?php echo esc_attr(gf_e('contact.phone_placeholder')); ?>"
            data-phone-number
-           class="bg-transparent text-dark outline-none flex-1 min-w-0 pl-4 pr-7 py-4"
+            class="min-w-0 flex-1 bg-transparent py-3.5 pl-3 pr-4 text-sm text-dark outline-none sm:py-4 sm:pl-4 sm:pr-6 sm:text-base xl:pr-7 xl:py-4"
            autocomplete="tel-national"/>
   </div>
 
   <div data-phone-list
-       class="hidden absolute left-0 right-0 top-full mt-2 z-50 bg-[#F8F8F8] rounded-xl shadow-2xl overflow-hidden max-h-80 overflow-y-auto"
+       class="absolute left-0 right-0 top-full z-50 mt-2 hidden max-h-[60vh] overflow-y-auto rounded-xl bg-[#F8F8F8] shadow-2xl sm:max-h-80"
        role="listbox">
     <div class="sticky top-0 bg-[#F8F8F8] border-b-3 border-[#EDEDED] p-3">
       <input type="text"

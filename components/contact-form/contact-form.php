@@ -1,5 +1,6 @@
 <?php
 
+// Carga las opciones de asunto administrables para el selector del formulario.
 $contact_subject_posts = get_posts(array(
     'post_type'      => 'contact_subject',
     'posts_per_page' => -1,
@@ -16,77 +17,76 @@ foreach ($contact_subject_posts as $post) {
 }
 unset($post);
 
+// Lee el resultado del envío y conserva la URL para el redireccionamiento.
 $status = isset($_GET['contact']) ? sanitize_key($_GET['contact']) : '';
 $redirect_to = esc_url(add_query_arg(null, null));
 ?>
 
+<?php // Avisos de éxito o error después del envío. ?>
 <?php if ($status === 'ok'): ?>
-  <div data-auto-dismiss class="mb-6 p-4 bg-green-100 border border-green-400 text-green-800 rounded-xl  flex items-center justify-between transition-opacity duration-500">
+  <div data-auto-dismiss class="mb-5 flex items-center justify-between rounded-xl border border-green-400 bg-green-100 p-3 text-sm text-green-800 transition-opacity duration-500 sm:mb-6 sm:p-4 sm:text-base">
     <span><?php gf_render_e('contact.success'); ?></span>
     <a href="<?php echo esc_url(remove_query_arg('contact')); ?>"
        class="text-green-800/60 hover:text-green-800 ml-4 text-lg leading-none">&times;</a>
   </div>
 <?php elseif ($status === 'error'): ?>
-  <div data-auto-dismiss class="mb-6 p-4 bg-red-100 border border-red-400 text-red-800 rounded-xl  flex items-center justify-between transition-opacity duration-500">
+  <div data-auto-dismiss class="mb-5 flex items-center justify-between rounded-xl border border-red-400 bg-red-100 p-3 text-sm text-red-800 transition-opacity duration-500 sm:mb-6 sm:p-4 sm:text-base">
     <span><?php gf_render_e('contact.error'); ?></span>
     <a href="<?php echo esc_url(remove_query_arg('contact')); ?>"
        class="text-red-800/60 hover:text-red-800 ml-4 text-lg leading-none">&times;</a>
   </div>
 <?php endif; ?>
 
+<!-- Formulario principal y campos ocultos para el endpoint de WordPress. -->
 <form id="contactForm"
       action="<?php echo esc_url(admin_url('admin-post.php')); ?>"
       method="post" novalidate class="w-full">
   <input type="hidden" name="action" value="grupofadiar_contact">
   <input type="hidden" name="redirect_to" value="<?php echo $redirect_to; ?>">
+
+  <!-- Honeypot antispam: debe permanecer vacío y oculto para usuarios. -->
   <textarea name="website" class="hidden" tabindex="-1"
             autocomplete="off" aria-hidden="true"></textarea>
 
-  <div class="grid md:grid-cols-2 gap-x-6 gap-y-6">
+  <div class="grid gap-x-4 gap-y-4 md:grid-cols-2 md:gap-x-6 md:gap-y-6">
 
+    <!-- Datos personales: nombre y correo se organizan en columnas desde tablet. -->
     <div class="relative">
       <input type="text" name="nombre" placeholder="<?php echo esc_attr(gf_e('contact.name')); ?>"
-             class="bg-[#F4F4F4] rounded-full px-7 py-4 text-dark outline-none focus:ring-3 focus:ring-dark w-full data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500"/>
+             class="w-full rounded-full bg-[#F4F4F4] px-5 py-3.5 text-sm text-dark outline-none focus:ring-3 focus:ring-dark sm:px-6 sm:py-4 sm:text-base xl:px-7 xl:py-4 data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500"/>
       <p data-error class="hidden text-sm text-red-500 mt-1 ml-2"><?php gf_render_e('contact.name_error'); ?></p>
     </div>
 
     <div class="relative">
       <input type="email" name="correo" placeholder="<?php echo esc_attr(gf_e('contact.email')); ?>"
-             class="bg-[#F4F4F4] rounded-full px-7 py-4 text-dark outline-none focus:ring-3 focus:ring-dark w-full data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500"/>
+             class="w-full rounded-full bg-[#F4F4F4] px-5 py-3.5 text-sm text-dark outline-none focus:ring-3 focus:ring-dark sm:px-6 sm:py-4 sm:text-base xl:px-7 xl:py-4 data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500"/>
       <p data-error class="hidden text-sm text-red-500 mt-1 ml-2"><?php gf_render_e('contact.email_error'); ?></p>
     </div>
 
+    <!-- Selector de país y teléfono, incluido como componente reutilizable. -->
     <?php include __DIR__ . '/phone-input.php'; ?>
 
+    <!-- Selector de asunto con opciones dinámicas y validación propia. -->
     <div class="relative md:col-span-2" data-subject-dropdown>
       <button type="button" data-subject-trigger
-               class="w-full bg-[#F4F4F4] rounded-full px-7 py-4 text-dark flex items-center justify-between gap-2 cursor-pointer hover:bg-[#ECECEC] transition-colors outline-none focus:ring-3 focus:ring-dark data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500">
-        <span data-subject-label class="text-dark/45"><?php gf_render_e('contact.subject'); ?></span>
-        <?php echo get_icon('chevron-down', 'h-8 w-8 text-dark transition-transform duration-200 pointer-events-none'); ?>
+               class="flex h-12 w-full cursor-pointer items-center justify-between gap-2 rounded-full bg-[#F4F4F4] px-5 text-sm text-dark outline-none transition-colors hover:bg-[#ECECEC] focus:ring-3 focus:ring-dark sm:h-14 sm:px-6 xl:h-14 xl:px-7 data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500">
+         <span data-subject-label class="text-sm text-dark/45"><?php gf_render_e('contact.subject'); ?></span>
+         <?php echo get_icon('chevron-down', 'h-6 w-6 text-dark transition-transform duration-200 pointer-events-none sm:h-7 sm:w-7 xl:h-8 xl:w-8'); ?>
       </button>
       <div data-subject-list
-           class="hidden absolute left-0 right-0 top-full mt-2 z-50 bg-[#F8F8F8] rounded-xl shadow-2xl overflow-hidden max-h-80 overflow-y-auto"
+            class="absolute left-0 right-0 top-full z-50 mt-2 hidden max-h-[60vh] overflow-y-auto rounded-xl bg-[#F8F8F8] shadow-2xl sm:max-h-80"
            role="listbox">
         <div class="flex flex-col">
-          <label class="flex items-center gap-4 py-4 px-6 border-b-3 border-[#EDEDED] cursor-pointer text-dark hover:bg-gray-200 rounded transition-colors">
-            <input type="radio" name="asunto" value=""
-                   data-subject-radio data-subject-label-text="<?php echo esc_attr(gf_e('contact.subject')); ?>"
-                   class="peer sr-only" checked>
-            <span class="w-5 h-5 rounded-full border-2 border-dark flex items-center justify-center shrink-0 peer-checked:border-secondary peer-checked:[&>span]:scale-100">
-              <span class="w-2.5 h-2.5 rounded-full bg-secondary scale-0 transition"></span>
-            </span>
-            <span class="font-normal peer-checked:font-bold peer-checked:text-secondary"><?php gf_render_e('contact.subject_none'); ?></span>
-          </label>
           <?php foreach ($contact_subjects as $subject_data):
             $subject_title = gf_get_post_title($subject_data['id']);
           ?>
-            <label class="flex items-center gap-4 py-4 px-6 border-b-3 border-[#EDEDED] last:border-0 cursor-pointer text-dark hover:bg-gray-200 rounded transition-colors">
+            <label class="flex cursor-pointer items-center gap-4 rounded border-b-3 border-[#EDEDED] px-6 py-4 text-sm text-dark transition-colors hover:bg-gray-200 last:border-0">
               <input type="radio" name="asunto"
                      value="<?php echo esc_attr($subject_data['title']); ?>"
                      data-subject-radio
                      data-subject-label-text="<?php echo esc_attr($subject_title); ?>"
                      class="peer sr-only">
-              <span class="w-5 h-5 rounded-full border-2 border-dark flex items-center justify-center shrink-0 peer-checked:border-secondary peer-checked:[&>span]:scale-100">
+              <span class="w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 border-dark flex items-center justify-center shrink-0 peer-checked:border-secondary peer-checked:[&>span]:scale-100">
                 <span class="w-2.5 h-2.5 rounded-full bg-secondary scale-0 transition"></span>
               </span>
               <span class="font-normal peer-checked:font-bold peer-checked:text-secondary"><?php echo esc_html($subject_title); ?></span>
@@ -97,12 +97,13 @@ $redirect_to = esc_url(add_query_arg(null, null));
       <p data-error class="hidden text-sm text-red-500 mt-1"><?php gf_render_e('contact.subject_error'); ?></p>
     </div>
 
+    <!-- Mensaje libre y contador de palabras. -->
     <div class="md:col-span-2">
       <div class="relative">
         <textarea name="mensaje" placeholder="<?php echo esc_attr(gf_e('contact.message')); ?>"
                   rows="6" data-word-limit="100"
-                  class="bg-[#F4F4F4] rounded-2xl pl-7 pr-20 pt-4 pb-14 text-dark outline-none focus:ring-3 focus:ring-dark w-full resize-none data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500"></textarea>
-        <div class="pointer-events-none absolute right-7 bottom-7 flex items-center gap-2 text-sm text-dark/60">
+                   class="w-full resize-none rounded-2xl bg-[#F4F4F4] pb-12 pl-5 pr-16 pt-4 text-sm text-dark outline-none focus:ring-3 focus:ring-dark sm:pl-6 sm:pr-20 sm:text-base xl:pl-7 xl:pr-20 xl:pb-14 data-[invalid=true]:ring-3 data-[invalid=true]:ring-red-500"></textarea>
+        <div class="pointer-events-none absolute bottom-5 right-5 flex items-center gap-2 text-xs text-dark/60 sm:bottom-7 sm:right-7 sm:text-sm">
           <span data-counter>0/100</span>
           <?php echo get_icon('paperclip', 'h-4 w-4'); ?>
         </div>
@@ -112,17 +113,19 @@ $redirect_to = esc_url(add_query_arg(null, null));
 
   </div>
 
+  <!-- Consentimiento de privacidad y error asociado. -->
   <div class="relative mt-4">
     <label data-privacidad-wrapper
-           class="flex items-start gap-2  text-[#8C8C8C] cursor-pointer">
-      <input type="checkbox" name="privacidad" class="h-5 w-5 accent-dark"/>
-      <span><?php gf_render_e('contact.privacy'); ?></span>
+           class="flex cursor-pointer items-start gap-2 text-sm leading-snug text-[#8C8C8C] sm:text-base">
+      <input type="checkbox" name="privacidad" class="mt-0.5 h-5 w-5 shrink-0 accent-dark"/>
+      <span class="min-w-0"><?php gf_render_e('contact.privacy'); ?></span>
     </label>
     <p data-error class="hidden text-sm text-red-500 mt-1"><?php gf_render_e('contact.privacy_error'); ?></p>
   </div>
 
+  <!-- Envío del formulario y plantilla del indicador de carga. -->
   <button type="submit" data-submit-btn
-          class="mt-5 w-full bg-dark text-white py-4 rounded-xl text-lg font-medium hover:opacity-90 transition cursor-pointer disabled:cursor-not-allowed">
+           class="mt-5 w-full cursor-pointer rounded-xl bg-dark py-3.5 text-base font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed sm:py-4 sm:text-lg xl:py-4">
     <span data-submit-text class="inline-flex items-center gap-2"><?php gf_render_e('contact.submit'); ?></span>
   </button>
 
@@ -130,282 +133,3 @@ $redirect_to = esc_url(add_query_arg(null, null));
     <?php echo get_icon('spinner', 'h-5 w-5 animate-spin'); ?>
   </template>
 </form>
-
-<script>
-(function () {
-  const root = document.querySelector('[data-subject-dropdown]');
-  if (!root) return;
-  const trigger = root.querySelector('[data-subject-trigger]');
-  const list = root.querySelector('[data-subject-list]');
-  const arrow = trigger && trigger.querySelector('svg');
-  const radios = root.querySelectorAll('[data-subject-radio]');
-  const label = root.querySelector('[data-subject-label]');
-
-  const open = function () {
-    list.classList.remove('hidden');
-    if (arrow) arrow.classList.add('rotate-180');
-  };
-  const close = function () {
-    list.classList.add('hidden');
-    if (arrow) arrow.classList.remove('rotate-180');
-  };
-  const toggle = function () {
-    list.classList.contains('hidden') ? open() : close();
-  };
-
-  trigger.addEventListener('click', toggle);
-  document.addEventListener('click', function (e) {
-    if (!root.contains(e.target)) close();
-  });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') close();
-  });
-
-  radios.forEach(function (radio) {
-    radio.addEventListener('change', function () {
-      if (!radio.checked) return;
-      const labelText = radio.getAttribute('data-subject-label-text');
-      const value = radio.value;
-      if (label) {
-        label.textContent = labelText;
-        if (value === '') {
-          label.classList.add('text-dark/45');
-        } else {
-          label.classList.remove('text-dark/45');
-        }
-      }
-      close();
-    });
-  });
-})();
-
-(function () {
-  const root = document.querySelector('[data-phone-input]');
-  if (!root) return;
-
-  const trigger   = root.querySelector('[data-phone-trigger]');
-  const list      = root.querySelector('[data-phone-list]');
-  const arrow     = trigger.querySelector('svg');
-  const flag      = root.querySelector('[data-phone-flag]');
-  const code       = root.querySelector('[data-phone-code]');
-  const number    = root.querySelector('[data-phone-number]');
-  const hidden    = root.querySelector('[data-phone-hidden]');
-  const search    = root.querySelector('[data-phone-search]');
-  const emptyNote = root.querySelector('[data-phone-empty]');
-  const labels    = root.querySelectorAll('[data-country-code]');
-
-  function emit() {
-    const digits = number.value.replace(/[^0-9]/g, '');
-    hidden.value = code.textContent.trim() + ' ' + digits;
-  }
-
-  function open()  { list.classList.remove('hidden'); arrow && arrow.classList.add('rotate-180'); trigger.setAttribute('aria-expanded', 'true'); }
-  function close() { list.classList.add('hidden');    arrow && arrow.classList.remove('rotate-180'); trigger.setAttribute('aria-expanded', 'false'); }
-  function toggle() { list.classList.contains('hidden') ? open() : close(); }
-
-  trigger.addEventListener('click', toggle);
-  document.addEventListener('click', function (e) { if (!root.contains(e.target)) close(); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
-
-  function normalize(s) {
-    return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  }
-
-  labels.forEach(function (label) {
-    label.addEventListener('click', function (e) {
-      e.preventDefault();
-      flag.textContent = label.getAttribute('data-country-emoji');
-      code.textContent = label.getAttribute('data-country-dial');
-      const container = root.querySelector('[data-phone-container]');
-      if (container) container.setAttribute('data-phone-lengths', label.getAttribute('data-country-lengths'));
-      number.value = '';
-      close();
-      emit();
-      clearError();
-      number.focus();
-    });
-  });
-
-  function clearError() {
-    const c = root.querySelector('[data-phone-container]');
-    if (c) c.removeAttribute('data-invalid');
-    const err = root.querySelector('[data-error]');
-    if (err) err.classList.add('hidden');
-  }
-
-  search.addEventListener('input', function () {
-    const q = normalize(search.value);
-    let visible = 0;
-    labels.forEach(function (l) {
-      const name = normalize(l.getAttribute('data-country-name'));
-      const show = name.indexOf(q) !== -1;
-      l.style.display = show ? '' : 'none';
-      if (show) visible++;
-    });
-    emptyNote.classList.toggle('hidden', visible > 0);
-  });
-
-  number.addEventListener('input', function () {
-    const v = number.value.replace(/[^0-9]/g, '');
-    if (v !== number.value) number.value = v;
-    emit();
-    const ev = new Event('input', { bubbles: true });
-    hidden.dispatchEvent(ev);
-  });
-
-  emit();
-})();
-
-(function () {
-  const form = document.getElementById('contactForm');
-  if (!form) return;
-
-  const S = window.gfStrings || {};
-  const rules = [
-    { name: 'nombre',    selector: 'input[name="nombre"]',       test: function (v) { return /^\S+(?:\s+\S+){2,}$/.test(v.trim()); },           msg: S['contact.name_error'] || 'Ingresa tu nombre y ambos apellidos',   event: 'input' },
-    { name: 'correo',    selector: 'input[name="correo"]',      test: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); },   msg: S['contact.email_error'] || 'Correo electrónico no válido',           event: 'input' },
-    { name: 'telefono',  selector: 'input[name="telefono"]',    test: function (v) {
-      const m = v.trim().match(/^\+?\d{1,4}\s(\d+)$/);
-      if (!m) return false;
-      const container = document.querySelector('[data-phone-container]');
-      if (!container) return false;
-      const lengths = (container.getAttribute('data-phone-lengths') || '').split(',');
-      return lengths.indexOf(String(m[1].length)) !== -1;
-    },         msg: S['contact.phone_error'] || 'Ingresa un número de teléfono válido',   event: 'input',  isPhone: true },
-    { name: 'asunto',    selector: 'input[name="asunto"]',      test: function ()  { const c = form.querySelector('input[name="asunto"]:checked'); return c && c.value !== ''; }, msg: S['contact.subject_error'] || 'Selecciona un asunto', event: 'change', isRadio: true },
-    { name: 'mensaje',   selector: 'textarea[name="mensaje"]',  test: function (v) { const w = v.trim() ? v.trim().split(/\s+/).length : 0; return w > 0 && w <= 100; },  msg: S['contact.message_limit'] || 'El mensaje no puede exceder las 100 palabras',  event: 'input' },
-    { name: 'privacidad', selector: 'input[name="privacidad"]', test: function (_, el) { return el.checked; },                                 msg: S['contact.privacy_error'] || 'Debes aceptar la política de privacidad', event: 'change' },
-  ];
-
-  const els = {};
-  const errors = {};
-
-  rules.forEach(function (r) {
-    if (r.isRadio) {
-      const container = document.querySelector('[data-subject-dropdown]');
-      els[r.name] = container ? container.querySelector('[data-subject-trigger]') : null;
-      errors[r.name] = container ? container.querySelector('[data-error]') : null;
-    } else if (r.isPhone) {
-      const phoneWrap = document.querySelector('[data-phone-input]');
-      els[r.name] = form.querySelector(r.selector);
-      errors[r.name] = phoneWrap ? phoneWrap.querySelector('[data-error]') : null;
-    } else {
-      const el = form.querySelector(r.selector);
-      els[r.name] = el;
-      errors[r.name] = el ? el.closest('.relative').querySelector('[data-error]') : null;
-    }
-  });
-
-  function setError(name) {
-    if (name === 'privacidad') {
-      const w = document.querySelector('[data-privacidad-wrapper]');
-      if (w) w.setAttribute('data-invalid', 'true');
-    } else if (rules.some(function (r) { return r.name === name && r.isPhone; })) {
-      const c = document.querySelector('[data-phone-container]');
-      if (c) c.setAttribute('data-invalid', 'true');
-    } else if (els[name]) {
-      els[name].setAttribute('data-invalid', 'true');
-    }
-    if (errors[name]) errors[name].classList.remove('hidden');
-  }
-
-  function clearError(name) {
-    if (name === 'privacidad') {
-      const w = document.querySelector('[data-privacidad-wrapper]');
-      if (w) w.removeAttribute('data-invalid');
-    } else if (rules.some(function (r) { return r.name === name && r.isPhone; })) {
-      const c = document.querySelector('[data-phone-container]');
-      if (c) c.removeAttribute('data-invalid');
-    } else if (els[name]) {
-      els[name].removeAttribute('data-invalid');
-    }
-    if (errors[name]) errors[name].classList.add('hidden');
-  }
-
-  function validate(name) {
-    const r = rules.filter(function (x) { return x.name === name; })[0];
-    if (!r) return true;
-    const el = els[name];
-    if (!el) return true;
-    let valid;
-    if (r.isRadio) {
-      valid = r.test();
-    } else if (name === 'privacidad') {
-      valid = el.checked;
-    } else {
-      valid = r.test(el.value);
-    }
-    if (valid) clearError(name);
-    else setError(name);
-    return valid;
-  }
-
-  rules.forEach(function (r) {
-    if (r.isRadio) {
-      form.querySelectorAll('input[name="asunto"]').forEach(function (radio) {
-        radio.addEventListener('change', function () { validate('asunto'); });
-      });
-    } else {
-      const el = els[r.name];
-      if (el) el.addEventListener(r.event, function () { validate(r.name); });
-    }
-  });
-
-  const textarea = els.mensaje;
-  const counter = document.querySelector('[data-counter]');
-  if (textarea && counter) {
-    const limit = parseInt(textarea.getAttribute('data-word-limit')) || 100;
-    const update = function () {
-      const val = textarea.value.trim();
-      const words = val ? val.split(/\s+/).length : 0;
-      counter.textContent = words + '/' + limit;
-      if (words > limit) {
-        textarea.setAttribute('data-invalid', 'true');
-      } else {
-        textarea.removeAttribute('data-invalid');
-      }
-    };
-    textarea.addEventListener('input', update);
-    update();
-  }
-
-  form.addEventListener('submit', function (e) {
-    let ok = true;
-    rules.forEach(function (r) {
-      if (!validate(r.name)) ok = false;
-    });
-    if (!ok) {
-      e.preventDefault();
-      const first = form.querySelector('[data-invalid=true]');
-      if (first) {
-        const target = first.closest('.relative') || first.closest('[data-subject-dropdown]');
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-      return;
-    }
-    const btn = form.querySelector('[data-submit-btn]');
-    const text = btn.querySelector('[data-submit-text]');
-    const tmpl = document.getElementById('submitSpinnerTmpl');
-    text.textContent = '';
-    if (tmpl) text.appendChild(tmpl.content.firstElementChild.cloneNode(true));
-    text.appendChild(document.createTextNode(' ' + (window.gfStrings['contact.submitting'] || 'Enviando...')));
-    btn.disabled = true;
-  });
-})();
-
-(function () {
-  const el = document.querySelector('[data-auto-dismiss]');
-  if (!el) return;
-  setTimeout(function () {
-    el.classList.add('opacity-0');
-    setTimeout(function () {
-      if (el.parentNode) el.parentNode.removeChild(el);
-      if (window.history.replaceState) {
-        const url = window.location.pathname + window.location.search.replace(/[?&]contact=[^&]*/, '').replace(/^&/, '?');
-        if (window.location.hash) url += window.location.hash;
-        window.history.replaceState({}, '', url);
-      }
-    }, 500);
-  }, 30000);
-})();
-</script>
