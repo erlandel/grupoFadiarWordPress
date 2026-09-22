@@ -133,23 +133,23 @@ $redirect_to = esc_url(add_query_arg(null, null));
 
 <script>
 (function () {
-  var root = document.querySelector('[data-subject-dropdown]');
+  const root = document.querySelector('[data-subject-dropdown]');
   if (!root) return;
-  var trigger = root.querySelector('[data-subject-trigger]');
-  var list = root.querySelector('[data-subject-list]');
-  var arrow = trigger && trigger.querySelector('svg');
-  var radios = root.querySelectorAll('[data-subject-radio]');
-  var label = root.querySelector('[data-subject-label]');
+  const trigger = root.querySelector('[data-subject-trigger]');
+  const list = root.querySelector('[data-subject-list]');
+  const arrow = trigger && trigger.querySelector('svg');
+  const radios = root.querySelectorAll('[data-subject-radio]');
+  const label = root.querySelector('[data-subject-label]');
 
-  var open = function () {
+  const open = function () {
     list.classList.remove('hidden');
     if (arrow) arrow.classList.add('rotate-180');
   };
-  var close = function () {
+  const close = function () {
     list.classList.add('hidden');
     if (arrow) arrow.classList.remove('rotate-180');
   };
-  var toggle = function () {
+  const toggle = function () {
     list.classList.contains('hidden') ? open() : close();
   };
 
@@ -164,8 +164,8 @@ $redirect_to = esc_url(add_query_arg(null, null));
   radios.forEach(function (radio) {
     radio.addEventListener('change', function () {
       if (!radio.checked) return;
-      var labelText = radio.getAttribute('data-subject-label-text');
-      var value = radio.value;
+      const labelText = radio.getAttribute('data-subject-label-text');
+      const value = radio.value;
       if (label) {
         label.textContent = labelText;
         if (value === '') {
@@ -180,22 +180,22 @@ $redirect_to = esc_url(add_query_arg(null, null));
 })();
 
 (function () {
-  var root = document.querySelector('[data-phone-input]');
+  const root = document.querySelector('[data-phone-input]');
   if (!root) return;
 
-  var trigger   = root.querySelector('[data-phone-trigger]');
-  var list      = root.querySelector('[data-phone-list]');
-  var arrow     = trigger.querySelector('svg');
-  var flag      = root.querySelector('[data-phone-flag]');
-  var code       = root.querySelector('[data-phone-code]');
-  var number    = root.querySelector('[data-phone-number]');
-  var hidden    = root.querySelector('[data-phone-hidden]');
-  var search    = root.querySelector('[data-phone-search]');
-  var emptyNote = root.querySelector('[data-phone-empty]');
-  var labels    = root.querySelectorAll('[data-country-code]');
+  const trigger   = root.querySelector('[data-phone-trigger]');
+  const list      = root.querySelector('[data-phone-list]');
+  const arrow     = trigger.querySelector('svg');
+  const flag      = root.querySelector('[data-phone-flag]');
+  const code       = root.querySelector('[data-phone-code]');
+  const number    = root.querySelector('[data-phone-number]');
+  const hidden    = root.querySelector('[data-phone-hidden]');
+  const search    = root.querySelector('[data-phone-search]');
+  const emptyNote = root.querySelector('[data-phone-empty]');
+  const labels    = root.querySelectorAll('[data-country-code]');
 
   function emit() {
-    var digits = number.value.replace(/[^0-9]/g, '');
+    const digits = number.value.replace(/[^0-9]/g, '');
     hidden.value = code.textContent.trim() + ' ' + digits;
   }
 
@@ -216,7 +216,7 @@ $redirect_to = esc_url(add_query_arg(null, null));
       e.preventDefault();
       flag.textContent = label.getAttribute('data-country-emoji');
       code.textContent = label.getAttribute('data-country-dial');
-      var container = root.querySelector('[data-phone-container]');
+      const container = root.querySelector('[data-phone-container]');
       if (container) container.setAttribute('data-phone-lengths', label.getAttribute('data-country-lengths'));
       number.value = '';
       close();
@@ -227,18 +227,18 @@ $redirect_to = esc_url(add_query_arg(null, null));
   });
 
   function clearError() {
-    var c = root.querySelector('[data-phone-container]');
+    const c = root.querySelector('[data-phone-container]');
     if (c) c.removeAttribute('data-invalid');
-    var err = root.querySelector('[data-error]');
+    const err = root.querySelector('[data-error]');
     if (err) err.classList.add('hidden');
   }
 
   search.addEventListener('input', function () {
-    var q = normalize(search.value);
-    var visible = 0;
+    const q = normalize(search.value);
+    let visible = 0;
     labels.forEach(function (l) {
-      var name = normalize(l.getAttribute('data-country-name'));
-      var show = name.indexOf(q) !== -1;
+      const name = normalize(l.getAttribute('data-country-name'));
+      const show = name.indexOf(q) !== -1;
       l.style.display = show ? '' : 'none';
       if (show) visible++;
     });
@@ -246,10 +246,10 @@ $redirect_to = esc_url(add_query_arg(null, null));
   });
 
   number.addEventListener('input', function () {
-    var v = number.value.replace(/[^0-9]/g, '');
+    const v = number.value.replace(/[^0-9]/g, '');
     if (v !== number.value) number.value = v;
     emit();
-    var ev = new Event('input', { bubbles: true });
+    const ev = new Event('input', { bubbles: true });
     hidden.dispatchEvent(ev);
   });
 
@@ -257,40 +257,40 @@ $redirect_to = esc_url(add_query_arg(null, null));
 })();
 
 (function () {
-  var form = document.getElementById('contactForm');
+  const form = document.getElementById('contactForm');
   if (!form) return;
 
-  var S = window.gfStrings || {};
-  var rules = [
+  const S = window.gfStrings || {};
+  const rules = [
     { name: 'nombre',    selector: 'input[name="nombre"]',       test: function (v) { return /^\S+(?:\s+\S+){2,}$/.test(v.trim()); },           msg: S['contact.name_error'] || 'Ingresa tu nombre y ambos apellidos',   event: 'input' },
     { name: 'correo',    selector: 'input[name="correo"]',      test: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); },   msg: S['contact.email_error'] || 'Correo electrónico no válido',           event: 'input' },
     { name: 'telefono',  selector: 'input[name="telefono"]',    test: function (v) {
-      var m = v.trim().match(/^\+?\d{1,4}\s(\d+)$/);
+      const m = v.trim().match(/^\+?\d{1,4}\s(\d+)$/);
       if (!m) return false;
-      var container = document.querySelector('[data-phone-container]');
+      const container = document.querySelector('[data-phone-container]');
       if (!container) return false;
-      var lengths = (container.getAttribute('data-phone-lengths') || '').split(',');
+      const lengths = (container.getAttribute('data-phone-lengths') || '').split(',');
       return lengths.indexOf(String(m[1].length)) !== -1;
     },         msg: S['contact.phone_error'] || 'Ingresa un número de teléfono válido',   event: 'input',  isPhone: true },
-    { name: 'asunto',    selector: 'input[name="asunto"]',      test: function ()  { var c = form.querySelector('input[name="asunto"]:checked'); return c && c.value !== ''; }, msg: S['contact.subject_error'] || 'Selecciona un asunto', event: 'change', isRadio: true },
-    { name: 'mensaje',   selector: 'textarea[name="mensaje"]',  test: function (v) { var w = v.trim() ? v.trim().split(/\s+/).length : 0; return w > 0 && w <= 100; },  msg: S['contact.message_limit'] || 'El mensaje no puede exceder las 100 palabras',  event: 'input' },
+    { name: 'asunto',    selector: 'input[name="asunto"]',      test: function ()  { const c = form.querySelector('input[name="asunto"]:checked'); return c && c.value !== ''; }, msg: S['contact.subject_error'] || 'Selecciona un asunto', event: 'change', isRadio: true },
+    { name: 'mensaje',   selector: 'textarea[name="mensaje"]',  test: function (v) { const w = v.trim() ? v.trim().split(/\s+/).length : 0; return w > 0 && w <= 100; },  msg: S['contact.message_limit'] || 'El mensaje no puede exceder las 100 palabras',  event: 'input' },
     { name: 'privacidad', selector: 'input[name="privacidad"]', test: function (_, el) { return el.checked; },                                 msg: S['contact.privacy_error'] || 'Debes aceptar la política de privacidad', event: 'change' },
   ];
 
-  var els = {};
-  var errors = {};
+  const els = {};
+  const errors = {};
 
   rules.forEach(function (r) {
     if (r.isRadio) {
-      var container = document.querySelector('[data-subject-dropdown]');
+      const container = document.querySelector('[data-subject-dropdown]');
       els[r.name] = container ? container.querySelector('[data-subject-trigger]') : null;
       errors[r.name] = container ? container.querySelector('[data-error]') : null;
     } else if (r.isPhone) {
-      var phoneWrap = document.querySelector('[data-phone-input]');
+      const phoneWrap = document.querySelector('[data-phone-input]');
       els[r.name] = form.querySelector(r.selector);
       errors[r.name] = phoneWrap ? phoneWrap.querySelector('[data-error]') : null;
     } else {
-      var el = form.querySelector(r.selector);
+      const el = form.querySelector(r.selector);
       els[r.name] = el;
       errors[r.name] = el ? el.closest('.relative').querySelector('[data-error]') : null;
     }
@@ -298,10 +298,10 @@ $redirect_to = esc_url(add_query_arg(null, null));
 
   function setError(name) {
     if (name === 'privacidad') {
-      var w = document.querySelector('[data-privacidad-wrapper]');
+      const w = document.querySelector('[data-privacidad-wrapper]');
       if (w) w.setAttribute('data-invalid', 'true');
     } else if (rules.some(function (r) { return r.name === name && r.isPhone; })) {
-      var c = document.querySelector('[data-phone-container]');
+      const c = document.querySelector('[data-phone-container]');
       if (c) c.setAttribute('data-invalid', 'true');
     } else if (els[name]) {
       els[name].setAttribute('data-invalid', 'true');
@@ -311,10 +311,10 @@ $redirect_to = esc_url(add_query_arg(null, null));
 
   function clearError(name) {
     if (name === 'privacidad') {
-      var w = document.querySelector('[data-privacidad-wrapper]');
+      const w = document.querySelector('[data-privacidad-wrapper]');
       if (w) w.removeAttribute('data-invalid');
     } else if (rules.some(function (r) { return r.name === name && r.isPhone; })) {
-      var c = document.querySelector('[data-phone-container]');
+      const c = document.querySelector('[data-phone-container]');
       if (c) c.removeAttribute('data-invalid');
     } else if (els[name]) {
       els[name].removeAttribute('data-invalid');
@@ -323,11 +323,11 @@ $redirect_to = esc_url(add_query_arg(null, null));
   }
 
   function validate(name) {
-    var r = rules.filter(function (x) { return x.name === name; })[0];
+    const r = rules.filter(function (x) { return x.name === name; })[0];
     if (!r) return true;
-    var el = els[name];
+    const el = els[name];
     if (!el) return true;
-    var valid;
+    let valid;
     if (r.isRadio) {
       valid = r.test();
     } else if (name === 'privacidad') {
@@ -346,18 +346,18 @@ $redirect_to = esc_url(add_query_arg(null, null));
         radio.addEventListener('change', function () { validate('asunto'); });
       });
     } else {
-      var el = els[r.name];
+      const el = els[r.name];
       if (el) el.addEventListener(r.event, function () { validate(r.name); });
     }
   });
 
-  var textarea = els.mensaje;
-  var counter = document.querySelector('[data-counter]');
+  const textarea = els.mensaje;
+  const counter = document.querySelector('[data-counter]');
   if (textarea && counter) {
-    var limit = parseInt(textarea.getAttribute('data-word-limit')) || 100;
-    var update = function () {
-      var val = textarea.value.trim();
-      var words = val ? val.split(/\s+/).length : 0;
+    const limit = parseInt(textarea.getAttribute('data-word-limit')) || 100;
+    const update = function () {
+      const val = textarea.value.trim();
+      const words = val ? val.split(/\s+/).length : 0;
       counter.textContent = words + '/' + limit;
       if (words > limit) {
         textarea.setAttribute('data-invalid', 'true');
@@ -370,22 +370,22 @@ $redirect_to = esc_url(add_query_arg(null, null));
   }
 
   form.addEventListener('submit', function (e) {
-    var ok = true;
+    let ok = true;
     rules.forEach(function (r) {
       if (!validate(r.name)) ok = false;
     });
     if (!ok) {
       e.preventDefault();
-      var first = form.querySelector('[data-invalid=true]');
+      const first = form.querySelector('[data-invalid=true]');
       if (first) {
-        var target = first.closest('.relative') || first.closest('[data-subject-dropdown]');
+        const target = first.closest('.relative') || first.closest('[data-subject-dropdown]');
         if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
       return;
     }
-    var btn = form.querySelector('[data-submit-btn]');
-    var text = btn.querySelector('[data-submit-text]');
-    var tmpl = document.getElementById('submitSpinnerTmpl');
+    const btn = form.querySelector('[data-submit-btn]');
+    const text = btn.querySelector('[data-submit-text]');
+    const tmpl = document.getElementById('submitSpinnerTmpl');
     text.textContent = '';
     if (tmpl) text.appendChild(tmpl.content.firstElementChild.cloneNode(true));
     text.appendChild(document.createTextNode(' ' + (window.gfStrings['contact.submitting'] || 'Enviando...')));
@@ -394,14 +394,14 @@ $redirect_to = esc_url(add_query_arg(null, null));
 })();
 
 (function () {
-  var el = document.querySelector('[data-auto-dismiss]');
+  const el = document.querySelector('[data-auto-dismiss]');
   if (!el) return;
   setTimeout(function () {
     el.classList.add('opacity-0');
     setTimeout(function () {
       if (el.parentNode) el.parentNode.removeChild(el);
       if (window.history.replaceState) {
-        var url = window.location.pathname + window.location.search.replace(/[?&]contact=[^&]*/, '').replace(/^&/, '?');
+        const url = window.location.pathname + window.location.search.replace(/[?&]contact=[^&]*/, '').replace(/^&/, '?');
         if (window.location.hash) url += window.location.hash;
         window.history.replaceState({}, '', url);
       }

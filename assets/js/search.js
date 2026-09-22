@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-  var scrollHash = sessionStorage.getItem('gfScrollTo');
+  const scrollHash = sessionStorage.getItem('gfScrollTo');
   if (scrollHash) {
     sessionStorage.removeItem('gfScrollTo');
-    var targetEl = document.querySelector(scrollHash);
+    const targetEl = document.querySelector(scrollHash);
     if (targetEl) {
       setTimeout(function () {
         targetEl.scrollIntoView({ block: 'start', behavior: 'smooth' });
@@ -11,43 +11,43 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  var overlay = document.querySelector('.search-overlay');
-  var backdrop = document.querySelector('.search-backdrop');
-  var panelWrapper = document.querySelector('.search-panel-wrapper');
+  const overlay = document.querySelector('.search-overlay');
+  const backdrop = document.querySelector('.search-backdrop');
+  const panelWrapper = document.querySelector('.search-panel-wrapper');
   if (!overlay || !backdrop || !panelWrapper) return;
 
-  var input = overlay.querySelector('.search-input');
-  var resultsList = overlay.querySelector('.search-results-list');
-  var resultsContainer = overlay.querySelector('.search-results');
-  var emptyState = overlay.querySelector('.search-empty');
-  var noResults = overlay.querySelector('.search-no-results');
-  var queryText = overlay.querySelector('.search-query-text');
-  var loading = overlay.querySelector('.search-loading');
-  var loaderMore = overlay.querySelector('.search-loader-more');
-  var sentinel = overlay.querySelector('.search-sentinel');
-  var filters = overlay.querySelectorAll('.search-filter');
-  var closeBtn = overlay.querySelector('.search-close');
+  const input = overlay.querySelector('.search-input');
+  const resultsList = overlay.querySelector('.search-results-list');
+  const resultsContainer = overlay.querySelector('.search-results');
+  const emptyState = overlay.querySelector('.search-empty');
+  const noResults = overlay.querySelector('.search-no-results');
+  const queryText = overlay.querySelector('.search-query-text');
+  const loading = overlay.querySelector('.search-loading');
+  const loaderMore = overlay.querySelector('.search-loader-more');
+  const sentinel = overlay.querySelector('.search-sentinel');
+  const filters = overlay.querySelectorAll('.search-filter');
+  const closeBtn = overlay.querySelector('.search-close');
 
-  var currentFilter = 'todos';
-  var debounceTimer = null;
-  var restUrl = window.grupofadiarSearchData ? window.grupofadiarSearchData.restUrl : '/wp-json/grupofadiar/v1/search';
-  var strings = window.gfStrings || {};
-  var currentPage = 1;
-  var totalResults = 0;
-  var currentQuery = '';
-  var isLoadingMore = false;
-  var perPage = 10;
-  var visualViewport = window.visualViewport;
+  let currentFilter = 'todos';
+  let debounceTimer = null;
+  const restUrl = window.grupofadiarSearchData ? window.grupofadiarSearchData.restUrl : '/wp-json/grupofadiar/v1/search';
+  const strings = window.gfStrings || {};
+  let currentPage = 1;
+  let totalResults = 0;
+  let currentQuery = '';
+  let isLoadingMore = false;
+  const perPage = 10;
+  const visualViewport = window.visualViewport;
 
-  var suggestionHint = overlay.querySelector('.search-suggestion-hint');
-  var affinityMap = {
+  const suggestionHint = overlay.querySelector('.search-suggestion-hint');
+  const affinityMap = {
     productos: ['producto', 'productos', 'marca', 'marcas', 'eon', 'vital', 'lammina', 'comprar', 'precio', 'oferta', 'tienda'],
     noticias: ['noticia', 'noticias', 'feria', 'evento', 'eventos', 'lanzamiento', 'lanzamientos', 'actualidad', 'novedad', 'novedades'],
     corporativa: ['historia', 'mision', 'vision', 'valores', 'pilar', 'pilares', 'liderazgo', 'equipo', 'nosotros', 'sobre nosotros', 'i+d', 'innovacion', 'compromiso', 'modelo de negocio', 'escuelas', 'proyectos', 'comunidades', 'estrategia'],
     garantias: ['garantia', 'garantias', 'warranty', 'reclamacion', 'reclamar', 'reclamo', 'servicio tecnico', 'reparacion', 'reparar', 'registrar compra', 'numero de serie', 'soporte', 'evaluacion tecnica', 'paso', 'contactar soporte', 'faq', 'preguntas frecuentes']
   };
 
-  var scrollObserver = new IntersectionObserver(function (entries) {
+  const scrollObserver = new IntersectionObserver(function (entries) {
     if (entries[0].isIntersecting && hasMorePages() && !isLoadingMore) {
       isLoadingMore = true;
       if (loaderMore) {
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function decodeEntities(str) {
     if (!str) return '';
-    var txt = document.createElement('textarea');
+    const txt = document.createElement('textarea');
     txt.innerHTML = str;
     return txt.value;
   }
@@ -78,14 +78,14 @@ document.addEventListener('DOMContentLoaded', function () {
     clearSuggestion();
     if (query.length < 2) return;
 
-    var q = normalizeStr(query);
-    var bestFilter = null;
-    var bestScore = 0;
+    const q = normalizeStr(query);
+    let bestFilter = null;
+    let bestScore = 0;
 
-    for (var key in affinityMap) {
-      var score = 0;
-      var words = affinityMap[key];
-      for (var i = 0; i < words.length; i++) {
+    for (const key in affinityMap) {
+      let score = 0;
+      const words = affinityMap[key];
+      for (let i = 0; i < words.length; i++) {
         if (q.indexOf(normalizeStr(words[i])) !== -1) {
           score++;
         }
@@ -103,13 +103,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       });
       if (suggestionHint && window.matchMedia('(min-width: 768px)').matches) {
-        var filterName = '';
+        let filterName = '';
         filters.forEach(function (f) {
           if (f.getAttribute('data-filter') === bestFilter) {
             filterName = f.textContent.trim();
           }
         });
-        var label = strings['search.suggestion.label'] || 'Sugerencia:';
+        const label = strings['search.suggestion.label'] || 'Sugerencia:';
         suggestionHint.innerHTML = label + ' <strong>' + filterName + '</strong>';
         suggestionHint.classList.remove('hidden');
       }
@@ -122,11 +122,11 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function updatePanelPosition() {
-    var header = document.querySelector('.site-header');
-    var headerHeight = header ? header.getBoundingClientRect().height : 80;
-    var headerBottom = header ? header.getBoundingClientRect().bottom : 0;
-    var panelTop = headerBottom + 8;
-    var viewportHeight = visualViewport ? visualViewport.height : window.innerHeight;
+    const header = document.querySelector('.site-header');
+    const headerHeight = header ? header.getBoundingClientRect().height : 80;
+    const headerBottom = header ? header.getBoundingClientRect().bottom : 0;
+    const panelTop = headerBottom + 8;
+    const viewportHeight = visualViewport ? visualViewport.height : window.innerHeight;
 
     panelWrapper.style.setProperty('--header-h', headerHeight + 'px');
     backdrop.style.top = headerBottom + 'px';
@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function fetchResults(append) {
-    var query = input.value.trim();
+    const query = input.value.trim();
     currentQuery = query;
 
     if (query.length < 1 && currentFilter === 'todos') {
@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
       showLoading();
     }
 
-    var url = restUrl + '?search=' + encodeURIComponent(query) + '&filter=' + encodeURIComponent(currentFilter) + '&page=' + currentPage;
+    const url = restUrl + '?search=' + encodeURIComponent(query) + '&filter=' + encodeURIComponent(currentFilter) + '&page=' + currentPage;
 
     fetch(url)
       .then(function (response) { return response.json(); })
@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function hasHashInPath(urlStr) {
     try {
-      var u = new URL(urlStr, window.location.origin);
+      const u = new URL(urlStr, window.location.origin);
       return u.hash && u.hash.length > 1;
     } catch (e) {
       return false;
@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function isSamePage(urlStr) {
     try {
-      var u = new URL(urlStr, window.location.origin);
+      const u = new URL(urlStr, window.location.origin);
       return u.origin === window.location.origin && u.pathname === window.location.pathname;
     } catch (e) {
       return false;
@@ -278,10 +278,10 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function handleCardClick(e) {
-    var card = e.target.closest('a');
+    const card = e.target.closest('a');
     if (!card) return;
 
-    var href = card.getAttribute('href');
+    const href = card.getAttribute('href');
     if (!href) return;
 
     if (card.getAttribute('target') === '_blank') return;
@@ -293,9 +293,9 @@ document.addEventListener('DOMContentLoaded', function () {
     closeSearch();
 
     if (isSamePage(href)) {
-      var hash = href.indexOf('#') !== -1 ? href.substring(href.indexOf('#')) : '';
+      const hash = href.indexOf('#') !== -1 ? href.substring(href.indexOf('#')) : '';
       if (hash && hash.length > 1) {
-        var el = document.querySelector(hash);
+        const el = document.querySelector(hash);
         if (el) {
           setTimeout(function () {
             el.scrollIntoView({ block: 'start', behavior: 'smooth' });
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     data.results.forEach(function (item) {
-      var card = document.createElement('a');
+      const card = document.createElement('a');
       card.className = 'flex items-start gap-3 md:gap-4 p-3 md:p-4 rounded-xl transition-colors duration-200 hover:bg-dark/5 group cursor-pointer';
 
       if (item.external_url) {
@@ -347,7 +347,7 @@ document.addEventListener('DOMContentLoaded', function () {
         card.href = item.permalink;
       }
 
-      var thumbnailHtml = '';
+      let thumbnailHtml = '';
       if (item.thumbnail) {
         thumbnailHtml = '<div class="shrink-0 w-16 h-16 md:w-24 md:h-24 rounded-lg overflow-hidden bg-dark/5"><img src="' + escapeHtml(item.thumbnail) + '" alt="' + escapeHtml(decodeEntities(item.title)) + '" class="w-full h-full object-cover" /></div>';
       } else if (item.type === 'producto') {
@@ -386,7 +386,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function escapeHtml(str) {
     if (!str) return '';
-    var div = document.createElement('div');
+    const div = document.createElement('div');
     div.appendChild(document.createTextNode(str));
     return div.innerHTML;
   }

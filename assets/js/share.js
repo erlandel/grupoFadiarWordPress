@@ -1,19 +1,19 @@
 (function () {
   'use strict';
 
-  var container = document.getElementById('hero-share');
+  const container = document.getElementById('hero-share');
   if (!container) return;
 
-  var btn = container.querySelector('[data-share-btn]');
+  const btn = container.querySelector('[data-share-btn]');
   if (!btn) return;
 
-  var title  = container.dataset.shareTitle || '';
-  var url    = container.dataset.shareUrl   || '';
-  var date   = container.dataset.shareDate  || '';
-  var author = container.dataset.shareAuthor || '';
-  var image  = container.dataset.shareImage || '';
+  const title  = container.dataset.shareTitle || '';
+  const url    = container.dataset.shareUrl   || '';
+  const date   = container.dataset.shareDate  || '';
+  const author = container.dataset.shareAuthor || '';
+  const image  = container.dataset.shareImage || '';
 
-  var shareText = title;
+  let shareText = title;
   if (date) {
     shareText += '\n' + date;
     if (author) shareText += ' \u00b7 ' + author;
@@ -26,7 +26,7 @@
     // wa.me abre un chat directo de WhatsApp — no permite elegir app ni destino,
     // pero es la opción más universal cuando el navegador no soporta el share sheet.
     if (typeof navigator.share !== 'function') {
-      var waUrl = 'https://wa.me/?text=' + encodeURIComponent(shareText);
+      const waUrl = 'https://wa.me/?text=' + encodeURIComponent(shareText);
       window.open(waUrl, '_blank');
       return;
     }
@@ -36,7 +36,7 @@
     // ═══════════════════════════════════════════════════════════
 
     async function doShare() {
-      var file = null;
+      let file = null;
 
       // ── Descargar imagen → Blob → File ─────────────────────
       // Web Share API requiere objetos File nativos (no URLs).
@@ -44,13 +44,13 @@
       // Instagram/Facebook Stories puedan recibirla como adjunto.
       if (image) {
         try {
-          var resp = await fetch(image);
-          var blob = await resp.blob();
+          const resp = await fetch(image);
+          const blob = await resp.blob();
 
           // Extraer nombre y extensión del archivo de la URL
-          var segments = image.split('/');
-          var filename = segments[segments.length - 1] || 'noticia.jpg';
-          var mimeType = blob.type || 'image/jpeg';
+          const segments = image.split('/');
+          const filename = segments[segments.length - 1] || 'noticia.jpg';
+          const mimeType = blob.type || 'image/jpeg';
 
           file = new File([blob], filename, { type: mimeType });
 
@@ -59,7 +59,7 @@
         }
       }
 
-      var shareData = {
+      const shareData = {
         title: title,
         text: shareText,
         url: url,

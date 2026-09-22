@@ -1,68 +1,68 @@
 document.addEventListener('DOMContentLoaded', function () {
-  var sections = document.querySelectorAll('.reveal-section');
+  const sections = document.querySelectorAll('.reveal-section');
   if (!sections.length) return;
 
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (reduced || !('IntersectionObserver' in window)) {
-    for (var s = 0; s < sections.length; s++) {
-      var allItems = sections[s].querySelectorAll('.reveal-item, .reveal-item--zoom');
-      for (var i = 0; i < allItems.length; i++) {
+    for (let s = 0; s < sections.length; s++) {
+      const allItems = sections[s].querySelectorAll('.reveal-item, .reveal-item--zoom');
+      for (let i = 0; i < allItems.length; i++) {
         allItems[i].classList.add('is-visible-item');
       }
     }
     return;
   }
 
-  var STAGGER = 120;
-  var MAX_ITEMS = 10;
+  const STAGGER = 120;
+  const MAX_ITEMS = 10;
 
-  for (var s = 0; s < sections.length; s++) {
-    var section = sections[s];
-    var items = section.querySelectorAll('.reveal-item');
-    for (var i = 0; i < items.length; i++) {
-      var idx = i < MAX_ITEMS ? i : MAX_ITEMS - 1;
+  for (let s = 0; s < sections.length; s++) {
+    const section = sections[s];
+    const items = section.querySelectorAll('.reveal-item');
+    for (let i = 0; i < items.length; i++) {
+      const idx = i < MAX_ITEMS ? i : MAX_ITEMS - 1;
       items[i].style.setProperty('--reveal-delay', idx * STAGGER + 'ms');
     }
 
-    var productGrids = section.querySelectorAll('.grid');
-    for (var pg = 0; pg < productGrids.length; pg++) {
-      var grid = productGrids[pg];
-      var products = grid.querySelectorAll('.reveal-item--zoom');
+    const productGrids = section.querySelectorAll('.grid');
+    for (let pg = 0; pg < productGrids.length; pg++) {
+      const grid = productGrids[pg];
+      const products = grid.querySelectorAll('.reveal-item--zoom');
       if (products.length < 2) continue;
 
-      var ordered = [];
-      for (var pi = 0; pi < products.length; pi++) {
+      const ordered = [];
+      for (let pi = 0; pi < products.length; pi++) {
         ordered.push(products[pi]);
       }
       ordered.sort(function (a, b) {
-        var oa = parseInt(a.getAttribute('data-reveal-order'), 10) || 0;
-        var ob = parseInt(b.getAttribute('data-reveal-order'), 10) || 0;
+        const oa = parseInt(a.getAttribute('data-reveal-order'), 10) || 0;
+        const ob = parseInt(b.getAttribute('data-reveal-order'), 10) || 0;
         return oa - ob;
       });
 
-      for (var k = 0; k < ordered.length; k++) {
+      for (let k = 0; k < ordered.length; k++) {
         ordered[k].style.setProperty('--reveal-delay', k * 180 + 'ms');
       }
     }
 
-    var cardGroups = section.querySelectorAll('.flex.flex-wrap');
-    for (var g = 0; g < cardGroups.length; g++) {
-      var group = cardGroups[g];
-      var zoomCards = group.querySelectorAll('.reveal-item--zoom');
+    const cardGroups = section.querySelectorAll('.flex.flex-wrap');
+    for (let g = 0; g < cardGroups.length; g++) {
+      const group = cardGroups[g];
+      const zoomCards = group.querySelectorAll('.reveal-item--zoom');
       if (zoomCards.length < 3) continue;
 
-      var beforeCount = 0;
-      var prev = group.previousElementSibling;
+      let beforeCount = 0;
+      let prev = group.previousElementSibling;
       while (prev) {
         beforeCount += prev.querySelectorAll('.reveal-item, .reveal-item--zoom').length;
         prev = prev.previousElementSibling;
       }
 
-      var offset = beforeCount * STAGGER;
-      var len = zoomCards.length;
-      for (var i = 0; i < len; i++) {
-        var delay;
+      const offset = beforeCount * STAGGER;
+      const len = zoomCards.length;
+      for (let i = 0; i < len; i++) {
+        let delay;
         if (i === 0)            delay = 0;
         else if (i === len - 1) delay = STAGGER;
         else                    delay = STAGGER * 2;
@@ -70,40 +70,40 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
 
-    var pairContainers = section.querySelectorAll('[data-reveal-pairs]');
-    for (var pc = 0; pc < pairContainers.length; pc++) {
-      var container = pairContainers[pc];
-      var pairSize = parseInt(container.getAttribute('data-reveal-pairs'), 10) || 2;
-      var pairItems = container.querySelectorAll('.reveal-item');
+    const pairContainers = section.querySelectorAll('[data-reveal-pairs]');
+    for (let pc = 0; pc < pairContainers.length; pc++) {
+      const container = pairContainers[pc];
+      const pairSize = parseInt(container.getAttribute('data-reveal-pairs'), 10) || 2;
+      const pairItems = container.querySelectorAll('.reveal-item');
       if (pairItems.length < 2) continue;
 
-      var beforeCount = 0;
-      var prev = container.previousElementSibling;
+      let beforeCount = 0;
+      let prev = container.previousElementSibling;
       while (prev) {
         beforeCount += prev.querySelectorAll('.reveal-item, .reveal-item--zoom').length;
         prev = prev.previousElementSibling;
       }
 
-      var offset = beforeCount * STAGGER;
-      for (var i = 0; i < pairItems.length; i++) {
-        var pairIndex = Math.floor(i / pairSize);
-        var delay = offset + pairIndex * STAGGER * pairSize;
+      const offset = beforeCount * STAGGER;
+      for (let i = 0; i < pairItems.length; i++) {
+        const pairIndex = Math.floor(i / pairSize);
+        const delay = offset + pairIndex * STAGGER * pairSize;
         pairItems[i].style.setProperty('--reveal-delay', delay + 'ms');
       }
     }
 
-    var chunkContainers = section.querySelectorAll('[data-reveal-chunk]');
-    for (var cc = 0; cc < chunkContainers.length; cc++) {
-      var chunkItems = chunkContainers[cc].querySelectorAll('.reveal-item, .reveal-item--zoom');
-      for (var ci = 0; ci < chunkItems.length; ci++) {
+    const chunkContainers = section.querySelectorAll('[data-reveal-chunk]');
+    for (let cc = 0; cc < chunkContainers.length; cc++) {
+      const chunkItems = chunkContainers[cc].querySelectorAll('.reveal-item, .reveal-item--zoom');
+      for (let ci = 0; ci < chunkItems.length; ci++) {
         chunkItems[ci].style.setProperty('--reveal-delay', ci * STAGGER + 'ms');
       }
     }
   }
 
-  var itemObserver = new IntersectionObserver(function (entries) {
-    for (var e = 0; e < entries.length; e++) {
-      var entry = entries[e];
+  const itemObserver = new IntersectionObserver(function (entries) {
+    for (let e = 0; e < entries.length; e++) {
+      const entry = entries[e];
       if (entry.isIntersecting) {
         entry.target.classList.add('is-visible-item');
         itemObserver.unobserve(entry.target);
@@ -114,9 +114,9 @@ document.addEventListener('DOMContentLoaded', function () {
     rootMargin: '0px 0px 0px 0px'
   });
 
-  for (var s = 0; s < sections.length; s++) {
-    var allItems = sections[s].querySelectorAll('.reveal-item, .reveal-item--zoom');
-    for (var i = 0; i < allItems.length; i++) {
+  for (let s = 0; s < sections.length; s++) {
+    const allItems = sections[s].querySelectorAll('.reveal-item, .reveal-item--zoom');
+    for (let i = 0; i < allItems.length; i++) {
       itemObserver.observe(allItems[i]);
     }
   }

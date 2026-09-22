@@ -35,13 +35,13 @@ $links = array(
   <?php if (is_front_page() || is_home()) : ?>
   <script>
   (function () {
-    var hash = window.location.hash.slice(1);
-    var sections = ['ourBrands', 'products'];
+    const hash = window.location.hash.slice(1);
+    const sections = ['ourBrands', 'products'];
     if (sections.indexOf(hash) === -1) return;
 
      document.currentScript.parentElement.querySelectorAll('.desktop-primary-links > li > a').forEach(function (link) {
-      var href = link.getAttribute('href') || '';
-      var isActive = href.endsWith('#' + hash);
+       const href = link.getAttribute('href') || '';
+       const isActive = href.endsWith('#' + hash);
       link.classList.toggle('bg-dark', isActive);
       link.classList.toggle('text-secondary', isActive);
       link.classList.toggle('text-dark', !isActive);

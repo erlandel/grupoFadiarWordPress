@@ -1,43 +1,43 @@
 document.addEventListener('DOMContentLoaded', function () {
-  var breakpoint = window.matchMedia('(max-width: 1279px)');
-  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var carousels = document.querySelectorAll('.brands-carousel');
+  const breakpoint = window.matchMedia('(max-width: 1279px)');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const carousels = document.querySelectorAll('.brands-carousel');
 
   carousels.forEach(function (carousel) {
-    var track = carousel.querySelector('.brands-carousel-track');
-    var dots = carousel.querySelector('.brands-carousel-dots');
+    const track = carousel.querySelector('.brands-carousel-track');
+    const dots = carousel.querySelector('.brands-carousel-dots');
     if (!track) return;
 
-    var frame = null;
-    var lastTime = null;
-    var position = 0;
-    var phase = 0;
-    var pauseTimer = null;
-    var isPaused = false;
-    var activePointerId = null;
-    var dragStartX = 0;
-    var dragStartY = 0;
-    var dragStartPosition = 0;
-    var dragDelta = 0;
-    var isDragging = false;
-    var suppressNextClick = false;
-    var activeDotIndex = -1;
-    var speed = 24;
+    let frame = null;
+    let lastTime = null;
+    let position = 0;
+    let phase = 0;
+    let pauseTimer = null;
+    let isPaused = false;
+    let activePointerId = null;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let dragStartPosition = 0;
+    let dragDelta = 0;
+    let isDragging = false;
+    let suppressNextClick = false;
+    let activeDotIndex = -1;
+    const speed = 24;
 
     // Marca el punto correspondiente a la tarjeta más cercana al centro visible.
     function updateDots() {
       if (!dots || !breakpoint.matches) return;
 
-      var cards = Array.from(track.querySelectorAll('.brands-card'));
+      const cards = Array.from(track.querySelectorAll('.brands-card'));
       if (!cards.length) return;
 
-      var viewportCenter = carousel.clientWidth / 2;
-      var closestIndex = 0;
-      var closestDistance = Infinity;
+      const viewportCenter = carousel.clientWidth / 2;
+      let closestIndex = 0;
+      let closestDistance = Infinity;
 
       cards.forEach(function (card, index) {
-        var cardCenter = card.offsetLeft + card.offsetWidth / 2 - position;
-        var distance = Math.abs(cardCenter - viewportCenter);
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2 - position;
+        const distance = Math.abs(cardCenter - viewportCenter);
         if (distance < closestDistance) {
           closestDistance = distance;
           closestIndex = index;
@@ -53,13 +53,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function maxDistance() {
-      var cards = track.querySelectorAll('.brands-card');
+      const cards = track.querySelectorAll('.brands-card');
       if (!cards.length) return 0;
 
-      var lastCard = cards[cards.length - 1];
-      var trackStyles = window.getComputedStyle(track);
-      var rightPadding = parseFloat(trackStyles.paddingRight) || 0;
-      var lastEdge = lastCard.offsetLeft + lastCard.offsetWidth + rightPadding;
+      const lastCard = cards[cards.length - 1];
+      const trackStyles = window.getComputedStyle(track);
+      const rightPadding = parseFloat(trackStyles.paddingRight) || 0;
+      const lastEdge = lastCard.offsetLeft + lastCard.offsetWidth + rightPadding;
       return Math.max(0, lastEdge - carousel.clientWidth);
     }
 
@@ -73,14 +73,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function syncPhase(movingBackward) {
-      var limit = maxDistance();
+      const limit = maxDistance();
       if (limit === 0) {
         phase = 0;
         return;
       }
 
-      var progress = Math.min(1, Math.max(0, position / limit));
-      var angle = Math.acos(1 - 2 * progress);
+      const progress = Math.min(1, Math.max(0, position / limit));
+      const angle = Math.acos(1 - 2 * progress);
       phase = movingBackward ? Math.PI * 2 - angle : angle;
     }
 
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       if (lastTime !== null) {
-        var limit = maxDistance();
+        const limit = maxDistance();
         phase += speed * Math.PI * ((timestamp - lastTime) / 1000) / limit;
         phase %= Math.PI * 2;
         position = limit * (1 - Math.cos(phase)) / 2;
@@ -148,8 +148,8 @@ document.addEventListener('DOMContentLoaded', function () {
     carousel.addEventListener('pointermove', function (event) {
       if (event.pointerId !== activePointerId) return;
 
-      var deltaX = event.clientX - dragStartX;
-      var deltaY = event.clientY - dragStartY;
+      const deltaX = event.clientX - dragStartX;
+      const deltaY = event.clientY - dragStartY;
 
       if (!isDragging) {
         if (Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) return;
@@ -202,13 +202,13 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
-      var card = event.target.closest('.brands-card');
+      const card = event.target.closest('.brands-card');
       if (!card) return;
 
       if (event.target.closest('a') && card.classList.contains('is-expanded')) return;
 
       event.preventDefault();
-      var willExpand = !card.classList.contains('is-expanded');
+      const willExpand = !card.classList.contains('is-expanded');
       carousel.querySelectorAll('.brands-card.is-expanded').forEach(function (openCard) {
         openCard.classList.remove('is-expanded');
       });
@@ -217,13 +217,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function resize() {
-      var limit = maxDistance();
+      const limit = maxDistance();
       if (limit === 0) {
         position = 0;
         phase = 0;
       } else {
-        var progress = Math.min(1, position / limit);
-        var angle = Math.acos(1 - 2 * progress);
+        const progress = Math.min(1, position / limit);
+        const angle = Math.acos(1 - 2 * progress);
         phase = phase > Math.PI ? Math.PI * 2 - angle : angle;
         position = limit * (1 - Math.cos(phase)) / 2;
       }
