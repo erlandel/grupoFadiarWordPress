@@ -16,9 +16,14 @@ if (!$metrics_post_id && post_type_exists('about_us')) {
     }
 }
 
-$metrics_image = $metrics_post_id ? get_field('about_metrics_image', $metrics_post_id) : null;
-$metrics_image_url = (is_array($metrics_image) && !empty($metrics_image['url'])) ? $metrics_image['url'] : get_template_directory_uri() . '/assets/images/about/about.png';
-$metrics_image_alt = (is_array($metrics_image) && !empty($metrics_image['alt'])) ? $metrics_image['alt'] : 'Sobre Nosotros';
+$metrics_mobile_image  = $metrics_post_id ? get_field('about_metrics_image_mobile', $metrics_post_id) : null;
+$metrics_desktop_image = $metrics_post_id ? get_field('about_metrics_image', $metrics_post_id) : null;
+$metrics_default_url   = get_template_directory_uri() . '/assets/images/about/about.png';
+
+$metrics_desktop_image_url = (is_array($metrics_desktop_image) && !empty($metrics_desktop_image['url'])) ? $metrics_desktop_image['url'] : $metrics_default_url;
+$metrics_desktop_image_alt = (is_array($metrics_desktop_image) && !empty($metrics_desktop_image['alt'])) ? $metrics_desktop_image['alt'] : 'Sobre Nosotros';
+$metrics_mobile_image_url  = (is_array($metrics_mobile_image) && !empty($metrics_mobile_image['url'])) ? $metrics_mobile_image['url'] : $metrics_desktop_image_url;
+$metrics_mobile_image_alt  = (is_array($metrics_mobile_image) && !empty($metrics_mobile_image['alt'])) ? $metrics_mobile_image['alt'] : $metrics_desktop_image_alt;
 
 $metrics_value = array(
     1 => '500+',
@@ -53,36 +58,35 @@ if ($description_2 === '') {
     $description_2 = 'Nuestra filosofía "Diversidad de Soluciones, Un solo compromiso" refleja lo que somos, nuestra esencia. En Fadiar crecemos profesional y personalmente. Cada equipo, cada objeto que fabricamos y que llega a un hogar o negocio es un reto, un compromiso y, sobre todo, una oportunidad para ser útiles. Y en eso, ponemos lo mejor de nosotros. ¡Más que productos, compartimos experiencias';
 }
 ?>
-<section class="mt-10 w-full flex flex-col">
+<section class="mt-5 flex w-full flex-col xl:mt-10">
   <div class="w-full">
-    <img src="<?php echo esc_url($metrics_image_url); ?>" alt="<?php echo esc_attr($metrics_image_alt); ?>" class="reveal-item w-full h-auto" />
+    <img src="<?php echo esc_url($metrics_mobile_image_url); ?>" alt="<?php echo esc_attr($metrics_mobile_image_alt); ?>" class="reveal-item block h-auto w-full md:hidden" />
+    <img src="<?php echo esc_url($metrics_desktop_image_url); ?>" alt="<?php echo esc_attr($metrics_desktop_image_alt); ?>" class="reveal-item hidden h-auto w-full md:block" />
   </div>
 
-
- <div class="mx-30">
-  <div class="flex justify-between  -mt-20 text-center ">
-    <div class="reveal-item w-56 bg-white  py-6 shadow-xl flex flex-col items-center justify-center">
-      <h2 class="text-4xl font-black text-dark"><?php echo esc_html($metrics_value[1]); ?></h2>
-      <p class="text-2xl font-bold text-dark mt-2"><?php echo esc_html($metrics_label[1]); ?></p>
+ <div class="mx-8 md:mx-12 xl:mx-30">
+  <div class="-mt-16 grid grid-cols-2 gap-4 text-center md:grid-cols-4 md:gap-5 xl:-mt-20 xl:flex xl:justify-between">
+    <div class="reveal-item flex min-h-30 flex-col items-center justify-center bg-white px-3 py-5 shadow-xl xl:w-56 xl:px-0 xl:py-6">
+      <h2 class="text-3xl font-black text-dark xl:text-4xl"><?php echo esc_html($metrics_value[1]); ?></h2>
+      <p class="mt-2 text-sm font-bold leading-tight text-dark md:text-base xl:text-2xl"><?php echo esc_html($metrics_label[1]); ?></p>
     </div>
-    <div class="reveal-item w-56 bg-white px-5 py-6 shadow-xl flex flex-col items-center justify-center">
-      <h2 class="text-4xl font-black text-dark"><?php echo esc_html($metrics_value[2]); ?></h2>
-      <p class="text-2xl font-bold text-dark mt-2"><?php echo esc_html($metrics_label[2]); ?></p>
+    <div class="reveal-item flex min-h-30 flex-col items-center justify-center bg-white px-3 py-5 shadow-xl xl:w-56 xl:px-5 xl:py-6">
+      <h2 class="text-3xl font-black text-dark xl:text-4xl"><?php echo esc_html($metrics_value[2]); ?></h2>
+      <p class="mt-2 text-sm font-bold leading-tight text-dark md:text-base xl:text-2xl"><?php echo esc_html($metrics_label[2]); ?></p>
     </div>
-    <div class="reveal-item w-56 bg-white px-5 py-6 shadow-xl flex flex-col items-center justify-center">
-      <h2 class="text-4xl font-black text-dark"><?php echo esc_html($metrics_value[3]); ?></h2>
-      <p class="text-2xl font-bold text-dark mt-2"><?php echo esc_html($metrics_label[3]); ?></p>
+    <div class="reveal-item flex min-h-30 flex-col items-center justify-center bg-white px-3 py-5 shadow-xl xl:w-56 xl:px-5 xl:py-6">
+      <h2 class="text-3xl font-black text-dark xl:text-4xl"><?php echo esc_html($metrics_value[3]); ?></h2>
+      <p class="mt-2 text-sm font-bold leading-tight text-dark md:text-base xl:text-2xl"><?php echo esc_html($metrics_label[3]); ?></p>
     </div>
-    <div class="reveal-item w-56 bg-white px-5 py-6 shadow-xl flex flex-col items-center justify-center">
-      <h2 class="text-4xl font-black text-dark"><?php echo esc_html($metrics_value[4]); ?></h2>
-      <p class="text-2xl font-bold text-dark mt-2"><?php echo esc_html($metrics_label[4]); ?></p>
+    <div class="reveal-item flex min-h-30 flex-col items-center justify-center bg-white px-3 py-5 shadow-xl xl:w-56 xl:px-5 xl:py-6">
+      <h2 class="text-3xl font-black text-dark xl:text-4xl"><?php echo esc_html($metrics_value[4]); ?></h2>
+      <p class="mt-2 text-sm font-bold leading-tight text-dark md:text-base xl:text-2xl"><?php echo esc_html($metrics_label[4]); ?></p>
     </div>
   </div>
 </div>
 
-
-  <div class="mt-10 mx-30">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-15 font-open text-dark  text-justify">
+  <div class="mx-8 mt-10 md:mx-12 xl:mx-30">
+    <div class="grid grid-cols-1 gap-4 font-open text-sm leading-snug text-dark md:grid-cols-2 md:gap-10 md:text-base xl:gap-15 xl:text-justify">
       <div>
         <p class="reveal-item"><?php echo esc_html($description_1); ?></p>
       </div>

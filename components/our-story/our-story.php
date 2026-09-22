@@ -74,19 +74,19 @@ function grupofadiar_render_our_story_item($post) {
     get_template_part('components/accordion-item/accordion-item', null, $args);
 }
 ?>
-<section id="ourStory" class="scroll-mt-20 mt-10 w-full bg-[#F4F4F4]">
-  <div class="w-full py-15 px-30">
-    <div class="flex justify-around items-start gap-20">
-      <div class="w-1/2 text-lg">
-        <h2 class="reveal-item text-4xl font-black"><?php echo esc_html($title); ?></h2>
+<section id="ourStory" class="mt-10 w-full scroll-mt-20 bg-[#F4F4F4]">
+  <div class="w-full px-8 py-10 md:px-12 md:py-12 xl:px-30 xl:py-15">
+    <div class="flex flex-col items-start gap-8 xl:flex-row xl:justify-around xl:gap-20">
+      <div class="w-full text-sm leading-snug md:text-base xl:w-1/2 xl:text-lg">
+        <h2 class="reveal-item text-2xl font-black md:text-3xl xl:text-4xl"><?php echo esc_html($title); ?></h2>
         <?php if ($paragraph_1 !== ''): ?>
-          <div class="reveal-item mt-6 text-justify"><?php echo wpautop(wp_kses_post($paragraph_1)); ?></div>
+          <div class="reveal-item mt-3 xl:mt-6 xl:text-justify"><?php echo wpautop(wp_kses_post($paragraph_1)); ?></div>
         <?php endif; ?>
         <?php if ($paragraph_2 !== ''): ?>
-          <div class="reveal-item mt-4 text-justify"><?php echo wpautop(wp_kses_post($paragraph_2)); ?></div>
+          <div class="reveal-item mt-4 xl:text-justify"><?php echo wpautop(wp_kses_post($paragraph_2)); ?></div>
         <?php endif; ?>
       </div>
-      <div class="flex flex-col items-center gap-4 w-1/2">
+      <div class="flex w-full flex-col items-center gap-3 xl:w-1/2 xl:gap-4">
         <?php if (!empty($our_story_items)): ?>
           <?php foreach ($our_story_items as $item_post): ?>
             <?php grupofadiar_render_our_story_item($item_post); ?>

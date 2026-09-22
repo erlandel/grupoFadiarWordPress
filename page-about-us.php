@@ -21,14 +21,16 @@ if ($page_title === '') {
 }
 ?>
 
-<div class="reveal-section mx-30 mt-7">
-  <div class="flex ">
+<div class="reveal-section mx-8 mt-7 xl:mx-30">
+  <!-- Breadcrumb: Inicio > Grupo Fadiar (página Sobre Nosotros) -->
+  <div class="flex items-center text-sm xl:text-base">
     <p><a href="<?php echo home_url('/'); ?>"><?php echo esc_html(gf_e('noticias.breadcrumb_home')); ?></a></p>
-    <svg class="h-6 w-6 mx-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    <svg class="mx-1 h-4 w-4 xl:h-6 xl:w-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
     <p><?php echo esc_html(gf_e('header.menu.about')); ?></p>
   </div>
-  <div id="metrics" class="scroll-mt-24 mt-7">
-    <h1 class="reveal-item text-4xl font-bold text-dark"><?php echo esc_html($page_title); ?></h1>
+
+  <div id="metrics" class="scroll-mt-24 mt-6 xl:mt-7">
+    <h1 class="reveal-item max-w-2xl text-2xl font-bold leading-tight text-dark md:text-3xl xl:text-4xl"><?php echo esc_html($page_title); ?></h1>
   </div>
 </div>
 

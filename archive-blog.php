@@ -9,9 +9,9 @@ $query = new WP_Query(array(
 ));
 ?>
 <main class="reveal-section mx-6 md:mx-15 xl:mx-30 mt-7 mb-20">
-  <div class="flex text-lg">
+  <div class="flex items-center text-sm xl:text-base">
     <p><a href="<?php echo esc_url(home_url('/')); ?>"><?php echo esc_html(gf_e('noticias.breadcrumb_home')); ?></a></p>
-    <?php echo get_icon('chevron-right', 'h-6 w-6 mx-1'); ?>
+    <?php echo get_icon('chevron-right', 'mx-1 h-4 w-4 xl:h-6 xl:w-6'); ?>
     <p><?php echo esc_html(gf_e('blog.breadcrumb')); ?></p>
   </div>
 
