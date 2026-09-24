@@ -18,13 +18,13 @@ $support_items = get_posts(array(
       <h2 class="reveal-item mb-6 text-2xl font-black leading-tight text-dark xl:mb-8 xl:text-4xl"><?php echo esc_html($section_subtitle); ?></h2>
     </div>
     <?php if ($support_items): ?>
-    <div data-reveal-pairs="2" class="grid grid-cols-1 gap-8 xl:grid-cols-2">
+    <div data-reveal-pairs="2" class="grid grid-cols-1 gap-8 md:grid-cols-2">
       <?php foreach ($support_items as $item):
         $item_id = $item->ID;
         $image = get_field('support_item_image', $item_id);
         $description = gf_get_field('support_item_description', $item_id);
       ?>
-        <div class="reveal-item grid grid-cols-[2.75rem_1fr] items-center gap-x-4 gap-y-3 xl:flex xl:items-center xl:gap-4">
+        <div class="reveal-item grid grid-cols-[2.75rem_1fr] items-center gap-x-4 gap-y-3 xl:flex xl:items-start xl:gap-4">
           <div class="row-start-1 h-11 w-11 shrink-0 overflow-hidden rounded xl:h-15 xl:w-15">
             <?php if ($image): ?>
               <img src="<?php echo esc_url($image['url']); ?>"

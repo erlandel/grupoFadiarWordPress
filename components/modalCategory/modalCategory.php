@@ -12,7 +12,7 @@ if ($trigger_label === '' || $modal_title === '' || empty($options)) {
     return;
 }
 
-$root_class = $mobile_only ? 'md:hidden' : '';
+$root_class = $mobile_only ? 'xl:hidden' : '';
 $trigger_attribute = 'data-' . $prefix . '-open';
 $modal_attribute = 'data-' . $prefix . '-modal';
 $close_attribute = 'data-' . $prefix . '-close';

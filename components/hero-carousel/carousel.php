@@ -101,7 +101,7 @@ endif;
       </div>
     <?php endforeach; ?>
     <!-- Contenido superpuesto sobre el fondo activo. -->
-    <div class="relative h-full flex flex-col items-start justify-end gap-3 px-4 pb-5 text-white sm:px-8 md:px-10 md:pb-8 lg:px-14 xl:flex-row xl:items-end xl:gap-5 xl:px-20 xl:pb-8">
+    <div class="relative h-full flex flex-col items-start justify-end gap-3 px-4 pb-5 text-white sm:px-8 md:flex-row md:items-end md:gap-5 md:px-10 md:pb-8 lg:px-14 xl:px-20 xl:pb-8">
       <!-- Redes laterales para tablet y escritorio. -->
       <div class="reveal-item hidden flex-col gap-y-2 pb-0 md:flex xl:gap-y-4 xl:pb-2">
         <a href="<?php echo esc_url(get_option('social_url_instagram', '#')); ?>" aria-label="Instagram" class="p-2 rounded-full hover:scale-110 transition-colors">

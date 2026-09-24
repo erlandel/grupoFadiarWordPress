@@ -179,7 +179,7 @@ if (!empty($all_categories) && !is_wp_error($all_categories)) {
 
   </div>
 
-  <aside class="reveal-item hidden w-full md:block xl:w-3/12">
+  <aside class="reveal-item hidden w-full xl:block xl:w-3/12">
     <?php if (!empty($all_categories) && !is_wp_error($all_categories)): ?>
       <div class="w-full rounded-xl border border-gray-200 bg-[#F8F8F8] p-5 pb-6 md:p-6 md:pb-8 xl:pb-10">
         <h3 class="mb-4 text-xl font-bold text-dark xl:text-2xl"><?php echo esc_html(gf_e('noticias.sidebar_title')); ?></h3>
