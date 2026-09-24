@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileQuery = window.matchMedia('(max-width: 767px)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const productsCarousel = document.querySelector('.products-carousel');
+  const productsDots = document.querySelector('.products-carousel-dots');
   const videos = document.querySelectorAll('.product-video');
 
   const updateVideoButton = (video, isPlaying) => {
@@ -55,9 +56,49 @@ document.addEventListener('DOMContentLoaded', () => {
   let pointerStartX = 0;
   let suppressNextClick = false;
   let direction = 1;
+  let activeDotIndex = -1;
   const speed = 24;
 
   const maxDistance = () => Math.max(0, productsCarousel.scrollWidth - productsCarousel.clientWidth);
+  const updateDots = () => {
+    if (!productsDots || !mobileQuery.matches) return;
+
+    const cards = Array.from(track.querySelectorAll('.products-card'));
+    if (!cards.length) return;
+
+    const viewportCenter = productsCarousel.scrollLeft + productsCarousel.clientWidth / 2;
+    let closestIndex = 0;
+    let closestDistance = Infinity;
+
+    cards.forEach((card, index) => {
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const distance = Math.abs(cardCenter - viewportCenter);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    if (closestIndex === activeDotIndex) return;
+    activeDotIndex = closestIndex;
+    productsDots.querySelectorAll('.products-carousel-dot').forEach((dot, index) => {
+      dot.classList.toggle('bg-secondary', index === activeDotIndex);
+      dot.classList.toggle('bg-[#D9D9D9]', index !== activeDotIndex);
+      dot.setAttribute('aria-current', index === activeDotIndex ? 'true' : 'false');
+    });
+  };
+  const goToCard = (index) => {
+    const cards = Array.from(track.querySelectorAll('.products-card'));
+    const card = cards[index];
+    if (!card) return;
+
+    pauseForInteraction();
+    const target = card.offsetLeft - (productsCarousel.clientWidth - card.offsetWidth) / 2;
+    productsCarousel.scrollTo({
+      left: Math.max(0, Math.min(target, maxDistance())),
+      behavior: reducedMotion.matches ? 'auto' : 'smooth',
+    });
+  };
   const stop = () => {
     if (frame) window.cancelAnimationFrame(frame);
     frame = null;
@@ -108,6 +149,12 @@ document.addEventListener('DOMContentLoaded', () => {
     suppressNextClick = false;
     pauseForInteraction();
   }, { passive: true });
+  productsCarousel.addEventListener('scroll', updateDots, { passive: true });
+  if (productsDots) {
+    productsDots.querySelectorAll('.products-carousel-dot').forEach((dot, index) => {
+      dot.addEventListener('click', () => goToCard(index));
+    });
+  }
   productsCarousel.addEventListener('pointermove', (event) => {
     if (event.pointerId === activePointerId && Math.abs(event.clientX - pointerStartX) > 10) {
       suppressNextClick = true;
@@ -134,6 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const resize = () => {
     productsCarousel.scrollLeft = Math.min(productsCarousel.scrollLeft, maxDistance());
+    updateDots();
     start();
   };
 

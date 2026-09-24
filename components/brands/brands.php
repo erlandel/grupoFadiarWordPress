@@ -67,7 +67,7 @@ $brands_query = new WP_Query(array(
     <?php if ($brands_query->post_count > 0): ?>
       <div class="brands-carousel-dots flex justify-center gap-4 mt-8 xl:hidden" aria-label="<?php echo esc_attr($section_title); ?>">
         <?php for ($brand_index = 0; $brand_index < $brands_query->post_count; $brand_index++): ?>
-          <span class="brands-carousel-dot h-4 w-4 shrink-0 rounded-full <?php echo $brand_index === 0 ? 'bg-secondary' : 'bg-white'; ?> transition-colors duration-200" aria-label="Marca <?php echo esc_attr($brand_index + 1); ?>"></span>
+          <button type="button" class="brands-carousel-dot h-4 w-4 shrink-0 rounded-full border-0 p-0 <?php echo $brand_index === 0 ? 'bg-secondary' : 'bg-white'; ?> transition-colors duration-200" aria-label="Marca <?php echo esc_attr($brand_index + 1); ?>" aria-current="<?php echo $brand_index === 0 ? 'true' : 'false'; ?>"></button>
         <?php endfor; ?>
       </div>
     <?php endif; ?>

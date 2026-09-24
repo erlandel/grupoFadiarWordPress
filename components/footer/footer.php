@@ -22,7 +22,7 @@ $legal_keys = [
   'footer.legal.sitemap',
 ];
 ?>
-<footer class="bg-dark text-white py-12 px-4 md:px-8 xl:px-30">
+<footer class="bg-dark text-white py-12 px-8 md:px-8 xl:px-30">
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 border-b-2 border-white pb-8 mb-6">
     <div class="flex flex-col lg:col-span-1">
       <div>

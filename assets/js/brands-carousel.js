@@ -42,12 +42,26 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       if (closestIndex === activeDotIndex) return;
-      activeDotIndex = closestIndex;
-      dots.querySelectorAll('.brands-carousel-dot').forEach(function (dot, index) {
-        dot.classList.toggle('bg-secondary', index === activeDotIndex);
-        dot.classList.toggle('bg-white', index !== activeDotIndex);
-      });
-    }
+       activeDotIndex = closestIndex;
+       dots.querySelectorAll('.brands-carousel-dot').forEach(function (dot, index) {
+         dot.classList.toggle('bg-secondary', index === activeDotIndex);
+         dot.classList.toggle('bg-white', index !== activeDotIndex);
+         dot.setAttribute('aria-current', index === activeDotIndex ? 'true' : 'false');
+       });
+     }
+
+     function goToCard(index) {
+       const cards = Array.from(track.querySelectorAll('.brands-card'));
+       const card = cards[index];
+       if (!card) return;
+
+       pauseForInteraction();
+       const target = card.offsetLeft - (carousel.clientWidth - card.offsetWidth) / 2;
+       carousel.scrollTo({
+         left: Math.max(0, Math.min(target, maxDistance())),
+         behavior: reducedMotion.matches ? 'auto' : 'smooth',
+       });
+     }
 
     function stop() {
       if (frame) window.cancelAnimationFrame(frame);
@@ -120,9 +134,17 @@ document.addEventListener('DOMContentLoaded', function () {
       pauseForInteraction();
     }, { passive: true });
     carousel.addEventListener('wheel', pauseForInteraction, { passive: true });
-    carousel.addEventListener('focusin', pauseForInteraction);
+     carousel.addEventListener('focusin', pauseForInteraction);
 
-    track.addEventListener('click', function (event) {
+     if (dots) {
+       dots.querySelectorAll('.brands-carousel-dot').forEach(function (dot, index) {
+         dot.addEventListener('click', function () {
+           goToCard(index);
+         });
+       });
+     }
+
+     track.addEventListener('click', function (event) {
       if (!breakpoint.matches) return;
       if (suppressNextClick) {
         suppressNextClick = false;

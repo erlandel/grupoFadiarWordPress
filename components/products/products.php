@@ -58,7 +58,7 @@ $reveal_order_map = array(0, 1, 1, 0);
           }
         }
       ?>
-        <div class="reveal-item--zoom relative overflow-hidden shadow-lg <?php echo esc_attr($layout_config[$i]['wrapper']); ?> <?php echo esc_attr($layout_config[$i]['self']); ?>" data-reveal-order="<?php echo $reveal_order_map[$i] ?? $i; ?>">
+        <div class="products-card reveal-item--zoom relative overflow-hidden shadow-lg <?php echo esc_attr($layout_config[$i]['wrapper']); ?> <?php echo esc_attr($layout_config[$i]['self']); ?>" data-reveal-order="<?php echo $reveal_order_map[$i] ?? $i; ?>">
           <?php if ($has_product && !empty($media_url)): ?>
             <div class="relative h-full w-full">
               <?php if ($media_type === 'video'): ?>
@@ -88,6 +88,11 @@ $reveal_order_map = array(0, 1, 1, 0);
         </div>
       <?php endfor; ?>
       </div>
+    </div>
+    <div class="products-carousel-dots mt-4 flex justify-center gap-4 md:hidden" aria-label="<?php echo esc_attr($section_title); ?>">
+      <?php for ($product_index = 0; $product_index < 4; $product_index++): ?>
+        <button type="button" class="products-carousel-dot h-4 w-4 shrink-0 rounded-full border-0 p-0 <?php echo $product_index === 0 ? 'bg-secondary' : 'bg-[#D9D9D9]'; ?> transition-colors duration-200" aria-label="Producto <?php echo esc_attr($product_index + 1); ?>" aria-current="<?php echo $product_index === 0 ? 'true' : 'false'; ?>"></button>
+      <?php endfor; ?>
     </div>
   </div>
 </section>
