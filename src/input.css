@@ -166,7 +166,14 @@ Text Domain: grupofadiar-theme
 
 @media (max-width: 1279px) {
   .brands-carousel {
-    touch-action: pan-y;
+    touch-action: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .brands-carousel::-webkit-scrollbar {
+    display: none;
   }
 
   .brands-carousel-track {
@@ -226,7 +233,14 @@ Text Domain: grupofadiar-theme
 
 @media (max-width: 767px) {
   .products-carousel {
-    touch-action: pan-y;
+    touch-action: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .products-carousel::-webkit-scrollbar {
+    display: none;
   }
 
   .products-carousel-track {

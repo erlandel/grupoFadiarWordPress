@@ -27,7 +27,7 @@ $brands_query = new WP_Query(array(
             <h3 class="reveal-item mt-4 text-center text-2xl leading-tight xl:text-4xl xl:leading-[1.2]">"<?php echo esc_html($section_subtitle); ?>"</h3>
         </div>
     </div>
-    <div class="brands-carousel mt-8 w-full overflow-hidden md:mt-10 xl:mt-10 xl:overflow-visible" tabindex="0" aria-label="<?php echo esc_attr($section_title); ?>">
+    <div class="brands-carousel mt-8 w-full overflow-x-auto overflow-y-hidden md:mt-10 xl:mt-10 xl:overflow-visible" tabindex="0" aria-label="<?php echo esc_attr($section_title); ?>">
       <div class="brands-carousel-track flex w-max items-center gap-6 px-6 pr-12 will-change-transform md:gap-8 md:px-8 md:pr-16 xl:w-auto xl:flex-wrap xl:justify-center xl:gap-8 xl:px-0">
         <?php if ($brands_query->have_posts()): ?>
             <?php while ($brands_query->have_posts()): $brands_query->the_post(); ?>
@@ -62,13 +62,13 @@ $brands_query = new WP_Query(array(
             <p class="text-white text-center">No se han encontrado marcas.</p>
         <?php endif; ?>
       </div>
-      <!-- Indicadores del carrusel: modifica estas clases para controlar el diseño de los puntos. -->
-      <?php if ($brands_query->post_count > 0): ?>
-        <div class="brands-carousel-dots flex justify-center gap-4 mt-8 xl:hidden" aria-label="<?php echo esc_attr($section_title); ?>">
-          <?php for ($brand_index = 0; $brand_index < $brands_query->post_count; $brand_index++): ?>
-            <span class="brands-carousel-dot h-4 w-4 shrink-0 rounded-full <?php echo $brand_index === 0 ? 'bg-secondary' : 'bg-white'; ?> transition-colors duration-200" aria-label="Marca <?php echo esc_attr($brand_index + 1); ?>"></span>
-          <?php endfor; ?>
-        </div>
-      <?php endif; ?>
     </div>
+    <!-- Indicadores fuera del contenedor desplazable para que permanezcan fijos. -->
+    <?php if ($brands_query->post_count > 0): ?>
+      <div class="brands-carousel-dots flex justify-center gap-4 mt-8 xl:hidden" aria-label="<?php echo esc_attr($section_title); ?>">
+        <?php for ($brand_index = 0; $brand_index < $brands_query->post_count; $brand_index++): ?>
+          <span class="brands-carousel-dot h-4 w-4 shrink-0 rounded-full <?php echo $brand_index === 0 ? 'bg-secondary' : 'bg-white'; ?> transition-colors duration-200" aria-label="Marca <?php echo esc_attr($brand_index + 1); ?>"></span>
+        <?php endfor; ?>
+      </div>
+    <?php endif; ?>
 </section>

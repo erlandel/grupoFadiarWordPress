@@ -1,3 +1,9 @@
+/*
+Theme Name: Grupo Fadiar Theme
+Description: Tema personalizado para Grupo Fadiar
+Author: Erlan
+Version: 1.0.0
+*/
 /*! tailwindcss v4.3.2 | MIT License | https://tailwindcss.com */
 /*!
 Theme Name: Grupo Fadiar
@@ -274,9 +280,6 @@ Text Domain: grupofadiar-theme
   .top-0 {
     top: 0;
   }
-  .top-1 {
-    top: var(--spacing);
-  }
   .top-1\/2 {
     top: calc(1 / 2 * 100%);
   }
@@ -313,11 +316,11 @@ Text Domain: grupofadiar-theme
   .left-0 {
     left: 0;
   }
-  .left-1 {
-    left: var(--spacing);
-  }
   .left-1\/2 {
     left: calc(1 / 2 * 100%);
+  }
+  .left-3 {
+    left: calc(var(--spacing) * 3);
   }
   .left-4 {
     left: calc(var(--spacing) * 4);
@@ -423,9 +426,6 @@ Text Domain: grupofadiar-theme
   }
   .-mt-16 {
     margin-top: calc(var(--spacing) * -16);
-  }
-  .mt-0 {
-    margin-top: 0;
   }
   .mt-0\.5 {
     margin-top: calc(var(--spacing) * 0.5);
@@ -706,6 +706,9 @@ Text Domain: grupofadiar-theme
   .w-11 {
     width: calc(var(--spacing) * 11);
   }
+  .w-12 {
+    width: calc(var(--spacing) * 12);
+  }
   .w-16 {
     width: calc(var(--spacing) * 16);
   }
@@ -775,31 +778,14 @@ Text Domain: grupofadiar-theme
   .flex-1 {
     flex: 1;
   }
-  .flex-shrink {
-    flex-shrink: 1;
-  }
   .shrink-0 {
     flex-shrink: 0;
-  }
-  .flex-grow {
-    flex-grow: 1;
   }
   .grow {
     flex-grow: 1;
   }
-  .border-collapse {
-    border-collapse: collapse;
-  }
-  .-translate-x-1 {
-    --tw-translate-x: calc(var(--spacing) * -1);
-    translate: var(--tw-translate-x) var(--tw-translate-y);
-  }
   .-translate-x-1\/2 {
     --tw-translate-x: calc(calc(1 / 2 * 100%) * -1);
-    translate: var(--tw-translate-x) var(--tw-translate-y);
-  }
-  .-translate-y-1 {
-    --tw-translate-y: calc(var(--spacing) * -1);
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
   .-translate-y-1\/2 {
@@ -841,6 +827,12 @@ Text Domain: grupofadiar-theme
   }
   .resize-none {
     resize: none;
+  }
+  .snap-x {
+    scroll-snap-type: x var(--tw-scroll-snap-strictness);
+  }
+  .snap-mandatory {
+    --tw-scroll-snap-strictness: mandatory;
   }
   .snap-center {
     scroll-snap-align: center;
@@ -969,11 +961,6 @@ Text Domain: grupofadiar-theme
       border-bottom-width: calc(2px * calc(1 - var(--tw-divide-y-reverse)));
     }
   }
-  .divide-white {
-    :where(& > :not(:last-child)) {
-      border-color: var(--color-white);
-    }
-  }
   .divide-white\/20 {
     :where(& > :not(:last-child)) {
       border-color: color-mix(in srgb, #fff 20%, transparent);
@@ -998,6 +985,9 @@ Text Domain: grupofadiar-theme
   }
   .overflow-y-auto {
     overflow-y: auto;
+  }
+  .overflow-y-hidden {
+    overflow-y: hidden;
   }
   .rounded {
     border-radius: 0.25rem;
@@ -1057,9 +1047,6 @@ Text Domain: grupofadiar-theme
   }
   .border-\[\#F4F4F4\] {
     border-color: #F4F4F4;
-  }
-  .border-black {
-    border-color: var(--color-black);
   }
   .border-black\/10 {
     border-color: color-mix(in srgb, #000 10%, transparent);
@@ -1122,6 +1109,12 @@ Text Domain: grupofadiar-theme
     background-color: color-mix(in srgb, #000 40%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-black) 40%, transparent);
+    }
+  }
+  .bg-black\/45 {
+    background-color: color-mix(in srgb, #000 45%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-black) 45%, transparent);
     }
   }
   .bg-dark {
@@ -1577,9 +1570,6 @@ Text Domain: grupofadiar-theme
   .not-italic {
     font-style: normal;
   }
-  .underline {
-    text-decoration-line: underline;
-  }
   .accent-dark {
     accent-color: #010A2D;
   }
@@ -1624,10 +1614,6 @@ Text Domain: grupofadiar-theme
   }
   .backdrop-blur-sm {
     --tw-backdrop-blur: blur(var(--blur-sm));
-    -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
-    backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
-  }
-  .backdrop-filter {
     -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
     backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
   }
@@ -1686,6 +1672,23 @@ Text Domain: grupofadiar-theme
   .group-open\:rotate-180 {
     &:is(:where(.group):is([open], :popover-open, :open) *) {
       rotate: 180deg;
+    }
+  }
+  .group-focus-within\:pointer-events-auto {
+    &:is(:where(.group):focus-within *) {
+      pointer-events: auto;
+    }
+  }
+  .group-focus-within\:opacity-100 {
+    &:is(:where(.group):focus-within *) {
+      opacity: 100%;
+    }
+  }
+  .group-hover\:pointer-events-auto {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        pointer-events: auto;
+      }
     }
   }
   .group-hover\:scale-105 {
@@ -1819,6 +1822,16 @@ Text Domain: grupofadiar-theme
       }
     }
   }
+  .hover\:bg-black\/60 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: color-mix(in srgb, #000 60%, transparent);
+        @supports (color: color-mix(in lab, red, red)) {
+          background-color: color-mix(in oklab, var(--color-black) 60%, transparent);
+        }
+      }
+    }
+  }
   .hover\:bg-dark {
     &:hover {
       @media (hover: hover) {
@@ -1927,6 +1940,22 @@ Text Domain: grupofadiar-theme
   .focus\:ring-dark {
     &:focus {
       --tw-ring-color: #010A2D;
+    }
+  }
+  .focus-visible\:outline-2 {
+    &:focus-visible {
+      outline-style: var(--tw-outline-style);
+      outline-width: 2px;
+    }
+  }
+  .focus-visible\:outline-offset-2 {
+    &:focus-visible {
+      outline-offset: 2px;
+    }
+  }
+  .focus-visible\:outline-dark {
+    &:focus-visible {
+      outline-color: #010A2D;
     }
   }
   .disabled\:cursor-not-allowed {
@@ -3041,9 +3070,9 @@ Text Domain: grupofadiar-theme
       height: calc(var(--spacing) * 15);
     }
   }
-  .xl\:h-120 {
+  .xl\:h-95 {
     @media (width >= 80rem) {
-      height: calc(var(--spacing) * 120);
+      height: calc(var(--spacing) * 95);
     }
   }
   .xl\:h-full {
@@ -3141,9 +3170,9 @@ Text Domain: grupofadiar-theme
       width: calc(var(--spacing) * 72);
     }
   }
-  .xl\:w-96 {
+  .xl\:w-75 {
     @media (width >= 80rem) {
-      width: calc(var(--spacing) * 96);
+      width: calc(var(--spacing) * 75);
     }
   }
   .xl\:w-100 {
@@ -3292,6 +3321,11 @@ Text Domain: grupofadiar-theme
   .xl\:gap-y-4 {
     @media (width >= 80rem) {
       row-gap: calc(var(--spacing) * 4);
+    }
+  }
+  .xl\:overflow-hidden {
+    @media (width >= 80rem) {
+      overflow: hidden;
     }
   }
   .xl\:overflow-visible {
@@ -3743,7 +3777,13 @@ Text Domain: grupofadiar-theme
 }
 @media (max-width: 1279px) {
   .brands-carousel {
-    touch-action: pan-y;
+    touch-action: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .brands-carousel::-webkit-scrollbar {
+    display: none;
   }
   .brands-carousel-track {
     user-select: none;
@@ -3787,7 +3827,13 @@ Text Domain: grupofadiar-theme
 }
 @media (max-width: 767px) {
   .products-carousel {
-    touch-action: pan-y;
+    touch-action: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .products-carousel::-webkit-scrollbar {
+    display: none;
   }
   .products-carousel-track {
     user-select: none;
@@ -3905,6 +3951,11 @@ body {
 @property --tw-skew-y {
   syntax: "*";
   inherits: false;
+}
+@property --tw-scroll-snap-strictness {
+  syntax: "*";
+  inherits: false;
+  initial-value: proximity;
 }
 @property --tw-space-y-reverse {
   syntax: "*";
@@ -4166,6 +4217,7 @@ body {
       --tw-rotate-z: initial;
       --tw-skew-x: initial;
       --tw-skew-y: initial;
+      --tw-scroll-snap-strictness: proximity;
       --tw-space-y-reverse: 0;
       --tw-divide-y-reverse: 0;
       --tw-border-style: solid;
