@@ -36,8 +36,11 @@ document.addEventListener('DOMContentLoaded', function () {
   let totalResults = 0;
   let currentQuery = '';
   let isLoadingMore = false;
+  let previousBodyOverflow = '';
+  let bodyScrollLocked = false;
   const perPage = 10;
   const visualViewport = window.visualViewport;
+  const mobileTabletQuery = window.matchMedia('(max-width: 1279px)');
 
   const suggestionHint = overlay.querySelector('.search-suggestion-hint');
   const affinityMap = {
@@ -122,6 +125,14 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function updatePanelPosition() {
+    if (mobileTabletQuery.matches) {
+      const viewportHeight = visualViewport ? visualViewport.height : window.innerHeight;
+      backdrop.style.top = '0px';
+      panelWrapper.style.top = '0px';
+      panelWrapper.style.setProperty('--search-panel-height', viewportHeight + 'px');
+      return;
+    }
+
     const header = document.querySelector('.site-header');
     const headerHeight = header ? header.getBoundingClientRect().height : 80;
     const headerBottom = header ? header.getBoundingClientRect().bottom : 0;
@@ -137,6 +148,11 @@ document.addEventListener('DOMContentLoaded', function () {
   function openSearch() {
     updatePanelPosition();
     overlay.classList.remove('hidden');
+    if (mobileTabletQuery.matches) {
+      previousBodyOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      bodyScrollLocked = true;
+    }
     setTimeout(function () {
       input.focus();
     }, 100);
@@ -148,6 +164,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function closeSearch() {
     overlay.classList.add('hidden');
+    if (bodyScrollLocked) {
+      document.body.style.overflow = previousBodyOverflow;
+      bodyScrollLocked = false;
+    }
     input.value = '';
     clearResults();
     showEmptyState();

@@ -58,7 +58,7 @@ $image         = !empty($discover_item['image']) ? $discover_item['image'] : $de
       </div>
       <?php if (!empty($button_text) && !empty($button_url)) : ?>
       <div class="reveal-item mt-5 xl:mt-10">
-        <button onclick="window.location.href='<?php echo esc_url($button_url); ?>'" class="bg-dark text-white text-xs px-3 py-1 rounded font-bold cursor-pointer hover:scale-105 transition-transform xl:text-2xl xl:px-5 xl:rounded-xl"><?php echo esc_html($button_text); ?></button>
+        <button onclick="window.location.href='<?php echo esc_url($button_url); ?>'" class="bg-dark text-white text-sm px-3 py-1 rounded font-bold cursor-pointer hover:scale-105 transition-transform xl:text-2xl xl:px-5 xl:rounded-xl"><?php echo esc_html($button_text); ?></button>
       </div>
       <?php endif; ?>
     </div>
