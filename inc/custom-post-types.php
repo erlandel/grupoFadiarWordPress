@@ -340,7 +340,7 @@ function grupofadiar_register_blog_cpt() {
         'rewrite'            => array('slug' => 'blog', 'with_front' => false),
         'has_archive'        => 'blog',
         'hierarchical'       => false,
-        'menu_position'      => 10,
+        'menu_position'      => 8,
         'menu_icon'          => 'dashicons-welcome-write-blog',
         'supports'           => array('title', 'thumbnail'),
         'taxonomies'         => array('categoria_noticia'),
@@ -348,6 +348,13 @@ function grupofadiar_register_blog_cpt() {
     ));
 }
 add_action('init', 'grupofadiar_register_blog_cpt', 0);
+
+function grupofadiar_remove_blog_submenus() {
+    global $submenu;
+
+    unset($submenu['edit.php?post_type=blog']);
+}
+add_action('admin_menu', 'grupofadiar_remove_blog_submenus', 99);
 
 function grupofadiar_blog_archive_template($template) {
     if (is_post_type_archive('blog')) {
