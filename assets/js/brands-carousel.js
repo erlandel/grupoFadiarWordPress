@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const breakpoint = window.matchMedia('(max-width: 1279px)');
+  const dotsBreakpoint = window.matchMedia('(max-width: 767px)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   document.querySelectorAll('.brands-carousel').forEach(function (carousel) {
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateDots() {
-      if (!dots || !breakpoint.matches) return;
+      if (!dots || !dotsBreakpoint.matches) return;
 
       const cards = Array.from(track.querySelectorAll('.brands-card'));
       if (!cards.length) return;
@@ -109,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
       pauseTimer = window.setTimeout(function () {
         isPaused = false;
         start();
-      }, 15000);
+      }, 4000);
     }
 
     carousel.addEventListener('scroll', updateDots, { passive: true });
@@ -172,6 +173,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     breakpoint.addEventListener('change', resize);
+    dotsBreakpoint.addEventListener('change', updateDots);
     reducedMotion.addEventListener('change', resize);
     window.addEventListener('resize', resize);
     window.addEventListener('load', resize);

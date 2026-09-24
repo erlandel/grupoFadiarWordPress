@@ -25,7 +25,7 @@ $reveal_order_map = array(0, 1, 1, 0);
 <section class="w-full overflow-hidden bg-white py-12 md:py-16">
   <div>
     <h3 class="reveal-item mb-8 ml-6 text-3xl font-black text-gray-900 md:ml-30 md:text-4xl"><?php echo esc_html($section_title); ?></h3>
-    <div class="products-carousel flex snap-x snap-mandatory items-start overflow-x-auto overflow-y-hidden px-6 pb-4 md:grid md:w-full md:grid-cols-2 md:items-start md:gap-x-12.5 md:overflow-visible md:px-0 md:pb-0" aria-label="<?php echo esc_attr($section_title); ?>">
+    <div class="products-carousel flex snap-x snap-mandatory items-start overflow-x-auto overflow-y-hidden px-6 pb-4 md:grid md:w-full md:grid-cols-2 md:items-start gap-x-6 xl:gap-x-12.5 md:overflow-visible md:px-0 md:pb-0" aria-label="<?php echo esc_attr($section_title); ?>">
       <div class="products-carousel-track flex w-max items-start gap-5 pr-6 will-change-transform md:contents md:gap-0 md:pr-0 md:will-change-auto">
       <?php 
       $count = count($products);
@@ -80,7 +80,7 @@ $reveal_order_map = array(0, 1, 1, 0);
           
           <?php if ($has_product): ?>
             <div class="absolute bottom-4 right-4 z-10">
-              <a href="<?php echo esc_url($button_url); ?>" class="promo-btn inline-flex items-center gap-2 rounded-full bg-dark px-3 py-1 text-base font-semibold tracking-wide text-white transition-transform hover:scale-105 md:px-4 md:py-2 md:text-lg">
+              <a href="<?php echo esc_url($button_url); ?>" class="promo-btn inline-flex items-center gap-2 rounded-full bg-dark px-3 py-1 text-base font-semibold tracking-wide text-white transition-transform hover:scale-105 xl:px-4 xl:py-2 xl:text-lg">
                 <?php echo esc_html($button_text); ?>
               </a>
             </div>
