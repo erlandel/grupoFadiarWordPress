@@ -70,8 +70,8 @@ if (count($related_posts) < 3) {
     <header>
 
       <!-- Título, introducción y separador. -->
-      <h1 class="reveal-item mx-6 md:mx-15 xl:mx-70 text-2xl md:text-4xl font-bold text-dark leading-tight mt-5"><?php echo esc_html($title); ?></h1>
-      <?php if ($intro): ?><p class="reveal-item mx-6 md:mx-15 xl:mx-70 text-lg xl:text-xl text-dark leading-relaxed mt-5"><?php echo esc_html($intro); ?></p><?php endif; ?>
+      <h1 class="reveal-item mx-6 md:mx-15 xl:mx-70 text-2xl md:text-3xl xl:text-4xl font-bold text-dark leading-tight mt-5"><?php echo esc_html($title); ?></h1>
+      <?php if ($intro): ?><p class="reveal-item mx-6 md:mx-15 xl:mx-70 text-sm md:text-base xl:text-lg text-dark leading-snug mt-5"><?php echo esc_html($intro); ?></p><?php endif; ?>
 
       <div class="reveal-item mx-6 md:mx-15 xl:mx-70 h-1 bg-[#F4F4F4] mt-5"></div>
 
@@ -104,7 +104,7 @@ if (count($related_posts) < 3) {
 
 <!-- Bloques ordenables del cuerpo del artículo. -->
 <?php if ($content_blocks): ?>
-  <div class="mx-6 mt-10 text-lg leading-relaxed text-dark md:mx-15 md:text-xl xl:mx-70 [&_ul]:my-5 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:my-5 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:mb-2">
+  <div class="mx-6 mt-10 text-sm leading-snug text-dark md:mx-15 md:text-base xl:mx-70 xl:text-lg [&_ul]:my-5 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:my-5 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:mb-2">
     <?php foreach ($content_blocks as $content_block): ?>
       <?php
       $block_type = isset($content_block['type']) ? $content_block['type'] : '';
@@ -132,7 +132,7 @@ if (count($related_posts) < 3) {
           <figure class="overflow-hidden">
             <?php echo wp_get_attachment_image($block_image_id, 'full', false, array('class' => 'h-auto w-full object-cover')); ?>
             <?php if ($block_caption !== ''): ?>
-              <figcaption class="mt-2 font-open text-md text-dark"><?php echo esc_html($block_caption); ?></figcaption>
+              <figcaption class="mt-2 font-open text-sm text-dark"><?php echo esc_html($block_caption); ?></figcaption>
             <?php endif; ?>
           </figure>
         </div>

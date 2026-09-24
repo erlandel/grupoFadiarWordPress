@@ -33,11 +33,11 @@ $category_label = $category ? gf_get_term_name($category) : '';
     <?php endif; ?>
   </div>
   <div class="pt-4 flex flex-col flex-1">
-    <div class="flex items-center justify-between gap-4 text-sm text-[#8C8C8C]">
+    <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-sm text-[#8C8C8C]">
       <?php if ($category_label): ?>
-        <span class="inline-block w-fit bg-[#EBE8E8] text-[#727272] tracking-wider px-3 py-2 rounded-full"><?php echo esc_html($category_label); ?></span>
+        <span class="inline-block w-fit shrink-0 whitespace-nowrap bg-[#EBE8E8] text-[#727272] tracking-wider px-3 py-2 rounded-full"><?php echo esc_html($category_label); ?></span>
       <?php endif; ?>
-      <?php if ($show_date && $date): ?><time><?php echo esc_html($date); ?></time><?php endif; ?>
+      <?php if ($show_date && $date): ?><time class="shrink-0 whitespace-nowrap"><?php echo esc_html($date); ?></time><?php endif; ?>
     </div>
     <h2 class="text-2xl font-bold text-dark leading-tight mt-4 group-hover:underline"><?php echo esc_html($title); ?></h2>
     <?php if ($intro): ?><p class="text-[#4A4A4A] leading-relaxed mt-3 line-clamp-3"><?php echo esc_html($intro); ?></p><?php endif; ?>
