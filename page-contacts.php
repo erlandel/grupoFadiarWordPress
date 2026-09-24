@@ -17,7 +17,7 @@ get_header();
   </div>
 </div>
 
-<div class="mx-4 mt-8 max-w-3xl sm:mx-8 sm:mt-10 md:mx-auto md:mt-12 xl:mt-12">
+<div class="mx-4 mt-8 max-w-3xl sm:mx-8 sm:mt-10 md:mx-4 lg:mx-auto md:mt-12 xl:mt-12">
   <?php get_template_part('components/contact-form/contact-form'); ?>
 </div>
 

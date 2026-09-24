@@ -41,7 +41,7 @@ $button_text   = !empty($discover_item['button_text']) ? $discover_item['button_
 $button_url    = !empty($discover_item['button_url']) ? process_url($discover_item['button_url']) : $default_button_url;
 $image         = !empty($discover_item['image']) ? $discover_item['image'] : $default_image;
 ?>
-<section id="discoverGroup" class="scroll-mt-20 flex flex-col mx-8 py-6 gap-2 xl:flex-row xl:justify-center xl:mx-30 xl:py-10 xl:gap-20">
+<section id="discoverGroup" class="scroll-mt-20 flex flex-col mx-8 py-6 gap-2 md:flex-row md:justify-between xl:justify-center xl:mx-30 xl:py-10 xl:gap-20">
 
   <div class="flex justify-center w-full xl:w-4/6">
     <div class="w-full  xl:px-0">
@@ -66,7 +66,7 @@ $image         = !empty($discover_item['image']) ? $discover_item['image'] : $de
 
 
 
-  <div class="flex items-center justify-start w-full xl:justify-end xl:w-2/6 xl:mr-10">
-    <img src="<?php echo esc_url($image); ?>" alt="Girl" class="reveal-item w-full max-w-86 xl:w-100 xl:max-w-none" />
+  <div class="flex items-center justify-start w-full md:justify-end xl:w-2/6 xl:mr-10">
+    <img src="<?php echo esc_url($image); ?>" alt="Girl" class="reveal-item w-full max-w-86 md:w-80 xl:w-100 xl:max-w-none" />
   </div>
 </section>
