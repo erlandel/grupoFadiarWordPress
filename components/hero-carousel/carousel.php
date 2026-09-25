@@ -17,12 +17,41 @@ if ($slide_query->have_posts()) :
     while ($slide_query->have_posts()) : $slide_query->the_post();
         $slide_id = get_the_ID();
         $slide_layout = get_field('slide_layout', $slide_id);
+        $desktop_image = get_field('slide_background_desktop', $slide_id);
+        $mobile_image = get_field('slide_background_mobile', $slide_id);
+
+        // ACF devuelve un ID, pero se admite también un array por compatibilidad con configuraciones previas.
+        if (is_array($desktop_image)) {
+            $desktop_image = isset($desktop_image['ID']) ? $desktop_image['ID'] : '';
+        }
+        if (is_array($mobile_image)) {
+            $mobile_image = isset($mobile_image['ID']) ? $mobile_image['ID'] : '';
+        }
+        $desktop_url = is_numeric($desktop_image)
+            ? wp_get_attachment_image_url((int) $desktop_image, 'full')
+            : (is_string($desktop_image) ? $desktop_image : '');
+        $mobile_url = is_numeric($mobile_image)
+            ? wp_get_attachment_image_url((int) $mobile_image, 'full')
+            : (is_string($mobile_image) ? $mobile_image : '');
+
+        // Respaldo temporal para instalaciones que aún no hayan ejecutado la migración ACF.
+        if (empty($desktop_url) && !get_post_meta($slide_id, '_grupofadiar_carousel_desktop_migrated', true)) {
+            $desktop_url = get_the_post_thumbnail_url($slide_id, 'full');
+        }
+        $desktop_url = $desktop_url ?: $mobile_url;
+        $mobile_url = $mobile_url ?: $desktop_url;
+
+        // No se muestra una diapositiva sin ninguna imagen de fondo válida.
+        if (empty($desktop_url) && empty($mobile_url)) {
+            continue;
+        }
 
         $current_slide = array(
-            'layout'    => $slide_layout,
-            'url'       => get_the_post_thumbnail_url($slide_id, 'full'),
-            'subtitle'  => gf_get_field('slide_subtitle', $slide_id),
-            'buttons'   => array(),
+            'layout'        => $slide_layout,
+            'desktop_url'   => $desktop_url,
+            'mobile_url'    => $mobile_url,
+            'subtitle'      => gf_get_field('slide_subtitle', $slide_id),
+            'buttons'       => array(),
         );
 
         // Procesar la fuente seleccionada para compatibilidad con estilos
@@ -95,9 +124,11 @@ endif;
     <!-- Fondos de las diapositivas; JavaScript alterna cuál está activa. -->
     <?php foreach ($slides as $index => $slide): ?>
       <div class="carousel-slide absolute inset-0 transition-all duration-1000 ease-out <?php echo $index === 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-105'; ?>">
-        <div class="absolute inset-0 bg-center bg-cover <?php echo $index === 0 ? 'first-slide-bg' : ''; ?>"
-             style="background-image: linear-gradient(to top, #010A2D, #7594D000 50%), url(<?php echo esc_url($slide['url']); ?>);">
-        </div>
+        <picture class="absolute inset-0 block <?php echo $index === 0 ? 'first-slide-bg' : ''; ?>">
+          <source media="(min-width: 1280px)" srcset="<?php echo esc_url($slide['desktop_url']); ?>">
+          <img src="<?php echo esc_url($slide['mobile_url']); ?>" alt="" class="absolute inset-0 h-full w-full object-cover object-center" <?php echo $index === 0 ? 'fetchpriority="high"' : 'loading="lazy"'; ?> />
+        </picture>
+        <div class="absolute inset-0" style="background: linear-gradient(to top, #010A2D, #7594D000 50%);" aria-hidden="true"></div>
       </div>
     <?php endforeach; ?>
     <!-- Contenido superpuesto sobre el fondo activo. -->

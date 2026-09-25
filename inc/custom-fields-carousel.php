@@ -16,6 +16,28 @@ function grupofadiar_register_carousel_acf_fields() {
             'title' => 'Configuración de la Diapositiva',
             'fields' => array(
                 array(
+                    'key' => 'field_slide_background_mobile',
+                    'label' => '1. Imagen de Fondo para Móvil y Tablet',
+                    'name' => 'slide_background_mobile',
+                    'type' => 'image',
+                    'instructions' => 'Imagen de fondo utilizada en móvil y tablet, hasta el breakpoint XL (1280px). Si se deja vacía, se utilizará la imagen destacada para PC.',
+                    'required' => 0,
+                    'return_format' => 'id',
+                    'preview_size' => 'medium',
+                    'library' => 'all',
+                ),
+                array(
+                    'key' => 'field_slide_background_desktop',
+                    'label' => '2. Imagen de Fondo para PC',
+                    'name' => 'slide_background_desktop',
+                    'type' => 'image',
+                    'instructions' => 'Imagen de fondo utilizada desde el breakpoint XL (1280px). Las imágenes destacadas existentes se copiarán automáticamente a este campo.',
+                    'required' => 0,
+                    'return_format' => 'id',
+                    'preview_size' => 'medium',
+                    'library' => 'all',
+                ),
+                array(
                     'key' => 'field_slide_layout',
                     'label' => 'Layout de la Diapositiva',
                     'name' => 'slide_layout',
@@ -293,3 +315,41 @@ function grupofadiar_register_carousel_acf_fields() {
 }
 
 add_action('acf/init', 'grupofadiar_register_carousel_acf_fields');
+
+// Migra la imagen destacada existente al nuevo campo de PC sin sobrescribir datos del cliente.
+function grupofadiar_migrate_carousel_desktop_images() {
+    if (!function_exists('update_field')) {
+        return;
+    }
+
+    $slide_ids = get_posts(array(
+        'post_type'      => 'carousel_slide',
+        'post_status'    => 'any',
+        'posts_per_page' => -1,
+        'fields'         => 'ids',
+    ));
+
+    foreach ($slide_ids as $slide_id) {
+        $desktop_image = get_field('slide_background_desktop', $slide_id);
+        $desktop_image_id = is_array($desktop_image) && isset($desktop_image['ID'])
+            ? (int) $desktop_image['ID']
+            : (int) $desktop_image;
+
+        if ($desktop_image_id > 0) {
+            update_post_meta($slide_id, '_grupofadiar_carousel_desktop_migrated', '1');
+            continue;
+        }
+
+        if (get_post_meta($slide_id, '_grupofadiar_carousel_desktop_migrated', true)) {
+            continue;
+        }
+
+        $featured_image_id = (int) get_post_thumbnail_id($slide_id);
+        if ($featured_image_id > 0) {
+            update_field('slide_background_desktop', $featured_image_id, $slide_id);
+            update_post_meta($slide_id, '_grupofadiar_carousel_desktop_migrated', '1');
+        }
+    }
+}
+
+add_action('acf/init', 'grupofadiar_migrate_carousel_desktop_images', 20);

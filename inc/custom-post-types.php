@@ -24,10 +24,10 @@ function grupofadiar_register_carousel_slide_cpt() {
         'parent_item_colon'     => __('Diapositiva Padre:', 'grupofadiar'),
         'not_found'             => __('No se encontraron diapositivas.', 'grupofadiar'),
         'not_found_in_trash'    => __('No se encontraron diapositivas en la papelera.', 'grupofadiar'),
-        'featured_image'        => _x('Imagen de Fondo', 'Overrides the "Featured Image" phrase for this post type.', 'grupofadiar'),
-        'set_featured_image'    => _x('Establecer Imagen de Fondo', 'grupofadiar'),
-        'remove_featured_image' => _x('Eliminar Imagen de Fondo', 'grupofadiar'),
-        'use_featured_image'    => _x('Usar como Imagen de Fondo', 'grupofadiar'),
+        'featured_image'        => _x('2. Imagen de Fondo para PC', 'Overrides the "Featured Image" phrase for this post type.', 'grupofadiar'),
+        'set_featured_image'    => _x('Establecer Imagen de Fondo para PC', 'grupofadiar'),
+        'remove_featured_image' => _x('Eliminar Imagen de Fondo para PC', 'grupofadiar'),
+        'use_featured_image'    => _x('Usar como Imagen de Fondo para PC', 'grupofadiar'),
         'archives'              => _x('Archivo de Diapositivas', 'The post type archive label used in nav menus.', 'grupofadiar'),
         'insert_into_item'      => _x('Insertar en la Diapositiva', 'grupofadiar'),
         'uploaded_to_this_item' => _x('Subido a esta Diapositiva', 'grupofadiar'),
@@ -49,7 +49,7 @@ function grupofadiar_register_carousel_slide_cpt() {
         'hierarchical'       => false,
         'menu_position'      => 5,
         'menu_icon'          => 'dashicons-images-alt2',
-        'supports'           => array('title', 'thumbnail', 'page-attributes'),
+        'supports'           => array('title', 'page-attributes'),
     );
 
     register_post_type('carousel_slide', $args);

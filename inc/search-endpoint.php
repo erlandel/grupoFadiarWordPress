@@ -271,6 +271,28 @@ function gf_search_brand($search, $lang, $limit) {
     return $results;
 }
 
+function gf_get_carousel_desktop_thumbnail($post_id) {
+    $desktop_image = get_field('slide_background_desktop', $post_id);
+
+    if (is_array($desktop_image)) {
+        $desktop_image = isset($desktop_image['ID']) ? $desktop_image['ID'] : '';
+    }
+
+    if (is_numeric($desktop_image)) {
+        return wp_get_attachment_image_url((int) $desktop_image, 'medium') ?: '';
+    }
+
+    if (is_string($desktop_image) && $desktop_image !== '') {
+        return $desktop_image;
+    }
+
+    if (!get_post_meta($post_id, '_grupofadiar_carousel_desktop_migrated', true)) {
+        return get_the_post_thumbnail_url($post_id, 'medium') ?: '';
+    }
+
+    return '';
+}
+
 function gf_search_carousel($search, $lang, $limit) {
     $results = [];
     $base_fields = ['slide_title_text', 'slide_subtitle', 'slide_description'];
@@ -293,7 +315,7 @@ function gf_search_carousel($search, $lang, $limit) {
             'title'         => gf_normalize_entities(gf_get_post_title($id)),
             'excerpt'       => gf_normalize_entities(wp_trim_words($excerpt, 25)),
             'permalink'     => home_url('/#heroCarousel'),
-            'thumbnail'     => get_the_post_thumbnail_url($id, 'medium') ?: '',
+            'thumbnail'     => gf_get_carousel_desktop_thumbnail($id),
             'external_url'  => '',
             'external_text' => '',
             'category'      => gf_normalize_entities(gf_get_category_name('carousel')),
