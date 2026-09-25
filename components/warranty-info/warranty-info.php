@@ -22,9 +22,9 @@ if (post_type_exists('warranty_step')) {
 }
 
 ?>
-<section id="warrantyInfo" class="scroll-mt-20 mx-0 my-10 grid max-w-7xl grid-cols-1 gap-6 sm:my-12 sm:gap-8 xl:mx-30 xl:my-15 xl:grid-cols-2 xl:gap-10 2xl:mx-auto">
+<section id="warrantyInfo" class="scroll-mt-20 mx-0 my-10 grid max-w-7xl grid-cols-1 gap-6 sm:my-12 sm:gap-8 md:mx-20 xl:mx-30 xl:my-15 xl:grid-cols-2 xl:gap-10 2xl:mx-auto">
 
-  <div class="reveal-item rounded-2xl bg-[#F4F4F4] p-6 sm:p-8 xl:p-10">
+  <div class="reveal-item rounded-2xl bg-[#F4F4F4] p-6 sm:p-8 xl:p-10 ">
     <h2 class="mb-5 text-2xl font-bold text-dark sm:mb-6 sm:text-3xl"><?php echo esc_html(gf_get_option('warranty_section_left_title', 'Proceso de reclamación', 'Claims Process')); ?></h2>
     <?php if (!empty($steps)): ?>
       <ol class="space-y-4 text-base text-dark sm:text-lg xl:text-xl [&>li]:leading-snug sm:[&>li]:leading-relaxed">
@@ -46,7 +46,7 @@ if (post_type_exists('warranty_step')) {
     <?php endif; ?>
   </div>
 
-  <div class="reveal-item rounded-2xl bg-[#F4F4F4] p-6 sm:p-8 xl:p-10">
+  <div class="reveal-item rounded-2xl bg-[#F4F4F4] p-6 sm:p-8 xl:p-10 ">
     <h2 class="mb-5 text-2xl font-bold text-dark sm:mb-6 sm:text-3xl"><?php echo esc_html(gf_get_option('warranty_section_right_title', 'Contactos', 'Contacts')); ?></h2>
     <?php if (!empty($contacts)): ?>
       <ul class="space-y-7 text-base text-dark sm:space-y-8 sm:text-lg xl:space-y-10 xl:text-xl">
