@@ -9,7 +9,7 @@ $support_header_items = get_posts(array(
 ));
 
 ?>
-<div class="flex w-full items-center justify-center xl:justify-end">
+<div class="flex w-full items-center justify-center xl:ml-auto xl:w-auto xl:justify-end">
   <div class="flex w-full items-start justify-between gap-2 sm:gap-4 xl:gap-6">
     <?php if ($support_header_items): ?>
         <?php foreach ($support_header_items as $item): ?>

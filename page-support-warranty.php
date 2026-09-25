@@ -15,7 +15,7 @@ get_header(); ?>
         <h2 class="reveal-item text-base sm:text-lg xl:text-2xl"><?php echo esc_html(gf_get_option('support_warranty_subtitle', 'Atención técnica y reclamaciones', 'Technical support and claims')); ?></h2>
       </div>
     </div>
-    <div class="order-3 mt-6 sm:mt-8 xl:col-start-2 xl:row-start-1 xl:order-0 xl:mt-0">
+    <div class="order-3 mt-6 sm:mt-8 xl:col-start-2 xl:row-start-1 xl:order-0 xl:mt-0 xl:justify-self-end">
       <?php get_template_part('components/support-header/support-header'); ?>
     </div>
     <div class="reveal-item order-2 mt-6 text-base leading-snug text-dark sm:mt-8 sm:text-lg xl:col-span-2 xl:row-start-2 xl:order-0 xl:mt-10">
